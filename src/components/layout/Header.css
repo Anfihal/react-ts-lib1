@@ -1,89 +1,65 @@
-/* Header.css - Исправленное бургер-меню для всех зон */
+/* Header.css */
 
 .header {
-    background: color-mix(in srgb, var(--background) 95%, transparent);
+    background: var(--background);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    width: 100%;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
 }
 
-.header.scrolled {
-    background: color-mix(in srgb, var(--background) 98%, transparent);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* СТИЛИ ДЛЯ АДМИНСКОЙ ЗОНЫ */
+/* Стили для разных зон */
 .header.admin-header {
-    background: color-mix(in srgb, var(--primary) 5%, transparent);
-    border-bottom-color: color-mix(in srgb, var(--primary) 20%, transparent);
+    background: rgba(var(--primary-rgb), 0.08);
+    border-bottom-color: rgba(var(--primary-rgb), 0.2);
 }
 
-.header.admin-header.scrolled {
-    background: color-mix(in srgb, var(--primary) 8%, transparent);
-    backdrop-filter: blur(25px) saturate(200%);
-}
-
-/* СТИЛИ ДЛЯ ГОСТЕВОЙ ЗОНЫ */
 .header.guest-header {
-    background: linear-gradient(135deg,
-            color-mix(in srgb, var(--secondary) 8%, transparent) 0%,
-            color-mix(in srgb, var(--primary) 5%, transparent) 100%);
-    border-bottom: 1px solid color-mix(in srgb, var(--secondary) 30%, transparent);
-    box-shadow: 0 4px 25px color-mix(in srgb, var(--secondary) 15%, transparent);
+    background: rgba(var(--secondary-rgb), 0.08);
+    border-bottom-color: rgba(var(--secondary-rgb), 0.2);
 }
 
-.header.guest-header.scrolled {
-    background: linear-gradient(135deg,
-            color-mix(in srgb, var(--secondary) 12%, transparent) 0%,
-            color-mix(in srgb, var(--primary) 8%, transparent) 100%);
-    backdrop-filter: blur(25px) saturate(200%);
+/* Основной контейнер */
+.header .container {
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* ОСНОВНАЯ СТРУКТУРА */
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
-    max-width: 1400px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    gap: clamp(1rem, 3vw, 1.5rem);
+    padding: 1rem 2rem;
+    gap: 2rem;
+    min-height: 70px;
 }
 
-/* ЛОГОТИП */
+/* Логотип */
 .logo {
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    text-decoration: none;
 }
 
 .logo-image {
-    height: clamp(32px, 5vw, 40px);
+    height: 40px;
     width: auto;
-    object-fit: contain;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
-.dark-theme .logo-image {
-    filter: brightness(0) invert(1);
-}
-
-.logo-image:hover {
+.logo:hover .logo-image {
     transform: scale(1.05);
 }
 
-/* НАВИГАЦИЯ - ОСНОВНАЯ */
+/* Навигация */
 .nav {
     display: flex;
     align-items: center;
-    gap: clamp(0.75rem, 2vw, 2rem);
+    gap: 1.5rem;
     flex: 1;
     justify-content: center;
 }
@@ -92,126 +68,90 @@
     color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
-    font-size: clamp(0.8rem, 1.3vw, 0.95rem);
-    padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.6rem, 1.5vw, 0.75rem);
-    white-space: nowrap;
-    border-radius: 12px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     position: relative;
-    line-height: 1.2;
-    border: 1px solid transparent;
+    white-space: nowrap;
+    font-size: 0.95rem;
 }
 
 .nav-link:hover {
+    background: rgba(var(--primary-rgb), 0.1);
     color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 8%, transparent);
-    border-color: color-mix(in srgb, var(--primary) 30%, transparent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .nav-link.active {
+    background: var(--primary);
     color: white;
     font-weight: 600;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border-color: transparent;
-    box-shadow: 0 4px 20px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
-.nav-link.active::after {
-    display: none;
-}
-
-/* СПЕЦИФИЧНЫЕ СТИЛИ ДЛЯ ГОСТЕВОЙ ЗОНЫ */
-.guest-header .nav-link {
-    color: color-mix(in srgb, var(--text-primary) 90%, transparent);
-    font-weight: 600;
-}
-
+/* Специфичные стили для зон */
 .guest-header .nav-link:hover {
-    color: var(--secondary-dark);
-    background: color-mix(in srgb, var(--secondary) 15%, transparent);
-    border-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+    background: rgba(var(--secondary-rgb), 0.1);
+    color: var(--secondary);
 }
 
 .guest-header .nav-link.active {
+    background: var(--secondary);
     color: white;
-    background: linear-gradient(135deg, var(--secondary), color-mix(in srgb, var(--secondary) 80%, var(--primary)));
-    box-shadow: 0 6px 25px color-mix(in srgb, var(--secondary) 40%, transparent);
 }
 
-/* СПЕЦИФИЧНЫЕ СТИЛИ ДЛЯ АДМИНСКОЙ ЗОНЫ */
 .admin-header .nav-link.active {
+    background: var(--primary);
     color: white;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
 }
 
-/* ПРАВАЯ ЧАСТЬ ХЕДЕРА */
+/* Правая часть хедера */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: clamp(0.5rem, 1.5vw, 1rem);
+    gap: 1rem;
     flex-shrink: 0;
 }
 
-/* КНОПКА СМЕНЫ ТЕМЫ */
+/* Кнопка смены темы */
 .theme-toggle {
-    background: none;
-    border: none;
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    background: rgba(var(--surface-rgb), 0.9);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
     cursor: pointer;
-    padding: clamp(0.4rem, 1vw, 0.5rem);
-    border-radius: 10px;
     transition: all 0.3s ease;
+    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: clamp(40px, 6vw, 44px);
-    min-height: clamp(40px, 6vw, 44px);
-    background: color-mix(in srgb, var(--surface) 80%, transparent);
 }
 
 .theme-toggle:hover {
     background: var(--surface);
-    transform: rotate(15deg) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.1);
 }
 
-.guest-header .theme-toggle {
-    background: color-mix(in srgb, var(--secondary) 15%, transparent);
-    color: var(--secondary);
-}
-
-.guest-header .theme-toggle:hover {
-    background: color-mix(in srgb, var(--secondary) 25%, transparent);
-}
-
-/* КНОПКА ВОЙТИ */
+/* Кнопка входа */
 .login-link {
-    padding: clamp(0.45rem, 1.2vw, 0.6rem) clamp(0.8rem, 2vw, 1.5rem);
     background: var(--primary);
     color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
     text-decoration: none;
-    border-radius: 10px;
-    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
     font-weight: 600;
     transition: all 0.3s ease;
-    white-space: nowrap;
-    min-height: clamp(40px, 6vw, 44px);
-    display: flex;
-    align-items: center;
-    line-height: 1.2;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
+    font-size: 0.95rem;
 }
 
 .login-link:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 40%, transparent);
-    border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
 }
 
-/* ПОЛЬЗОВАТЕЛЬСКОЕ МЕНЮ */
+/* Пользовательское меню */
 .user-menu {
     position: relative;
 }
@@ -219,38 +159,25 @@
 .user-btn {
     display: flex;
     align-items: center;
-    gap: clamp(0.5rem, 1.5vw, 0.75rem);
-    background: none;
-    border: none;
-    padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.6rem, 1.5vw, 0.75rem);
-    border-radius: 12px;
+    gap: 0.75rem;
+    background: rgba(var(--surface-rgb), 0.9);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: clamp(40px, 6vw, 44px);
-    border: 1px solid transparent;
-    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    min-width: 160px;
+    font-family: inherit;
 }
 
 .user-btn:hover {
     background: var(--surface);
-    border-color: var(--border);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.guest-header .user-btn {
-    background: color-mix(in srgb, var(--secondary) 12%, transparent);
-    border-color: color-mix(in srgb, var(--secondary) 25%, transparent);
-}
-
-.guest-header .user-btn:hover {
-    background: color-mix(in srgb, var(--secondary) 20%, transparent);
-    border-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+    border-color: var(--primary);
 }
 
 .user-avatar {
-    width: clamp(28px, 4.5vw, 32px);
-    height: clamp(28px, 4.5vw, 32px);
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--secondary), var(--primary));
     color: white;
@@ -258,9 +185,8 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    font-size: 0.875rem;
     flex-shrink: 0;
-    border: 2px solid color-mix(in srgb, white 30%, transparent);
 }
 
 .avatar-image {
@@ -268,34 +194,31 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid color-mix(in srgb, white 30%, transparent);
 }
 
 .user-name {
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
-    max-width: clamp(100px, 15vw, 120px);
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
-}
-
-.guest-header .user-name {
-    color: color-mix(in srgb, var(--text-primary) 95%, transparent);
+    flex: 1;
+    text-align: left;
+    font-size: 0.9rem;
 }
 
 .dropdown-arrow {
-    font-size: clamp(0.65rem, 1vw, 0.75rem);
+    font-size: 0.75rem;
     color: var(--text-secondary);
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .dropdown-arrow.open {
     transform: rotate(180deg);
 }
 
-/* ВЫПАДАЮЩЕЕ МЕНЮ ПОЛЬЗОВАТЕЛЯ */
+/* Выпадающее меню пользователя */
 .user-dropdown {
     position: absolute;
     top: 100%;
@@ -303,100 +226,67 @@
     margin-top: 0.5rem;
     background: var(--background);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: clamp(0.5rem, 1.5vw, 0.75rem) 0;
-    min-width: clamp(200px, 30vw, 240px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 12px;
+    padding: 0.75rem 0;
+    min-width: 240px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     z-index: 1001;
-    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
-    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
-}
-
-.guest-header .user-dropdown {
-    background: linear-gradient(135deg,
-            color-mix(in srgb, var(--background) 98%, transparent) 0%,
-            color-mix(in srgb, var(--secondary) 5%, transparent) 100%);
-    border: 1px solid color-mix(in srgb, var(--secondary) 25%, transparent);
-    box-shadow: 0 15px 45px color-mix(in srgb, var(--secondary) 20%, transparent);
 }
 
 .user-info {
-    padding: 0 clamp(0.8rem, 2vw, 1rem) clamp(0.5rem, 1.5vw, 0.75rem);
+    padding: 0 1rem 0.75rem;
     border-bottom: 1px solid var(--border);
-}
-
-.guest-header .user-info {
-    border-bottom-color: color-mix(in srgb, var(--secondary) 25%, transparent);
 }
 
 .user-info strong {
     display: block;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
-    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+    font-size: 0.95rem;
 }
 
 .user-info span {
     display: block;
     color: var(--text-secondary);
-    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    font-size: 0.875rem;
 }
 
 .user-role {
     margin-top: 0.5rem;
     color: var(--secondary) !important;
     font-weight: 600;
-    background: color-mix(in srgb, var(--secondary) 10%, transparent);
+    background: rgba(var(--secondary-rgb), 0.1);
     padding: 0.25rem 0.5rem;
     border-radius: 6px;
     display: inline-block;
-}
-
-.guest-header .user-role {
-    color: var(--secondary-dark) !important;
-    background: color-mix(in srgb, var(--secondary) 15%, transparent);
+    font-size: 0.8rem;
 }
 
 .dropdown-divider {
     height: 1px;
     background: var(--border);
-    margin: clamp(0.4rem, 1vw, 0.5rem) 0;
-}
-
-.guest-header .dropdown-divider {
-    background: color-mix(in srgb, var(--secondary) 25%, transparent);
+    margin: 0.5rem 0;
 }
 
 .dropdown-item {
-    display: flex;
-    align-items: center;
+    display: block;
     width: 100%;
-    padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(0.8rem, 2vw, 1rem);
+    padding: 0.75rem 1rem;
     background: none;
     border: none;
     color: var(--text-primary);
     text-decoration: none;
-    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
     cursor: pointer;
-    transition: all 0.2s ease;
     text-align: left;
     font-family: inherit;
-    line-height: 1.2;
-    border-radius: 0;
-    margin: 0;
+    font-size: 0.9rem;
 }
 
 .dropdown-item:hover {
-    background: color-mix(in srgb, var(--secondary) 8%, transparent);
-    color: var(--secondary);
-    padding-left: 1.2rem;
-}
-
-.guest-header .dropdown-item:hover {
-    background: color-mix(in srgb, var(--secondary) 15%, transparent);
-    color: var(--secondary-dark);
+    background: rgba(var(--primary-rgb), 0.05);
+    padding-left: 1.25rem;
 }
 
 .logout-item {
@@ -404,53 +294,163 @@
 }
 
 .logout-item:hover {
-    background: color-mix(in srgb, var(--error) 12%, transparent) !important;
-    color: var(--error-dark) !important;
+    background: rgba(var(--error-rgb), 0.1) !important;
 }
 
-/* БУРГЕР-МЕНЮ - ИСПРАВЛЕННЫЕ СТИЛИ */
+/* Мобильная адаптация выпадающего меню (до 769px) */
+@media (max-width: 768px) {
+    .user-dropdown {
+        position: fixed;
+        /* Фиксируем позицию */
+        top: 60px !important;
+        /* Фиксированная позиция ниже хедера */
+        bottom: auto !important;
+        /* Отключаем bottom */
+        left: 0;
+        right: 0;
+        margin: 0;
+        border-radius: 0 0 12px 12px;
+        /* Закругляем только нижние углы */
+        border-bottom: 1px solid var(--border);
+        /* Возвращаем границу */
+        min-width: auto;
+        max-width: 100vw;
+        max-height: calc(100vh - 70px);
+        /* Высота минус хедер */
+        height: auto;
+        overflow-y: auto;
+        padding: 0.5rem 0;
+        z-index: 1002;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        /* Уменьшаем тень */
+    }
+
+    .user-info {
+        padding: 0.75rem 1.25rem 0.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .user-info strong {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .user-info span {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .user-role {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+        display: inline-block;
+    }
+
+    .dropdown-divider {
+        margin: 0.5rem 0;
+    }
+
+    .dropdown-item {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-height: 44px;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(var(--primary-rgb), 0.08);
+        padding-left: 1.5rem;
+    }
+
+    .logout-item:hover {
+        background: rgba(var(--error-rgb), 0.12) !important;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .user-dropdown {
+        top: 55px !important;
+        /* Еще ближе к хедеру */
+        max-height: calc(100vh - 60px);
+        /* Больше места для контента */
+    }
+
+    .user-info {
+        padding: 0.5rem 1rem 0.5rem;
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+        min-height: 42px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Для ландшафтной ориентации */
+@media (max-width: 768px) and (orientation: landscape) {
+    .user-dropdown {
+        top: 50px !important;
+        /* Меньше места для хедера в ландшафте */
+        max-height: calc(100vh - 55px);
+    }
+}
+
+/* Безопасные зоны для устройств с вырезом */
+@media (max-width: 768px) {
+    .user-dropdown {
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+    }
+}
+
+/* Динамическая высота для маленького контента */
+.user-dropdown:has(.dropdown-item:only-of-type) {
+    max-height: fit-content !important;
+}
+
+.user-dropdown:has(.dropdown-item:nth-child(2)):not(:has(.dropdown-item:nth-child(3))) {
+    max-height: fit-content !important;
+}
+
+.user-dropdown:not(:has(.dropdown-item:nth-child(4))) {
+    max-height: fit-content !important;
+}
+
+/* Бургер-меню */
 .menu-toggle {
     display: none;
     flex-direction: column;
-    background: none;
-    border: none;
+    background: rgba(var(--surface-rgb), 0.9);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
     cursor: pointer;
-    padding: clamp(0.4rem, 1vw, 0.5rem);
-    gap: clamp(0.2rem, 0.5vw, 0.25rem);
-    border-radius: 10px;
+    gap: 0.25rem;
     transition: all 0.3s ease;
-    min-width: clamp(40px, 6vw, 44px);
-    min-height: clamp(40px, 6vw, 44px);
+    width: 44px;
+    height: 44px;
     justify-content: center;
-    background: color-mix(in srgb, var(--surface) 80%, transparent);
 }
 
 .menu-toggle:hover {
     background: var(--surface);
-    transform: scale(1.05);
-}
-
-.guest-header .menu-toggle {
-    background: color-mix(in srgb, var(--secondary) 15%, transparent);
-}
-
-.guest-header .menu-toggle:hover {
-    background: color-mix(in srgb, var(--secondary) 25%, transparent);
 }
 
 .menu-toggle span {
-    width: clamp(18px, 3vw, 20px);
+    width: 20px;
     height: 2px;
     background: var(--text-primary);
     border-radius: 2px;
     transition: all 0.3s ease;
+    transform-origin: center;
 }
 
-.guest-header .menu-toggle span {
-    background: color-mix(in srgb, var(--text-primary) 90%, transparent);
-}
-
-/* АНИМАЦИЯ БУРГЕР-МЕНЮ */
+/* Анимация бургер-меню */
 .menu-toggle.menu-open span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
 }
@@ -463,134 +463,131 @@
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* АДАПТИВНОСТЬ - ИСПРАВЛЕННАЯ ЛОГИКА */
+/* Адаптивность */
 
-/* Десктоп - обычное меню */
-@media (min-width: 1025px) {
-    .nav {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: none;
-    }
-}
-
-/* Планшеты и мобильные - БУРГЕР-МЕНЮ ДЛЯ ВСЕХ ЗОН */
-@media (max-width: 1024px) {
-    .header {
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        font-size: clamp(0.8rem, 3vw, 0.9rem);
-    }
-
-    .header.guest-header {
-        background: linear-gradient(135deg,
-                color-mix(in srgb, var(--secondary) 12%, transparent) 0%,
-                color-mix(in srgb, var(--primary) 8%, transparent) 100%);
-    }
-
-    .header.admin-header {
-        background: color-mix(in srgb, var(--primary) 8%, transparent);
-    }
-
-    /* Скрываем обычную навигацию */
-    .nav {
-        display: none;
+/* Большие экраны - бургер для авторизованных с 1450px */
+@media (max-width: 1450px) {
+    .header:has(.user-menu) .nav {
         position: fixed;
         top: 100%;
         left: 0;
         right: 0;
-        background: color-mix(in srgb, var(--background) 98%, transparent);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        background: var(--background);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
-        padding: clamp(1rem, 4vw, 1.5rem);
-        gap: clamp(0.5rem, 2vw, 0.75rem);
+        padding: 1.5rem;
+        gap: 0.75rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         transform: translateY(-100%);
         opacity: 0;
         visibility: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        max-height: 80vh;
-        overflow-y: auto;
+        transition: all 0.3s ease;
         z-index: 999;
     }
 
-    /* Стили для гостевой зоны в мобильном меню */
-    .guest-header .nav {
-        background: linear-gradient(135deg,
-                color-mix(in srgb, var(--background) 98%, transparent) 0%,
-                color-mix(in srgb, var(--secondary) 8%, transparent) 100%);
-        border-bottom: 1px solid color-mix(in srgb, var(--secondary) 25%, transparent);
-    }
-
-    /* Стили для админской зоны в мобильном меню */
-    .admin-header .nav {
-        background: color-mix(in srgb, var(--primary) 5%, transparent);
-        border-bottom: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
-    }
-
-    /* Показываем меню когда открыто */
-    .nav.nav-open {
-        display: flex;
+    .header:has(.user-menu) .nav.nav-open {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
     }
 
-    /* Стили ссылок в мобильном меню */
-    .nav-link {
-        padding: clamp(0.8rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem);
+    .header:has(.user-menu) .nav-link {
+        padding: 1rem;
         text-align: center;
         width: 100%;
-        border-radius: 12px;
-        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-        border: 1px solid transparent;
-        font-weight: 600;
-        margin: 0;
+        font-size: 1rem;
+        border: 1px solid var(--border);
     }
 
-    .nav-link:hover {
-        border-color: var(--border);
-        transform: translateX(8px);
-    }
-
-    .guest-header .nav-link:hover {
-        border-color: color-mix(in srgb, var(--secondary) 40%, transparent);
-        transform: translateX(8px) scale(1.02);
-    }
-
-    .admin-header .nav-link:hover {
-        border-color: color-mix(in srgb, var(--primary) 40%, transparent);
-        transform: translateX(8px) scale(1.02);
-    }
-
-    .nav-link.active {
-        background: linear-gradient(135deg, var(--secondary), var(--primary));
-        color: white;
-        border-color: transparent;
-        transform: scale(1.02);
-    }
-
-    /* Показываем бургер-меню */
-    .menu-toggle {
+    .header:has(.user-menu) .menu-toggle {
         display: flex;
     }
+}
 
-    /* Центрируем кнопки в правой части */
-    .header-actions {
-        gap: clamp(0.3rem, 2vw, 0.5rem);
-        align-items: center;
-        justify-content: center;
+/* Планшеты */
+@media (max-width: 1024px) {
+    .header-content {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .nav {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .user-btn {
+        min-width: auto;
+        padding: 0.4rem;
     }
 
     .user-name {
         display: none;
     }
+}
 
-    /* Исправляем выпадающее меню пользователя */
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .header-content {
+        padding: 0.75rem 1rem;
+        min-height: 60px;
+    }
+
+    /* Для неавторизованных на мобильных */
+    .header:not(:has(.user-menu)) .nav {
+        position: fixed;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--background);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 0.75rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .header:not(:has(.user-menu)) .nav.nav-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .header:not(:has(.user-menu)) .nav-link {
+        padding: 1rem;
+        text-align: center;
+        width: 100%;
+        font-size: 1rem;
+        border: 1px solid var(--border);
+    }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    .theme-toggle,
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+    .login-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
     .user-dropdown {
         position: fixed;
         top: auto;
@@ -598,133 +595,77 @@
         left: 0;
         right: 0;
         margin: 0;
-        border-radius: 20px 20px 0 0;
+        border-radius: 16px 16px 0 0;
         border-bottom: none;
         min-width: auto;
-        font-size: clamp(0.85rem, 3.5vw, 0.95rem);
-        max-height: 70vh;
-        overflow-y: auto;
+        animation: mobileDropdownSlide 0.3s ease;
     }
 
-    .guest-header .user-dropdown {
-        border-radius: 20px 20px 0 0;
-        background: linear-gradient(135deg,
-                color-mix(in srgb, var(--background) 98%, transparent) 0%,
-                color-mix(in srgb, var(--secondary) 10%, transparent) 100%);
+    @keyframes mobileDropdownSlide {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
     }
 
-    .admin-header .user-dropdown {
-        background: color-mix(in srgb, var(--primary) 5%, transparent);
-        border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
-    }
-
-    .user-btn {
-        gap: 0.5rem;
+    /* Показываем бургер для всех на мобильных */
+    .menu-toggle {
+        display: flex;
     }
 }
 
-/* Маленькие мобильные устройства */
+/* Маленькие мобильные */
 @media (max-width: 480px) {
     .header-content {
-        padding: clamp(0.5rem, 3vw, 0.75rem) clamp(0.8rem, 4vw, 1rem);
-        gap: clamp(0.8rem, 3vw, 1rem);
-    }
-
-    .nav {
-        padding: clamp(0.8rem, 4vw, 1rem);
-    }
-
-    .nav-link {
-        padding: clamp(0.7rem, 3vw, 0.875rem) clamp(0.8rem, 4vw, 1rem);
-        font-size: clamp(0.85rem, 3.2vw, 1rem);
-    }
-
-    .login-link {
-        padding: clamp(0.4rem, 2vw, 0.5rem) clamp(0.7rem, 3vw, 1rem);
-        font-size: clamp(0.8rem, 2.8vw, 0.9rem);
-    }
-
-    .user-btn {
-        padding: clamp(0.3rem, 2vw, 0.5rem);
-    }
-
-    .user-dropdown {
-        padding: clamp(0.4rem, 3vw, 0.5rem) 0;
-    }
-
-    .dropdown-item {
-        padding: clamp(0.5rem, 2.5vw, 0.6rem) clamp(0.7rem, 3vw, 0.8rem);
-        font-size: clamp(0.8rem, 2.8vw, 0.9rem);
-    }
-}
-
-/* Очень маленькие экраны */
-@media (max-width: 320px) {
-    .header-content {
-        padding: clamp(0.4rem, 2vw, 0.5rem) clamp(0.6rem, 3vw, 0.75rem);
+        padding: 0.5rem;
     }
 
     .logo-image {
-        height: clamp(26px, 8vw, 28px);
+        height: 32px;
     }
 
-    .theme-toggle {
-        min-width: clamp(36px, 11vw, 40px);
-        min-height: clamp(36px, 11vw, 40px);
-        padding: clamp(0.3rem, 1vw, 0.4rem);
-        font-size: clamp(1rem, 3vw, 1.1rem);
+    .nav {
+        padding: 1rem;
+    }
+
+    .nav-link {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .theme-toggle,
+    .menu-toggle {
+        width: 36px;
+        height: 36px;
     }
 
     .login-link {
-        padding: clamp(0.35rem, 1.5vw, 0.4rem) clamp(0.6rem, 2.5vw, 0.8rem);
-        font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-        min-height: clamp(36px, 11vw, 40px);
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
     }
 
-    .nav-link {
-        font-size: clamp(0.8rem, 2.8vw, 0.9rem);
-        padding: clamp(0.6rem, 2.5vw, 0.7rem) clamp(0.7rem, 3vw, 0.8rem);
-    }
-}
-
-/* Пейзажная ориентация на мобильных */
-@media (max-width: 1024px) and (orientation: landscape) {
-    .nav {
-        max-height: 60vh;
-        overflow-y: auto;
-        padding: clamp(0.8rem, 3vw, 1rem);
+    .user-btn {
+        padding: 0.3rem;
     }
 
-    .nav-link {
-        padding: clamp(0.6rem, 2vw, 0.75rem) clamp(0.8rem, 3vw, 1rem);
-        font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-    }
-
-    .user-dropdown {
-        max-height: 50vh;
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
     }
 }
 
 /* Большие экраны */
 @media (min-width: 1920px) {
-    .header {
-        font-size: 1.1rem;
-    }
-
-    .nav-link {
-        font-size: 1.05rem;
-    }
-
-    .login-link {
-        font-size: 1rem;
-    }
-
-    .user-name {
-        font-size: 1rem;
+    .header .container {
+        max-width: 1600px;
     }
 }
 
-/* Улучшенная доступность */
+/* Уменьшение анимации для доступности */
 @media (prefers-reduced-motion: reduce) {
 
     .header,
@@ -736,10 +677,20 @@
     .user-btn,
     .dropdown-item {
         transition: none;
-        animation: none;
     }
 
     .nav {
         transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .user-dropdown {
+        animation: none;
+    }
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+    .header {
+        background: rgba(var(--background-rgb), 0.98);
     }
 }

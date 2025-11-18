@@ -3,6 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import './Header.css';
 
+// Функция для правильных путей на GitHub Pages
+const getImagePath = (path: string) => {
+    return `/react-ts-lib1${path}`;
+};
+
 interface NavigationLink {
     to: string;
     label: string;
@@ -162,7 +167,10 @@ const Header: React.FC = () => {
                         <img
                             alt='IT Solutions'
                             className="logo-image"
-                            src={state.theme === 'dark' ? "/images/logo/logo.png" : "/images/logo/logo-white.png"}
+                            src={state.theme === 'dark'
+                                ? getImagePath("/images/logo/logo.png")
+                                : getImagePath("/images/logo/logo-white.png")
+                            }
                         />
                     </Link>
 
@@ -194,7 +202,7 @@ const Header: React.FC = () => {
                                     <span className="user-avatar">
                                         {state.user?.avatar ? (
                                             <img
-                                                src={state.user.avatar}
+                                                src={getImagePath(state.user.avatar)}
                                                 alt={state.user.name || 'User'}
                                                 className="avatar-image"
                                             />
