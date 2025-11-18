@@ -1,0 +1,683 @@
+/* src/components/admin/about/AboutManagement.css */
+.about-management {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+.about-header h2 {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 28px;
+}
+
+.edit-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #f5c6cb;
+    font-weight: 500;
+}
+
+/* Режим редактирования */
+.edit-mode {
+    background: var(--surface);
+    padding: 0;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Вкладки редактирования */
+.edit-tabs {
+    display: flex;
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    padding: 15px 25px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.tab-btn:hover {
+    color: var(--primary);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: rgba(102, 126, 234, 0.1);
+}
+
+/* Форма */
+.about-form {
+    padding: 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.form-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled {
+    background-color: var(--surface);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.form-group textarea {
+    min-height: 100px;
+}
+
+/* Кнопки формы */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.save-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.cancel-btn:hover:not(:disabled) {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.save-btn:disabled,
+.cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Управление статистикой, командой и достижениями */
+.stats-management,
+.team-management,
+.achievements-management {
+    padding: 30px;
+}
+
+.stats-management h3,
+.team-management h3,
+.achievements-management h3 {
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* Формы добавления */
+.add-form {
+    background: var(--background);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 25px;
+}
+
+.add-form h4 {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.form-row input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.form-row input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-row button {
+    padding: 10px 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+
+.form-row button:hover {
+    background: var(--primary-dark);
+}
+
+/* Списки элементов */
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--background);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.item-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.item-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.stat-icon,
+.achievement-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    text-align: center;
+}
+
+.item-content strong {
+    color: var(--text-primary);
+    font-size: 16px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.item-content span,
+.item-content p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Аватар члена команды */
+.member-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    color: white;
+}
+
+/* Действия с элементами */
+.item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.item-actions button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.item-actions button:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Формы редактирования */
+.edit-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.edit-form input,
+.edit-form textarea {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.edit-form textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.edit-form button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.edit-form button:first-of-type {
+    background: var(--success);
+    color: white;
+}
+
+.edit-form button:last-of-type {
+    background: var(--danger);
+    color: white;
+}
+
+.edit-form button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Предпросмотр */
+.about-preview {
+    background: var(--surface);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.preview-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border);
+}
+
+.preview-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.preview-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.preview-content h4 {
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.preview-content h5 {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-size: 18px;
+}
+
+.preview-content p {
+    color: var(--text-secondary);
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+}
+
+/* Статистика в предпросмотре */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-preview {
+    text-align: center;
+    background: var(--background);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Команда в предпросмотре */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.team-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--background);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.member-avatar {
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    color: white;
+}
+
+.member-info h5 {
+    color: var(--text-primary);
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.member-info p {
+    color: var(--primary);
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.member-info span {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.last-updated {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: right;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .about-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .edit-tabs {
+        flex-wrap: wrap;
+        padding: 0 15px;
+    }
+
+    .tab-btn {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row input,
+    .form-row button {
+        width: 100%;
+    }
+
+    .item-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .item-actions {
+        justify-content: flex-end;
+    }
+
+    .edit-form {
+        flex-direction: column;
+    }
+
+    .edit-form input,
+    .edit-form textarea,
+    .edit-form button {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-preview {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-management {
+        padding: 15px;
+    }
+
+    .about-form,
+    .about-preview,
+    .stats-management,
+    .team-management,
+    .achievements-management {
+        padding: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .add-form {
+        padding: 15px;
+    }
+}
+
+/* Переменные для темы (если не используются глобально) */
+:root {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --background: #ffffff;
+    --surface: #f8f9fa;
+    --border: #e9ecef;
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --success: #48bb78;
+    --danger: #f56565;
+}
+
+[data-theme="dark"] {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --background: #1a202c;
+    --surface: #2d3748;
+    --border: #4a5568;
+    --text-primary: #f7fafc;
+    --text-secondary: #cbd5e0;
+    --success: #48bb78;
+    --danger: #f56565;
+}
