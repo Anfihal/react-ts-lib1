@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import { getAssetPath, getRoutePath } from '../../utils/pathUtils';
 import './Header.css';
-
-// Функция для правильных путей на GitHub Pages
-const getImagePath = (path: string) => {
-    return `/react-ts-lib1${path}`;
-};
 
 interface NavigationLink {
     to: string;
@@ -21,10 +17,20 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
     const userMenuRef = useRef<HTMLDivElement>(null);
 
-    // Определяем текущую зону
-    const isAdminArea = location.pathname.startsWith('/admin');
-    const isGuestArea = location.pathname.startsWith('/guest');
-    const isLoginPage = location.pathname === '/login';
+    // Универсальные функции для путей
+    const getCorrectPath = (path: string): string => {
+        return getRoutePath(path);
+    };
+
+    const getCorrectImagePath = (path: string): string => {
+        return getAssetPath(path);
+    };
+
+    // Определяем текущую зону с учетом базового пути
+    const currentPath = location.pathname;
+    const isAdminArea = currentPath.includes('/admin');
+    const isGuestArea = currentPath.includes('/guest');
+    const isLoginPage = currentPath.endsWith('/login');
 
     const toggleTheme = (): void => {
         dispatch({ type: 'TOGGLE_THEME' });
@@ -37,21 +43,17 @@ const Header: React.FC = () => {
     const handleLogout = (): void => {
         logout();
         setIsUserMenuOpen(false);
-        navigate('/');
+        navigate(getCorrectPath('/'));
     };
 
     const toggleUserMenu = (): void => {
         setIsUserMenuOpen(!isUserMenuOpen);
     };
 
-    // Автоматический переход в гостевую зону после авторизации (только для гостей)
+    // Автоматический переход в гостевую зону после авторизации
     useEffect(() => {
         if (state.isAuthenticated && !state.isAdmin && !isGuestArea && !isAdminArea && !isLoginPage) {
-            // Если пользователь авторизован как гость и находится в основной зоне,
-            // перенаправляем его в гостевую зону
-            const targetPath = '/guest';
-
-            // Проверяем, что мы еще не на целевой странице
+            const targetPath = getCorrectPath('/guest');
             if (location.pathname !== targetPath) {
                 navigate(targetPath);
             }
@@ -74,45 +76,45 @@ const Header: React.FC = () => {
 
     // Навигация для разных зон
     const getNavigationLinks = (): NavigationLink[] => {
-        // Админская зона - оставляем как было
+        // Админская зона
         if (isAdminArea) {
             return [
-                { to: "/admin", label: "📊 Панель управления" },
-                { to: "/services", label: "🛍️ Услуги" },
-                { to: "/shop", label: "🛍️ Магазин" },
-                { to: "/about", label: "📧 О нас" },
+                { to: getCorrectPath("/admin"), label: "📊 Панель управления" },
+                { to: getCorrectPath("/services"), label: "🛍️ Услуги" },
+                { to: getCorrectPath("/shop"), label: "🛍️ Магазин" },
+                { to: getCorrectPath("/about"), label: "📧 О нас" },
             ];
         }
 
         // Зона личного кабинета гостя
         if (isGuestArea) {
             return [
-                { to: "/guest/Dashboard", label: "📊 Обзор" },
-                { to: "/guest/guestprofile", label: "👤 Профиль" },
-                { to: "/guest/guestorders", label: "📦 Мои заказы" },
-                { to: "/guest/guestservices", label: "🛍️ Услуги" },
-                { to: "/guest/guestshop", label: "🛍️ Магазин" },
-                { to: "/guest/cart", label: "🛒 Корзина" },
-                { to: "/guest/guestabout", label: "📧 О нас" },
-                { to: "/guest/guestcontact", label: "📞 Контакты" }
+                { to: getCorrectPath("/guest/Dashboard"), label: "📊 Обзор" },
+                { to: getCorrectPath("/guest/guestprofile"), label: "👤 Профиль" },
+                { to: getCorrectPath("/guest/guestorders"), label: "📦 Мои заказы" },
+                { to: getCorrectPath("/guest/guestservices"), label: "🛍️ Услуги" },
+                { to: getCorrectPath("/guest/guestshop"), label: "🛍️ Магазин" },
+                { to: getCorrectPath("/guest/cart"), label: "🛒 Корзина" },
+                { to: getCorrectPath("/guest/guestabout"), label: "📧 О нас" },
+                { to: getCorrectPath("/guest/guestcontact"), label: "📞 Контакты" }
             ];
         }
 
         // Основной сайт
         const mainLinks: NavigationLink[] = [
-            { to: "/", label: "Главная" },
-            { to: "/services", label: "Услуги" },
-            { to: "/shop", label: "Магазин" },
-            { to: "/about", label: "О нас" },
-            { to: "/contact", label: "Контакты" }
+            { to: getCorrectPath("/"), label: "Главная" },
+            { to: getCorrectPath("/services"), label: "Услуги" },
+            { to: getCorrectPath("/shop"), label: "Магазин" },
+            { to: getCorrectPath("/about"), label: "О нас" },
+            { to: getCorrectPath("/contact"), label: "Контакты" }
         ];
 
         // Добавляем ссылки на панели для авторизованных пользователей
         if (state.isAuthenticated) {
             if (state.isAdmin) {
-                mainLinks.push({ to: "/admin", label: "🛠️ Админ" });
+                mainLinks.push({ to: getCorrectPath("/admin"), label: "🛠️ Админ" });
             } else {
-                mainLinks.push({ to: "/guest", label: "📊 Кабинет" });
+                mainLinks.push({ to: getCorrectPath("/guest"), label: "📊 Кабинет" });
             }
         }
 
@@ -121,12 +123,12 @@ const Header: React.FC = () => {
 
     // Ссылка для дашборда в меню пользователя
     const getDashboardLink = (): string => {
-        return state.isAdmin ? '/admin' : '/guest';
+        return getCorrectPath(state.isAdmin ? '/admin' : '/guest');
     };
 
     // Ссылка для профиля в меню пользователя
     const getProfileLink = (): string => {
-        return state.isAdmin ? '/admin/profile' : '/guest/guestprofile';
+        return getCorrectPath(state.isAdmin ? '/admin/profile' : '/guest/guestprofile');
     };
 
     // Текст для дашборда в меню пользователя
@@ -147,11 +149,14 @@ const Header: React.FC = () => {
     // Обработчик клика по логотипу
     const handleLogoClick = (e: React.MouseEvent) => {
         if (state.isAuthenticated && !state.isAdmin) {
-            // Для гостя - перенаправляем в гостевую зону
             e.preventDefault();
-            navigate('/guest');
+            navigate(getCorrectPath('/guest'));
         }
-        // Для админа и неавторизованных оставляем стандартное поведение
+    };
+
+    // Проверка активной ссылки с учетом базового пути
+    const isLinkActive = (linkTo: string): boolean => {
+        return location.pathname === linkTo;
     };
 
     return (
@@ -160,7 +165,7 @@ const Header: React.FC = () => {
                 <div className="header-content">
                     {/* Логотип */}
                     <Link
-                        to={state.isAuthenticated && !state.isAdmin ? '/guest' : '/'}
+                        to={getCorrectPath(state.isAuthenticated && !state.isAdmin ? '/guest' : '/')}
                         className="logo"
                         onClick={handleLogoClick}
                     >
@@ -168,9 +173,14 @@ const Header: React.FC = () => {
                             alt='IT Solutions'
                             className="logo-image"
                             src={state.theme === 'dark'
-                                ? getImagePath("/images/logo/logo.png")
-                                : getImagePath("/images/logo/logo-white.png")
+                                ? getCorrectImagePath("/images/logo/logo.png")
+                                : getCorrectImagePath("/images/logo/logo-white.png")
                             }
+                            onError={(e) => {
+                                // Fallback на прозрачный пиксель если изображение не загрузилось
+                                console.warn('Failed to load image:', e.currentTarget.src);
+                                e.currentTarget.style.display = 'none';
+                            }}
                         />
                     </Link>
 
@@ -180,7 +190,7 @@ const Header: React.FC = () => {
                             <Link
                                 key={link.to}
                                 to={link.to}
-                                className={`nav-link ${location.pathname === link.to ? 'active' : ''}`}
+                                className={`nav-link ${isLinkActive(link.to) ? 'active' : ''}`}
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 {link.label}
@@ -202,9 +212,13 @@ const Header: React.FC = () => {
                                     <span className="user-avatar">
                                         {state.user?.avatar ? (
                                             <img
-                                                src={getImagePath(state.user.avatar)}
+                                                src={getCorrectImagePath(state.user.avatar)}
                                                 alt={state.user.name || 'User'}
                                                 className="avatar-image"
+                                                onError={(e) => {
+                                                    // Fallback на букву если аватар не загрузился
+                                                    e.currentTarget.style.display = 'none';
+                                                }}
                                             />
                                         ) : (
                                             state.user?.name?.charAt(0)?.toUpperCase() || 'U'
@@ -272,7 +286,7 @@ const Header: React.FC = () => {
                                     {state.theme === 'light' ? '🌙' : '☀️'}
                                 </button>
                                 {!isLoginPage && (
-                                    <Link to="/login" className="login-link">
+                                    <Link to={getCorrectPath("/login")} className="login-link">
                                         Войти
                                     </Link>
                                 )}
