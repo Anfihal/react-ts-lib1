@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  preview:
+    build:
+      context: .
+      dockerfile: Dockerfile.preview
+    ports:
+      - "4173:80"
+    environment:
+      - NODE_ENV=production
