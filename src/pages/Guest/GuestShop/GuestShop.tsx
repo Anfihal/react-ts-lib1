@@ -1,4 +1,5 @@
 // src/pages/Guest/GuestShop/GuestShop.tsx
+// src/pages/Guest/GuestShop/GuestShop.tsx
 import React, { useState } from 'react';
 import { useProduct } from '../../../context/ProductContext';
 import { useCart } from '../../../context/CartContext';
@@ -16,7 +17,6 @@ const GuestShop: React.FC = () => {
 
     const handleAddToCart = (product: any) => {
         try {
-            // Добавляем товар в корзину
             addToCart({
                 id: product.id,
                 name: product.name,
@@ -28,11 +28,9 @@ const GuestShop: React.FC = () => {
                 stockQuantity: product.stockQuantity
             });
 
-            // Показываем уведомление
             setAddedProductName(product.name);
             setShowCartNotification(true);
 
-            // Автоматически скрываем уведомление через 3 секунды
             setTimeout(() => {
                 setShowCartNotification(false);
             }, 3000);
@@ -43,17 +41,37 @@ const GuestShop: React.FC = () => {
         }
     };
 
+    const handleBuyNow = (product: any) => {
+        try {
+            // Добавляем товар в корзину и сразу переходим к оформлению
+            addToCart({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+                type: 'product' as const,
+                imageUrl: product.imageUrl,
+                inStock: product.inStock,
+                stockQuantity: product.stockQuantity
+            });
+
+            // Переходим на страницу оформления заказа
+            navigate('/guest/checkout');
+        } catch (error) {
+            console.error('Ошибка при покупке:', error);
+            alert('Произошла ошибка при оформлении покупки');
+        }
+    };
+
     const handleQuickView = (product: any) => {
         alert(`Быстрый просмотр: ${product.name}\nЦена: ₽${product.price.toLocaleString()}\n${product.description}`);
     };
 
     const handleViewCart = () => {
-        // Переходим на страницу корзины
         navigate('/guest/cart');
         setShowCartNotification(false);
     };
 
-    // Фильтрация и сортировка товаров
     const filteredAndSortedProducts = state.products
         .filter(product => product.isActive && product.inStock)
         .filter(product => selectedCategory === 'all' || product.category === selectedCategory)
@@ -69,16 +87,13 @@ const GuestShop: React.FC = () => {
             }
         });
 
-    // Получаем уникальные категории
     const categories = ['all', ...new Set(state.products.map(product => product.category))];
 
     return (
         <div className="shop-page">
-            {/* Уведомление о добавлении в корзину */}
             {showCartNotification && (
                 <div className="cart-notification">
                     <div className="notification-content">
-                        <span className="notification-icon">✅</span>
                         <div className="notification-text">
                             <strong>Товар добавлен в корзину!</strong>
                             <p>{addedProductName}</p>
@@ -93,7 +108,6 @@ const GuestShop: React.FC = () => {
                             className="notification-close"
                             onClick={() => setShowCartNotification(false)}
                         >
-                            ✕
                         </button>
                     </div>
                 </div>
@@ -112,7 +126,6 @@ const GuestShop: React.FC = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Фильтры и сортировка */}
                         <div className="shop-controls">
                             <div className="filters">
                                 <label htmlFor="category">Категория:</label>
@@ -137,12 +150,11 @@ const GuestShop: React.FC = () => {
                                 >
                                     <option value="newest">Сначала новые</option>
                                     <option value="name">По названию</option>
-                                    <option value="price">По цене</option>
+                                    <option value="price">По цене (возрастание)</option>
                                 </select>
                             </div>
                         </div>
 
-                        {/* Сетка товаров */}
                         {filteredAndSortedProducts.length === 0 ? (
                             <div className="no-products">
                                 <h3>Товары не найдены</h3>
@@ -167,7 +179,7 @@ const GuestShop: React.FC = () => {
                                                 className="quick-view-btn"
                                                 onClick={() => handleQuickView(product)}
                                             >
-                                                👁️ Быстрый просмотр
+                                                Быстрый просмотр
                                             </button>
                                         </div>
 
@@ -189,9 +201,9 @@ const GuestShop: React.FC = () => {
                                             <div className="product-meta">
                                                 <span className="product-category">{product.category}</span>
                                                 <span className="product-stock">
-                                                    {product.stockQuantity > 5 ? '✅ В наличии' :
-                                                        product.stockQuantity > 0 ? `⚠️ Осталось ${product.stockQuantity} шт.` :
-                                                            '❌ Нет в наличии'}
+                                                    {product.stockQuantity > 5 ? 'В наличии' :
+                                                        product.stockQuantity > 0 ? `Осталось ${product.stockQuantity} шт.` :
+                                                            'Нет в наличии'}
                                                 </span>
                                             </div>
 
@@ -201,13 +213,19 @@ const GuestShop: React.FC = () => {
                                                     onClick={() => handleAddToCart(product)}
                                                     disabled={!product.inStock}
                                                 >
-                                                    {product.inStock ? '🛒 В корзину' : '❌ Нет в наличии'}
+                                                    В корзину
+                                                </button>
+                                                <button
+                                                    className="buy-now-btn"
+                                                    onClick={() => handleBuyNow(product)}
+                                                    disabled={!product.inStock}
+                                                >
+                                                    Купить
                                                 </button>
                                                 <button
                                                     className="wishlist-btn"
                                                     onClick={() => alert(`Товар "${product.name}" добавлен в избранное`)}
                                                 >
-                                                    ❤️
                                                 </button>
                                             </div>
                                         </div>
@@ -218,12 +236,11 @@ const GuestShop: React.FC = () => {
                     </>
                 )}
 
-                {/* CTA секция */}
                 <div className="shop-cta">
                     <h2>Не нашли нужный товар?</h2>
                     <p>Свяжитесь с нами - мы поможем подобрать оптимальное решение</p>
                     <button className="cta-button" onClick={() => alert('Форма связи будет открыта')}>
-                        📞 Связаться с консультантом
+                        Связаться с консультантом
                     </button>
                 </div>
             </div>

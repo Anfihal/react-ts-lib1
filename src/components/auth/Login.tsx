@@ -1,5 +1,6 @@
+// src/components/auth/Login.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Добавили Link
 import { useApp } from '../../context/AppContext';
 import './Login.css';
 
@@ -133,6 +134,16 @@ const Login: React.FC = () => {
                             >
                                 {loading ? 'Вход...' : 'Войти'}
                             </button>
+
+                            {/* НОВОЕ: Ссылка на регистрацию */}
+                            <div className="registration-link">
+                                <p>
+                                    Нет аккаунта?{' '}
+                                    <Link to="/register" className="register-link">
+                                        Зарегистрироваться
+                                    </Link>
+                                </p>
+                            </div>
 
                             <div className="demo-section">
                                 <div className="demo-buttons">

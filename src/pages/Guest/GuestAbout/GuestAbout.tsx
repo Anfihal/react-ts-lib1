@@ -47,7 +47,6 @@ const About: React.FC = () => {
                         <div className="stats-grid">
                             {stats.map(stat => (
                                 <div key={stat.id} className="stat-item">
-                                    <div className="stat-icon">{stat.icon}</div>
                                     <div className="stat-number">{stat.number}</div>
                                     <div className="stat-label">{stat.label}</div>
                                 </div>
@@ -147,7 +146,6 @@ const About: React.FC = () => {
                             {achievements.map(achievement => (
                                 <div key={achievement.id} className="achievement-item">
                                     <div className="achievement-year">{achievement.year}</div>
-                                    <div className="achievement-icon">{achievement.icon}</div>
                                     <div className="achievement-content">
                                         <h3>{achievement.title}</h3>
                                         <p>{achievement.description}</p>

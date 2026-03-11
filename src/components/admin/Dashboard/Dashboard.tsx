@@ -1,12 +1,13 @@
+// src/components/admin/dashboard/Dashboard.tsx
 import React from 'react';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
     const stats = [
-        { label: 'Всего пользователей', value: '1,234', change: '+12%', icon: '👥' },
-        { label: 'Активных проектов', value: '56', change: '+5%', icon: '💼' },
-        { label: 'Новых заявок', value: '23', change: '+18%', icon: '📝' },
-        { label: 'Доход', value: '₽248,900', change: '+8%', icon: '💰' }
+        { label: 'Всего пользователей', value: '1,234', change: '+12%', type: 'users' },
+        { label: 'Активных проектов', value: '56', change: '+5%', type: 'projects' },
+        { label: 'Новых заявок', value: '23', change: '+18%', type: 'requests' },
+        { label: 'Доход', value: '₽248,900', change: '+8%', type: 'revenue' }
     ];
 
     const recentActivities = [
@@ -26,8 +27,8 @@ const Dashboard: React.FC = () => {
             {/* Статистика */}
             <div className="stats-grid">
                 {stats.map((stat, index) => (
-                    <div key={index} className="stat-card">
-                        <div className="stat-icon">{stat.icon}</div>
+                    <div key={index} className="stat-card" data-stat={stat.type}>
+                        <div className="stat-icon"></div>
                         <div className="stat-content">
                             <h3>{stat.value}</h3>
                             <p>{stat.label}</p>
@@ -59,20 +60,20 @@ const Dashboard: React.FC = () => {
                 <div className="quick-actions-card">
                     <h2>Быстрые действия</h2>
                     <div className="actions-grid">
-                        <button className="action-btn">
-                            <span className="action-icon">➕</span>
+                        <button className="action-btn" data-action="add-user">
+                            <span className="action-icon"></span>
                             <span>Добавить пользователя</span>
                         </button>
-                        <button className="action-btn">
-                            <span className="action-icon">📊</span>
+                        <button className="action-btn" data-action="report">
+                            <span className="action-icon"></span>
                             <span>Создать отчет</span>
                         </button>
-                        <button className="action-btn">
-                            <span className="action-icon">⚙️</span>
+                        <button className="action-btn" data-action="settings">
+                            <span className="action-icon"></span>
                             <span>Настройки системы</span>
                         </button>
-                        <button className="action-btn">
-                            <span className="action-icon">📧</span>
+                        <button className="action-btn" data-action="mailing">
+                            <span className="action-icon"></span>
                             <span>Рассылка</span>
                         </button>
                     </div>

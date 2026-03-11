@@ -1,19 +1,20 @@
 // src/pages/Guest/Dashboard/Dashboard.tsx
+// src/pages/Guest/Dashboard/Dashboard.tsx
 import React from 'react';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
     const stats = [
-        { label: 'Мои проекты', value: '3', change: '+1 новый', icon: '💼' },
-        { label: 'Активные заявки', value: '2', change: 'в работе', icon: '📝' },
-        { label: 'Завершенные', value: '5', change: 'всего', icon: '✅' },
-        { label: 'Баланс', value: '₽15,800', change: 'доступно', icon: '💰' }
+        { label: 'Мои проекты', value: '3', change: '+1 новый' },
+        { label: 'Активные заявки', value: '2', change: 'в работе' },
+        { label: 'Завершенные', value: '5', change: 'всего' },
+        { label: 'Баланс', value: '₽15,800', change: 'доступно' }
     ];
 
     return (
         <div className="dashboard">
             <div className="dashboard-header">
-                <h1>Добро пожаловать! 👋</h1>
+                <h1>Добро пожаловать!</h1>
                 <p>Обзор вашей активности и проектов</p>
             </div>
 
@@ -21,7 +22,6 @@ const Dashboard: React.FC = () => {
             <div className="stats-grid">
                 {stats.map((stat, index) => (
                     <div key={index} className="stat-card">
-                        <div className="stat-icon">{stat.icon}</div>
                         <div className="stat-content">
                             <h3>{stat.value}</h3>
                             <p>{stat.label}</p>
@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
             {/* Основной контент */}
             <div className="dashboard-main">
                 <div className="welcome-card">
-                    <h2>🚀 Начните работу</h2>
+                    <h2 className="welcome-title">Начните работу</h2>
                     <p>Это ваш личный кабинет. Здесь вы можете управлять проектами, отслеживать прогресс и взаимодействовать с нашей командой.</p>
 
                     <div className="welcome-actions">
@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="quick-stats">
-                    <h3>📈 Быстрая статистика</h3>
+                    <h3 className="stats-title">Быстрая статистика</h3>
                     <div className="stats-list">
                         <div className="stat-item">
                             <span className="stat-label">Проектов в работе</span>

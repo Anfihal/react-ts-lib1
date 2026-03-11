@@ -1,329 +1,277 @@
+/* Footer.css */
+
+/* --- Обертка футера --- */
 .footer {
-    background: var(--surface);
+    background-color: var(--surface);
     border-top: 1px solid var(--border);
-    margin-top: auto;
+    color: var(--text-primary);
+
     width: 100%;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0 1rem;
 }
 
-.footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
-    opacity: 0.3;
+/* --- Внутренний контейнер --- */
+.footer .container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 2rem;
 }
 
+/* --- Основной контент футера --- */
 .footer-content {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    padding: clamp(2rem, 6vw, 3rem) clamp(1rem, 4vw, 2rem);
-    max-width: 1400px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    align-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-.footer-section h3 {
-    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+/* --- Секции футера --- */
+.footer-section h3,
+.footer-section h4 {
     color: var(--text-primary);
-    font-size: clamp(1rem, 2vw, 1.1rem);
+    margin-bottom: 1rem;
     font-weight: 600;
-    position: relative;
 }
 
-.footer-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 30px;
-    height: 2px;
-    background: var(--primary);
-    border-radius: 2px;
-}
-
-.footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.footer-logo {
-    font-size: clamp(1.3rem, 3vw, 1.5rem);
-    font-weight: 700;
-    color: var(--primary);
-    display: block;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.footer-logo:hover {
-    transform: translateY(-2px);
-    color: var(--primary-dark);
+.footer-section h3.footer-logo {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .footer-description {
     color: var(--text-secondary);
     line-height: 1.6;
-    font-size: clamp(0.85rem, 1.5vw, 0.9rem);
-    max-width: 400px;
+    margin: 0;
+    font-size: 0.95rem;
 }
 
+/* --- Стили для раздела документов (без скроллбара) --- */
+.footer-section .documents-list {
+    /* Убраны скроллбары */
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section .documents-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* Уменьшаем отступы для компактности списка документов */
+.footer-section .documents-list a {
+    padding: 0.4rem 1rem;
+    margin: 0.15rem 0;
+    font-size: 0.9rem;
+}
+
+/* --- Списки и ссылки --- */
 .footer-links {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
 }
 
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+/* === Стили для ссылок с неоновой анимацией === */
 .footer-links a {
+    position: relative;
+    display: inline-block;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: clamp(0.85rem, 1.5vw, 0.9rem);
-    padding: 0.25rem 0;
-    display: block;
-    border-radius: 4px;
-    position: relative;
-    padding-left: 0.75rem;
-}
+    background: var(--surface);
+    border: 1px solid var(--border);
 
-.footer-links a::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--primary);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    padding: 0.625rem 1.25rem;
+    margin: 0.5rem 0;
+
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    z-index: 0;
+
+    transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-    color: var(--primary);
-    padding-left: 1rem;
-    background: color-mix(in srgb, var(--primary) 5%, transparent);
+    color: var(--text-primary);
+}
+
+/* Анимация градиентной рамки */
+.footer-links a::before {
+    content: '';
+    background: linear-gradient(45deg, #6363df, #0066CC, #6363df);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 8s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 8px;
 }
 
 .footer-links a:hover::before {
     opacity: 1;
 }
 
-.footer-contact {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+.footer-links a::after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--surface);
+    left: 0;
+    top: 0;
+    border-radius: 8px;
 }
 
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* --- Контактная информация --- */
 .footer-contact p {
     color: var(--text-secondary);
-    margin: 0;
+    margin: 0 0 0.75rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: clamp(0.85rem, 1.5vw, 0.9rem);
-    line-height: 1.4;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+    cursor: default;
 }
 
-.footer-contact-icon {
-    font-size: 1.1rem;
+.footer-contact p:hover {
     color: var(--primary);
-    flex-shrink: 0;
-    width: 20px;
-    display: flex;
-    justify-content: center;
 }
 
+.footer-contact p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Блок с реквизитами компании --- */
+.footer-company-details {
+    margin: 2rem 0 1.5rem;
+    padding: 1rem;
+    background: rgba(0, 102, 204, 0.05);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.footer-company-details p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.footer-company-details strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.company-details-disclaimer {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.company-details-disclaimer a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--primary);
+    transition: opacity 0.3s ease;
+}
+
+.company-details-disclaimer a:hover {
+    opacity: 0.8;
+}
+
+/* --- Нижняя часть футера (копирайт) --- */
 .footer-bottom {
+    padding-top: 1.5rem;
     border-top: 1px solid var(--border);
-    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2rem);
     text-align: center;
     color: var(--text-secondary);
-    font-size: clamp(0.75rem, 1.5vw, 0.8rem);
-    max-width: 1400px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    font-size: 0.85rem;
 }
 
-.footer-copyright {
-    margin: 0;
-}
-
-.footer-legal {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.footer-legal a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    font-size: clamp(0.75rem, 1.5vw, 0.8rem);
-}
-
-.footer-legal a:hover {
-    color: var(--primary);
-}
-
-/* Планшеты и маленькие ноутбуки */
-@media (max-width: 1024px) {
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
     .footer-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 2.5rem;
-    }
-
-    .footer-brand {
-        grid-column: 1 / -1;
-        text-align: center;
-        align-items: center;
-    }
-
-    .footer-section h3::after {
-        left: 50%;
-        transform: translateX(-50%);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Мобильные устройства */
 @media (max-width: 768px) {
     .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .footer-section:nth-child(1) {
+        grid-column: 1 / -1;
         text-align: center;
     }
 
-    .footer-section h3::after {
-        left: 50%;
-        transform: translateX(-50%);
+    .footer-section h3.footer-logo {
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .footer-contact p {
         justify-content: center;
+    }
+
+    .footer-company-details {
+        padding: 0.75rem;
+    }
+
+    .footer-company-details p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    /* Убираем ограничения высоты для документов на мобильных */
+    .footer-section .documents-list {
+        max-height: none;
     }
 
     .footer-links a {
-        padding-left: 0;
-        justify-content: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
     }
 
-    .footer-links a::before {
-        display: none;
-    }
-
-    .footer-links a:hover {
-        padding-left: 0;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.75rem;
-    }
-
-    .footer-legal {
-        gap: 1rem;
-    }
-}
-
-/* Маленькие мобильные устройства */
-@media (max-width: 480px) {
-    .footer-content {
-        padding: 1.5rem 1rem;
-        gap: 1.5rem;
-    }
-
-    .footer-links {
-        gap: 0.4rem;
-    }
-
-    .footer-contact {
-        gap: 0.6rem;
-    }
-
-    .footer-contact p {
-        gap: 0.5rem;
-    }
-
-    .footer-contact-icon {
-        font-size: 1rem;
-        width: 18px;
-    }
-}
-
-/* Очень маленькие экраны */
-@media (max-width: 320px) {
-    .footer-content {
-        padding: 1rem 0.75rem;
-        gap: 1.25rem;
-    }
-
-    .footer-bottom {
-        padding: 0.75rem 1rem;
-    }
-
-    .footer-legal {
-        gap: 0.75rem;
-    }
-}
-
-/* Пейзажная ориентация на мобильных */
-@media (max-width: 768px) and (orientation: landscape) {
-    .footer-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-    }
-
-    .footer-brand {
-        grid-column: 1 / -1;
-    }
-}
-
-/* Улучшенная доступность */
-@media (prefers-reduced-motion: reduce) {
-
-    .footer-logo,
-    .footer-links a,
-    .footer-legal a {
-        transition: none;
-    }
-
-    .footer-links a:hover {
-        padding-left: 0.75rem;
-    }
-}
-
-/* Поддержка темной темы */
-@media (prefers-color-scheme: dark) {
-    .footer {
-        background: color-mix(in srgb, var(--surface) 95%, black);
-    }
-}
-
-/* Высокий контраст для доступности */
-@media (prefers-contrast: high) {
-    .footer-links a::before {
-        opacity: 1;
-    }
-
-    .footer-section h3::after {
-        width: 40px;
-        height: 3px;
+    .footer-company-details p {
+        font-size: 0.8rem;
     }
 }

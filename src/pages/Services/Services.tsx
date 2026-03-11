@@ -1,18 +1,26 @@
-// src/pages/Services/Services.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useService } from '../../context/ServiceContext';
+import ConsultationModal from '../../components/ConsultationModal/ConsultationModal';
 import './Services.css';
 
 const Services: React.FC = () => {
     const { state } = useService();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedService, setSelectedService] = useState('');
 
     const handleConsultation = (serviceName: string) => {
-        alert(`Запрос на консультацию по услуге: ${serviceName}`);
+        console.log('Кнопка нажата:', serviceName); // Для отладки
+        setSelectedService(serviceName);
+        setIsModalOpen(true);
     };
 
     const handleDetails = (serviceName: string) => {
         alert(`Подробнее об услуге: ${serviceName}`);
     };
+
+    // Отладка состояния
+    console.log('Состояние модального окна:', isModalOpen);
+    console.log('Выбранная услуга:', selectedService);
 
     return (
         <div className="services-page">
@@ -33,8 +41,6 @@ const Services: React.FC = () => {
                     </div>
                 ) : (
                     <>
-
-
                         {state.services.length === 0 ? (
                             <div className="no-services">
                                 <h3>Услуги временно недоступны</h3>
@@ -52,6 +58,10 @@ const Services: React.FC = () => {
                                                         src={service.imageUrl}
                                                         alt={service.name}
                                                         loading="lazy"
+                                                        onError={(e) => {
+                                                            // Запасное изображение при ошибке загрузки
+                                                            e.currentTarget.src = '/images/service-placeholder.jpg';
+                                                        }}
                                                     />
                                                 </div>
                                             )}
@@ -71,23 +81,25 @@ const Services: React.FC = () => {
                                                     </span>
                                                     {service.duration && (
                                                         <span className="service-duration">
-                                                            ⏱️ {service.duration}
+                                                            {service.duration}
                                                         </span>
                                                     )}
                                                 </div>
-                                                {/* Только кнопки для пользователей - без редактирования! */}
                                                 <div className="service-actions">
                                                     <button
                                                         className="consult-btn"
-                                                        onClick={() => handleConsultation(service.name)}
+                                                        onClick={() => {
+                                                            console.log('Кнопка кликнута для:', service.name);
+                                                            handleConsultation(service.name);
+                                                        }}
                                                     >
-                                                        📞 Получить консультацию
+                                                        Получить консультацию
                                                     </button>
                                                     <button
                                                         className="details-btn"
                                                         onClick={() => handleDetails(service.name)}
                                                     >
-                                                        ℹ️ Подробнее
+                                                        Подробнее
                                                     </button>
                                                 </div>
                                             </div>
@@ -101,11 +113,26 @@ const Services: React.FC = () => {
                 <div className="services-cta">
                     <h2>Не нашли нужную услугу?</h2>
                     <p>Свяжитесь с нами для обсуждения индивидуального решения</p>
-                    <button className="cta-button" onClick={() => handleConsultation('индивидуальное решение')}>
-                        💬 Обсудить проект
+                    <button
+                        className="cta-button"
+                        onClick={() => handleConsultation('индивидуальное решение')}
+                    >
+                        Обсудить проект
                     </button>
                 </div>
             </div>
+
+            {/* Модальное окно консультации - убедитесь, что оно рендерится */}
+            {isModalOpen && (
+                <ConsultationModal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        console.log('Закрытие модального окна');
+                        setIsModalOpen(false);
+                    }}
+                    serviceName={selectedService}
+                />
+            )}
         </div>
     );
 };

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import type { ReactNode, Dispatch } from 'react'; // Type-only import
+import React, { createContext, useContext, useReducer, useCallback, useMemo } from 'react';
+import type { ReactNode, Dispatch } from 'react';
 
 // Типы для профиля
 export interface ProfileData {
@@ -57,28 +57,21 @@ const profileReducer = (state: ProfileState, action: ProfileAction): ProfileStat
     switch (action.type) {
         case 'SET_LOADING':
             return { ...state, isLoading: action.payload };
-
         case 'SET_PROFILE':
             return { ...state, profile: action.payload, error: null };
-
         case 'UPDATE_PROFILE':
             return {
                 ...state,
                 profile: state.profile ? { ...state.profile, ...action.payload } : null
             };
-
         case 'SET_ERROR':
             return { ...state, error: action.payload, isLoading: false };
-
         case 'SET_EDITING':
             return { ...state, isEditing: action.payload };
-
         case 'CLEAR_ERROR':
             return { ...state, error: null };
-
         case 'RESET_PROFILE':
             return initialState;
-
         default:
             return state;
     }
@@ -92,8 +85,8 @@ interface ProfileProviderProps {
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(profileReducer, initialState);
 
-    // Загрузка профиля
-    const fetchProfile = async (userId: string): Promise<void> => {
+    // ✅ Оборачиваем в useCallback — стабильные функции
+    const fetchProfile = useCallback(async (userId: string): Promise<void> => {
         try {
             dispatch({ type: 'SET_LOADING', payload: true });
 
@@ -114,42 +107,36 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
                 timezone: 'Europe/Moscow'
             };
 
-            // Имитация задержки сети
             await new Promise(resolve => setTimeout(resolve, 500));
-
             dispatch({ type: 'SET_PROFILE', payload: mockProfile });
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: 'Ошибка загрузки профиля' });
         }
-    };
+    }, []); // ← пустые зависимости = функция стабильна
 
-    // Обновление профиля
-    const updateProfile = async (data: Partial<ProfileData>): Promise<void> => {
+    const updateProfile = useCallback(async (data: Partial<ProfileData>): Promise<void> => {
         try {
             dispatch({ type: 'SET_LOADING', payload: true });
-
-            // Имитация API запроса
             await new Promise(resolve => setTimeout(resolve, 500));
-
             dispatch({ type: 'UPDATE_PROFILE', payload: data });
             dispatch({ type: 'SET_EDITING', payload: false });
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: 'Ошибка обновления профиля' });
         }
-    };
+    }, []); // ← тоже стабильна
 
-    // Переключение режима редактирования
-    const toggleEditing = (): void => {
+    const toggleEditing = useCallback((): void => {
         dispatch({ type: 'SET_EDITING', payload: !state.isEditing });
-    };
+    }, [state.isEditing]); // ← зависит только от isEditing
 
-    const value: ProfileContextType = {
+    // ✅ Оборачиваем value в useMemo — не создаём новый объект каждый раз
+    const value = useMemo(() => ({
         state,
         dispatch,
         updateProfile,
         fetchProfile,
         toggleEditing
-    };
+    }), [state, updateProfile, fetchProfile, toggleEditing]);
 
     return (
         <ProfileContext.Provider value={value}>

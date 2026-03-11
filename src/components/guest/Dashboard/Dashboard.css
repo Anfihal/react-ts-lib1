@@ -1,270 +1,477 @@
-.guest-dashboard {
+/* ========== ГОСТЕВАЯ ПАНЕЛЬ — ПОЛНОСТЬЮ ИЗОЛИРОВАННАЯ ========== */
+
+/* src/components/admin/dashboard/Dashboard.css */
+
+/* Переменные тем (глобальные) */
+:root {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --background: #ffffff;
+    --surface: #f8f9fa;
+    --border: #e9ecef;
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --success: #22c55e;
+    --error: #ef4444;
+    --success-light: rgba(34, 197, 94, 0.1);
+    --error-light: rgba(239, 68, 68, 0.1);
+    --text-muted: #94a3b8;
+}
+
+[data-theme="dark"] {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --background: #1a202c;
+    --surface: #2d3748;
+    --border: #4a5568;
+    --text-primary: #f7fafc;
+    --text-secondary: #cbd5e0;
+    --success: #4ade80;
+    --error: #f87171;
+    --success-light: rgba(74, 222, 128, 0.2);
+    --error-light: rgba(248, 113, 113, 0.2);
+    --text-muted: #94a3b8;
+}
+
+/* ===== ИЗОЛИРОВАННЫЕ СТИЛИ (только внутри .dashboard) ===== */
+.dashboard {
+    min-height: 80vh;
+    padding: 2rem 0;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+/* Заголовок дашборда */
+.dashboard .dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+.dashboard .dashboard-header h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard .dashboard-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard .user-info {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.dashboard .user-info span {
+    background: var(--background);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
 }
 
 /* Статистика */
-.stats-grid {
+.dashboard .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
+    margin-bottom: 3rem;
 }
 
-.stat-card {
-    background: white;
+.dashboard .stat-card {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     gap: 1rem;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.stat-card:hover {
-    transform: translateY(-2px);
+.dashboard .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
 }
 
-.stat-icon {
-    font-size: 2rem;
+.dashboard .stat-icon {
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: var(--primary);
+    border-radius: 12px;
+    flex-shrink: 0;
+    color: white;
+    font-size: 2rem;
 }
 
-.stat-content h3 {
+/* Иконки для статистики через data-stat */
+.dashboard .stat-card[data-stat="users"] .stat-icon::before {
+    content: "👥";
+}
+
+.dashboard .stat-card[data-stat="projects"] .stat-icon::before {
+    content: "💼";
+}
+
+.dashboard .stat-card[data-stat="requests"] .stat-icon::before {
+    content: "📝";
+}
+
+.dashboard .stat-card[data-stat="revenue"] .stat-icon::before {
+    content: "💰";
+}
+
+.dashboard .stat-content {
+    flex: 1;
+}
+
+.dashboard .stat-content h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
     margin: 0 0 0.25rem 0;
-    font-size: 1.5rem;
-    color: #2c3e50;
+    line-height: 1;
 }
 
-.stat-content p {
+.dashboard .stat-content p {
+    color: var(--text-secondary);
     margin: 0 0 0.5rem 0;
-    color: #7f8c8d;
     font-size: 0.9rem;
 }
 
-.stat-change {
+.dashboard .stat-change {
     font-size: 0.8rem;
     font-weight: 600;
-    color: #27ae60;
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.dashboard .stat-change.positive {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.dashboard .stat-change.negative {
+    background: var(--error-light);
+    color: var(--error);
 }
 
 /* Основной контент */
-.dashboard-content-grid {
+.dashboard .dashboard-content {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
 }
 
-.projects-card,
-.quick-actions-card,
-.notifications-card {
-    background: white;
+/* Карточка активности */
+.dashboard .activity-card,
+.dashboard .quick-actions-card {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.projects-card h2,
-.quick-actions-card h2,
-.notifications-card h2 {
+.dashboard .activity-card h2,
+.dashboard .quick-actions-card h2 {
+    color: var(--text-primary);
     margin: 0 0 1.5rem 0;
-    color: #2c3e50;
-    font-size: 1.25rem;
-}
-
-/* Проекты */
-.projects-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.project-item {
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 6px;
-    border-left: 4px solid #3498db;
-}
-
-.project-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-}
-
-.project-info h4 {
-    margin: 0;
-    color: #2c3e50;
-}
-
-.project-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
 }
 
-.project-status.in-progress {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.project-status.completed {
-    background: #d1edff;
-    color: #0c5460;
-}
-
-.project-progress {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.progress-bar {
-    flex: 1;
-    height: 8px;
-    background: #e9ecef;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #27ae60;
-    transition: width 0.3s ease;
-}
-
-.progress-text {
-    font-size: 0.8rem;
-    color: #7f8c8d;
-    min-width: 40px;
-}
-
-.project-deadline {
-    font-size: 0.8rem;
-    color: #7f8c8d;
-}
-
-/* Быстрые действия */
-.actions-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-.action-btn {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border: 2px solid transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: left;
-    width: 100%;
-}
-
-.action-btn:hover {
-    background: white;
-    border-color: #27ae60;
-    transform: translateX(5px);
-}
-
-.action-icon {
-    font-size: 1.5rem;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-radius: 8px;
-}
-
-.action-text {
-    flex: 1;
-}
-
-.action-text strong {
-    display: block;
-    color: #2c3e50;
-    margin-bottom: 0.25rem;
-}
-
-.action-text span {
-    font-size: 0.8rem;
-    color: #7f8c8d;
-}
-
-/* Уведомления */
-.notifications-list {
+/* Список активности */
+.dashboard .activity-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.notification-item {
+.dashboard .activity-item {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
     padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 6px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
 }
 
-.notification-icon {
-    font-size: 1.25rem;
-    margin-top: 0.25rem;
+.dashboard .activity-item:hover {
+    background: var(--background);
+    border-color: var(--primary);
+    transform: translateX(4px);
 }
 
-.notification-content {
+.dashboard .activity-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.dashboard .activity-details {
     flex: 1;
 }
 
-.notification-content strong {
-    display: block;
-    color: #2c3e50;
-    margin-bottom: 0.25rem;
+.dashboard .activity-details strong {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
-.notification-content span {
+.dashboard .activity-details span {
     display: block;
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-}
-
-.notification-time {
+    color: var(--text-secondary);
     font-size: 0.8rem;
-    color: #95a5a6;
+    margin-top: 0.25rem;
+}
+
+.dashboard .activity-time {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* Быстрые действия */
+.dashboard .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.dashboard .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 100px;
+    font-weight: 500;
+}
+
+.dashboard .action-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+.dashboard .action-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Иконки для быстрых действий через data-action */
+.dashboard .action-btn[data-action="add-user"] .action-icon::before {
+    content: "➕";
+}
+
+.dashboard .action-btn[data-action="report"] .action-icon::before {
+    content: "📊";
+}
+
+.dashboard .action-btn[data-action="settings"] .action-icon::before {
+    content: "⚙️";
+}
+
+.dashboard .action-btn[data-action="mailing"] .action-icon::before {
+    content: "📧";
+}
+
+.dashboard .action-btn:hover .action-icon::before {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+.dashboard .action-btn span:last-child {
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+/* Приветственное сообщение (если используется) */
+.dashboard .welcome-message {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard .welcome-message h2 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.dashboard .welcome-message p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard .stat-card,
+.dashboard .activity-card,
+.dashboard .quick-actions-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.dashboard .stat-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.dashboard .stat-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dashboard .stat-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.dashboard .stat-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Темная тема */
+[data-theme="dark"] .dashboard .stat-card,
+[data-theme="dark"] .dashboard .activity-card,
+[data-theme="dark"] .dashboard .quick-actions-card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .dashboard .action-btn {
+    background: var(--surface);
+}
+
+[data-theme="dark"] .dashboard .action-btn:hover {
+    background: var(--primary);
 }
 
 /* Адаптивность */
 @media (max-width: 1024px) {
-    .dashboard-content-grid {
+    .dashboard .dashboard-content {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .stats-grid {
+    .dashboard {
+        padding: 1rem 0;
+    }
+
+    .dashboard .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .dashboard .stat-card {
+        padding: 1.25rem;
+    }
+
+    .dashboard .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+
+    .dashboard .stat-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard .actions-grid {
         grid-template-columns: 1fr;
     }
 
-    .project-info {
+    .dashboard .action-btn {
+        min-height: 80px;
+        padding: 1.25rem 1rem;
+    }
+
+    .dashboard .dashboard-header h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard .activity-card,
+    .dashboard .quick-actions-card {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard .stat-card {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .dashboard .activity-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .dashboard .user-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard .user-info span {
+        width: fit-content;
     }
 }

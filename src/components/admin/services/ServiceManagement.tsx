@@ -1,4 +1,5 @@
 // src/components/admin/services/ServiceManagement.tsx
+// src/components/admin/services/ServiceManagement.tsx
 import React, { useState, useEffect } from 'react';
 import { useService } from '../../../context/ServiceContext';
 import type { Service, ServiceCreateRequest, ServiceUpdateRequest } from '../../../types/ServiceTypes';
@@ -53,8 +54,6 @@ const ServiceManagement: React.FC = () => {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // В реальном приложении здесь будет загрузка на сервер
-            // Сейчас используем временный URL для демонстрации
             const imageUrl = URL.createObjectURL(file);
             setFormData(prev => ({
                 ...prev,
@@ -134,17 +133,16 @@ const ServiceManagement: React.FC = () => {
                     onClick={() => setIsAdding(true)}
                     disabled={state.isLoading || !!state.editingService}
                 >
-                    ➕ Добавить услугу
+                    Добавить услугу
                 </button>
             </div>
 
             {state.error && (
                 <div className="error-message">
-                    ❌ {state.error}
+                    {state.error}
                 </div>
             )}
 
-            {/* Форма добавления/редактирования связать все нужное с бд и бэком */}
             {(isAdding || state.editingService) && (
                 <form className="service-form" onSubmit={handleSubmit}>
                     <h3>{state.editingService ? 'Редактирование услуги' : 'Добавление новой услуги'}</h3>
@@ -245,7 +243,6 @@ const ServiceManagement: React.FC = () => {
                                         className="remove-image-btn"
                                         onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
                                     >
-                                        ❌
                                     </button>
                                 </div>
                             )}
@@ -258,7 +255,7 @@ const ServiceManagement: React.FC = () => {
                             className="save-btn"
                             disabled={state.isLoading}
                         >
-                            {state.isLoading ? 'Сохранение...' : '💾 Сохранить'}
+                            {state.isLoading ? 'Сохранение...' : 'Сохранить'}
                         </button>
                         <button
                             type="button"
@@ -266,13 +263,12 @@ const ServiceManagement: React.FC = () => {
                             onClick={handleCancel}
                             disabled={state.isLoading}
                         >
-                            ❌ Отмена
+                            Отмена
                         </button>
                     </div>
                 </form>
             )}
 
-            {/* Список услуг связать все нужное с бд и бэком */}
             <div className="services-list-section">
                 <h3>Список услуг ({state.services.length})</h3>
                 {state.services.length === 0 ? (
@@ -299,7 +295,7 @@ const ServiceManagement: React.FC = () => {
                                             <span className="service-duration">{service.duration}</span>
                                         )}
                                         <span className={`service-status ${service.isActive ? 'active' : 'inactive'}`}>
-                                            {service.isActive ? '✅ Активна' : '❌ Неактивна'}
+                                            {service.isActive ? 'Активна' : 'Неактивна'}
                                         </span>
                                     </div>
                                     <div className="service-dates">
@@ -317,14 +313,14 @@ const ServiceManagement: React.FC = () => {
                                         onClick={() => handleEdit(service)}
                                         disabled={state.isLoading}
                                     >
-                                        ✏️ Редактировать
+                                        Редактировать
                                     </button>
                                     <button
                                         className="delete-btn"
                                         onClick={() => handleDelete(service.id)}
                                         disabled={state.isLoading}
                                     >
-                                        🗑️ Удалить
+                                        Удалить
                                     </button>
                                 </div>
                             </div>

@@ -1,3 +1,4 @@
+// src/types/ContactTypes.ts
 export interface ContactInfo {
     id: string;
     companyName: string;
@@ -9,6 +10,7 @@ export interface ContactInfo {
         telegram?: string;
         whatsapp?: string;
         vk?: string;
+        instagram?: string; // Добавили instagram
     };
     mapEmbedUrl?: string;
     lastUpdated: Date;
@@ -24,6 +26,7 @@ export interface ContactUpdateRequest {
         telegram?: string;
         whatsapp?: string;
         vk?: string;
+        instagram?: string; // Добавили instagram
     };
     mapEmbedUrl?: string;
 }

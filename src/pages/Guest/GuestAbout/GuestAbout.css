@@ -113,11 +113,6 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.about-page .stat-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
 .about-page .stat-number {
     font-size: 2.5rem;
     font-weight: 700;

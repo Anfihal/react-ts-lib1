@@ -48,7 +48,6 @@ const Home: React.FC = () => {
                         <div className="hero-actions">
                             <button className="btn-primary" onClick={handleStartProject}>
                                 {content.primaryButtonText}
-                                <span className="btn-icon">{content.primaryButtonIcon}</span>
                             </button>
                             <button className="btn-secondary" onClick={handleLearnMore}>
                                 {content.secondaryButtonText}

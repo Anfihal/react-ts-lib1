@@ -1,3 +1,5 @@
+/* ========== СТРАНИЦА ЛОГИНА — ПОЛНОСТЬЮ ИЗОЛИРОВАННАЯ ========== */
+
 .login-page {
     min-height: 80vh;
     display: flex;
@@ -6,12 +8,12 @@
     padding: 40px 0;
 }
 
-.login-container {
+.login-page .login-container {
     width: 100%;
     max-width: 400px;
 }
 
-.login-card {
+.login-page .login-card {
     background: var(--surface);
     padding: 40px 30px;
     border-radius: 12px;
@@ -19,40 +21,40 @@
     border: 1px solid var(--border);
 }
 
-.login-header {
+.login-page .login-header {
     text-align: center;
     margin-bottom: 30px;
 }
 
-.login-header h2 {
+.login-page .login-header h2 {
     color: var(--text-primary);
     margin-bottom: 10px;
     font-size: 24px;
 }
 
-.login-header p {
+.login-page .login-header p {
     color: var(--text-secondary);
     font-size: 14px;
 }
 
-.login-form {
+.login-page .login-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.form-group {
+.login-page .form-group {
     display: flex;
     flex-direction: column;
 }
 
-.form-group label {
+.login-page .form-group label {
     color: var(--text-primary);
     margin-bottom: 8px;
     font-weight: 500;
 }
 
-.form-group input {
+.login-page .form-group input {
     padding: 12px 16px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -62,18 +64,18 @@
     transition: all 0.3s ease;
 }
 
-.form-group input:focus {
+.login-page .form-group input:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.form-group input:disabled {
+.login-page .form-group input:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.login-btn {
+.login-page .login-btn {
     padding: 12px 24px;
     background: var(--primary);
     color: white;
@@ -86,18 +88,18 @@
     margin-top: 10px;
 }
 
-.login-btn:hover:not(:disabled) {
+.login-page .login-btn:hover:not(:disabled) {
     background: #1d4ed8;
     transform: translateY(-1px);
 }
 
-.login-btn:disabled {
+.login-page .login-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-.error-message {
+.login-page .error-message {
     background: #fef2f2;
     border: 1px solid #fecaca;
     color: #dc2626;
@@ -107,20 +109,21 @@
     font-size: 14px;
 }
 
-.dark .error-message {
+/* Поддержка тёмной темы — через класс на body или html */
+[data-theme='dark'] .login-page .error-message {
     background: #7f1d1d;
     border-color: #991b1b;
     color: #fecaca;
 }
 
-.demo-credentials {
+.login-page .demo-credentials {
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid var(--border);
     text-align: center;
 }
 
-.demo-btn {
+.login-page .demo-btn {
     background: transparent;
     color: var(--primary);
     border: 1px solid var(--primary);
@@ -132,23 +135,24 @@
     transition: all 0.3s ease;
 }
 
-.demo-btn:hover {
+.login-page .demo-btn:hover {
     background: var(--primary);
     color: white;
 }
 
-.demo-info {
+.login-page .demo-info {
     font-size: 11px;
     color: var(--text-secondary);
     line-height: 1.4;
 }
 
+/* Адаптивность */
 @media (max-width: 480px) {
     .login-page {
         padding: 20px 0;
     }
 
-    .login-card {
+    .login-page .login-card {
         padding: 30px 20px;
     }
 }

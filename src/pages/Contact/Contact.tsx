@@ -20,24 +20,19 @@ const Contact: React.FC = () => {
     return (
         <div className="contact-page">
             <div className="contact-container">
-                <h1>Контакты</h1>
-                <p>Свяжитесь с нами удобным для вас способом</p>
-
                 <div className="contact-content">
                     <div className="contact-info-section">
                         <h2>Контактная информация</h2>
 
                         <div className="contact-details">
-                            <div className="contact-item">
-                                <span className="contact-icon">🏢</span>
+                            <div className="contact-item address">
                                 <div className="contact-text">
                                     <h3>Адрес</h3>
                                     <p>{contactInfo.address}</p>
                                 </div>
                             </div>
 
-                            <div className="contact-item">
-                                <span className="contact-icon">📞</span>
+                            <div className="contact-item phone">
                                 <div className="contact-text">
                                     <h3>Телефон</h3>
                                     <p>
@@ -48,8 +43,7 @@ const Contact: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="contact-item">
-                                <span className="contact-icon">✉️</span>
+                            <div className="contact-item email">
                                 <div className="contact-text">
                                     <h3>Email</h3>
                                     <p>
@@ -60,8 +54,7 @@ const Contact: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="contact-item">
-                                <span className="contact-icon">🕒</span>
+                            <div className="contact-item hours">
                                 <div className="contact-text">
                                     <h3>Режим работы</h3>
                                     <p>{contactInfo.workingHours}</p>
@@ -70,7 +63,7 @@ const Contact: React.FC = () => {
                         </div>
 
                         {/* Социальные сети */}
-                        {(contactInfo.socialLinks.telegram || contactInfo.socialLinks.whatsapp || contactInfo.socialLinks.vk) && (
+                        {(contactInfo.socialLinks.telegram || contactInfo.socialLinks.whatsapp || contactInfo.socialLinks.vk || contactInfo.socialLinks.instagram) && (
                             <div className="social-section">
                                 <h3>Мы в социальных сетях</h3>
                                 <div className="social-buttons">
@@ -81,7 +74,6 @@ const Contact: React.FC = () => {
                                             rel="noopener noreferrer"
                                             className="social-btn telegram"
                                         >
-                                            <span className="social-icon">📱</span>
                                             Telegram
                                         </a>
                                     )}
@@ -92,7 +84,6 @@ const Contact: React.FC = () => {
                                             rel="noopener noreferrer"
                                             className="social-btn whatsapp"
                                         >
-                                            <span className="social-icon">💬</span>
                                             WhatsApp
                                         </a>
                                     )}
@@ -103,8 +94,17 @@ const Contact: React.FC = () => {
                                             rel="noopener noreferrer"
                                             className="social-btn vk"
                                         >
-                                            <span className="social-icon">👥</span>
                                             VK
+                                        </a>
+                                    )}
+                                    {contactInfo.socialLinks.instagram && (
+                                        <a
+                                            href={contactInfo.socialLinks.instagram}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="social-btn instagram"
+                                        >
+                                            Instagram
                                         </a>
                                     )}
                                 </div>
@@ -115,13 +115,13 @@ const Contact: React.FC = () => {
                     {/* Карта */}
                     {contactInfo.mapEmbedUrl && (
                         <div className="map-section">
-                            <h2>Мы на карте</h2>
+                            <h2>На карте</h2>
                             <div className="map-container">
                                 <iframe
                                     src={contactInfo.mapEmbedUrl}
                                     width="100%"
                                     height="400"
-                                    style={{ border: 0, borderRadius: '8px' }}
+                                    style={{ border: 0, borderRadius: '16px' }}
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"

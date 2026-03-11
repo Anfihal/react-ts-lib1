@@ -1,3 +1,4 @@
+// src/components/layout/Header.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
@@ -17,7 +18,6 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
     const userMenuRef = useRef<HTMLDivElement>(null);
 
-    // Универсальные функции для путей
     const getCorrectPath = (path: string): string => {
         return getRoutePath(path);
     };
@@ -26,11 +26,36 @@ const Header: React.FC = () => {
         return getAssetPath(path);
     };
 
-    // Определяем текущую зону с учетом базового пути
     const currentPath = location.pathname;
     const isAdminArea = currentPath.includes('/admin');
     const isGuestArea = currentPath.includes('/guest');
     const isLoginPage = currentPath.endsWith('/login');
+    const isRegisterPage = currentPath.endsWith('/register');
+
+    const isPublicRoute = [
+        '/',
+        '/services',
+        '/shop',
+        '/about',
+        '/contact',
+        '/reviews',
+        '/login',
+        '/register'
+    ].some(route => currentPath === getCorrectPath(route) || currentPath === route);
+
+    // Легкая логика редиректов ТОЛЬКО для авторизованных пользователей
+    useEffect(() => {
+        if (state.isAuthenticated) {
+            if (state.isAdmin && isPublicRoute && !isAdminArea) {
+                navigate(getCorrectPath('/admin'));
+                return;
+            }
+            if (!state.isAdmin && isPublicRoute && !isGuestArea && !isLoginPage && !isRegisterPage) {
+                navigate(getCorrectPath('/guest'));
+                return;
+            }
+        }
+    }, [state.isAuthenticated, state.isAdmin, isAdminArea, isGuestArea, isPublicRoute, isLoginPage, isRegisterPage, currentPath, navigate]);
 
     const toggleTheme = (): void => {
         dispatch({ type: 'TOGGLE_THEME' });
@@ -50,17 +75,6 @@ const Header: React.FC = () => {
         setIsUserMenuOpen(!isUserMenuOpen);
     };
 
-    // Автоматический переход в гостевую зону после авторизации
-    useEffect(() => {
-        if (state.isAuthenticated && !state.isAdmin && !isGuestArea && !isAdminArea && !isLoginPage) {
-            const targetPath = getCorrectPath('/guest');
-            if (location.pathname !== targetPath) {
-                navigate(targetPath);
-            }
-        }
-    }, [state.isAuthenticated, state.isAdmin, isAdminArea, isGuestArea, isLoginPage, location.pathname, navigate]);
-
-    // Закрытие меню при клике вне его
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent): void => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
@@ -74,79 +88,77 @@ const Header: React.FC = () => {
         };
     }, []);
 
-    // Навигация для разных зон
     const getNavigationLinks = (): NavigationLink[] => {
-        // Админская зона
         if (isAdminArea) {
             return [
-                { to: getCorrectPath("/admin"), label: "📊 Панель управления" },
-                { to: getCorrectPath("/services"), label: "🛍️ Услуги" },
-                { to: getCorrectPath("/shop"), label: "🛍️ Магазин" },
-                { to: getCorrectPath("/about"), label: "📧 О нас" },
+                { to: getCorrectPath("/admin"), label: "Дашборд" },
+                { to: getCorrectPath("/admin/home"), label: "Главная" },
+                { to: getCorrectPath("/admin/chat"), label: "Чат поддержки" },
+                { to: getCorrectPath("/admin/stats"), label: "Статистика" },
+                { to: getCorrectPath("/admin/services"), label: "Услуги" },
+                { to: getCorrectPath("/admin/products"), label: "Товары" },
+                { to: getCorrectPath("/admin/users"), label: "Пользователи" },
+                { to: getCorrectPath("/admin/contact"), label: "Контакты" },
+                { to: getCorrectPath("/admin/about"), label: "О нас" },
+                { to: getCorrectPath("/admin/reviews"), label: "Отзывы" }
             ];
         }
 
-        // Зона личного кабинета гостя
         if (isGuestArea) {
             return [
-                { to: getCorrectPath("/guest/Dashboard"), label: "📊 Обзор" },
-                { to: getCorrectPath("/guest/guestprofile"), label: "👤 Профиль" },
-                { to: getCorrectPath("/guest/guestorders"), label: "📦 Мои заказы" },
-                { to: getCorrectPath("/guest/guestservices"), label: "🛍️ Услуги" },
-                { to: getCorrectPath("/guest/guestshop"), label: "🛍️ Магазин" },
-                { to: getCorrectPath("/guest/cart"), label: "🛒 Корзина" },
-                { to: getCorrectPath("/guest/guestabout"), label: "📧 О нас" },
-                { to: getCorrectPath("/guest/guestcontact"), label: "📞 Контакты" }
+                { to: getCorrectPath("/guest"), label: "Обзор" },
+                { to: getCorrectPath("/guest/guestprofile"), label: "Профиль" },
+                { to: getCorrectPath("/guest/guestorders"), label: "Мои заказы" },
+                { to: getCorrectPath("/guest/guestservices"), label: "Услуги" },
+                { to: getCorrectPath("/guest/guestshop"), label: "Магазин" },
+                { to: getCorrectPath("/guest/cart"), label: "Корзина" },
+                { to: getCorrectPath("/guest/guestabout"), label: "О нас" },
+                { to: getCorrectPath("/guest/reviews"), label: "Отзывы" },
+                { to: getCorrectPath("/guest/guestcontact"), label: "Контакты" }
             ];
         }
 
-        // Основной сайт
         const mainLinks: NavigationLink[] = [
             { to: getCorrectPath("/"), label: "Главная" },
             { to: getCorrectPath("/services"), label: "Услуги" },
             { to: getCorrectPath("/shop"), label: "Магазин" },
             { to: getCorrectPath("/about"), label: "О нас" },
-            { to: getCorrectPath("/contact"), label: "Контакты" }
+            { to: getCorrectPath("/contact"), label: "Контакты" },
+            { to: getCorrectPath("/reviews"), label: "Отзывы" }
         ];
 
-        // Добавляем ссылки на панели для авторизованных пользователей
         if (state.isAuthenticated) {
             if (state.isAdmin) {
-                mainLinks.push({ to: getCorrectPath("/admin"), label: "🛠️ Админ" });
+                mainLinks.push({ to: getCorrectPath("/admin"), label: "Админка" });
             } else {
-                mainLinks.push({ to: getCorrectPath("/guest"), label: "📊 Кабинет" });
+                mainLinks.push({ to: getCorrectPath("/guest"), label: "Кабинет" });
             }
         }
 
+        // ❌ НЕ ДОБАВЛЯЕМ "Войти" В МЕНЮ — ОНА БУДЕТ ТОЛЬКО В HEADER-ACTIONS
         return mainLinks;
     };
 
-    // Ссылка для дашборда в меню пользователя
     const getDashboardLink = (): string => {
         return getCorrectPath(state.isAdmin ? '/admin' : '/guest');
     };
 
-    // Ссылка для профиля в меню пользователя
     const getProfileLink = (): string => {
         return getCorrectPath(state.isAdmin ? '/admin/profile' : '/guest/guestprofile');
     };
 
-    // Текст для дашборда в меню пользователя
     const getDashboardLabel = (): string => {
-        return state.isAdmin ? '🛠️ Панель управления' : '📊 Личный кабинет';
+        return state.isAdmin ? 'Панель управления' : 'Личный кабинет';
     };
 
-    // Текст для профиля в меню пользователя
     const getProfileLabel = (): string => {
-        return state.isAdmin ? '👑 Профиль администратора' : '👤 Профиль';
+        return state.isAdmin ? 'Профиль администратора' : 'Профиль';
     };
 
-    // Роль пользователя для отображения
     const getUserRole = (): string => {
-        return state.isAdmin ? '👑 Администратор' : '👤 Пользователь';
+        return state.isAdmin ? 'Администратор' : 'Пользователь';
     };
 
-    // Обработчик клика по логотипу
     const handleLogoClick = (e: React.MouseEvent) => {
         if (state.isAuthenticated && !state.isAdmin) {
             e.preventDefault();
@@ -154,16 +166,14 @@ const Header: React.FC = () => {
         }
     };
 
-    // Проверка активной ссылки с учетом базового пути
     const isLinkActive = (linkTo: string): boolean => {
         return location.pathname === linkTo;
     };
 
     return (
-        <header className={`header ${isAdminArea ? 'admin-header' : ''} ${isGuestArea ? 'guest-header' : ''}`}>
+        <header className={`header ${isAdminArea ? 'admin-header' : ''} ${isGuestArea ? 'guest-header' : ''} ${isPublicRoute ? 'public-header' : ''}`}>
             <div className="container">
                 <div className="header-content">
-                    {/* Логотип */}
                     <Link
                         to={getCorrectPath(state.isAuthenticated && !state.isAdmin ? '/guest' : '/')}
                         className="logo"
@@ -177,14 +187,12 @@ const Header: React.FC = () => {
                                 : getCorrectImagePath("/images/logo/logo-white.png")
                             }
                             onError={(e) => {
-                                // Fallback на прозрачный пиксель если изображение не загрузилось
                                 console.warn('Failed to load image:', e.currentTarget.src);
                                 e.currentTarget.style.display = 'none';
                             }}
                         />
                     </Link>
 
-                    {/* Навигация */}
                     <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
                         {getNavigationLinks().map((link: NavigationLink) => (
                             <Link
@@ -198,9 +206,7 @@ const Header: React.FC = () => {
                         ))}
                     </nav>
 
-                    {/* Правая часть */}
                     <div className="header-actions">
-                        {/* Блок авторизации */}
                         {state.isAuthenticated ? (
                             <div className="user-menu" ref={userMenuRef}>
                                 <button
@@ -216,7 +222,6 @@ const Header: React.FC = () => {
                                                 alt={state.user.name || 'User'}
                                                 className="avatar-image"
                                                 onError={(e) => {
-                                                    // Fallback на букву если аватар не загрузился
                                                     e.currentTarget.style.display = 'none';
                                                 }}
                                             />
@@ -261,7 +266,7 @@ const Header: React.FC = () => {
                                             onClick={toggleTheme}
                                             type="button"
                                         >
-                                            {state.theme === 'light' ? '🌙 Тёмная тема' : '☀️ Светлая тема'}
+                                            {state.theme === 'light' ? 'Тёмная тема' : 'Светлая тема'}
                                         </button>
                                         <div className="dropdown-divider"></div>
                                         <button
@@ -269,31 +274,35 @@ const Header: React.FC = () => {
                                             onClick={handleLogout}
                                             type="button"
                                         >
-                                            🚪 Выйти
+                                            Выйти
                                         </button>
                                     </div>
                                 )}
                             </div>
                         ) : (
-                            // Для неавторизованных пользователей
                             <>
-                                <button
-                                    className="theme-toggle"
-                                    onClick={toggleTheme}
-                                    aria-label="Переключить тему"
-                                    type="button"
-                                >
-                                    {state.theme === 'light' ? '🌙' : '☀️'}
-                                </button>
-                                {!isLoginPage && (
-                                    <Link to={getCorrectPath("/login")} className="login-link">
-                                        Войти
-                                    </Link>
+                                {!isLoginPage && !isRegisterPage && (
+                                    <>
+                                        <button
+                                            className="theme-toggle"
+                                            onClick={toggleTheme}
+                                            aria-label="Переключить тему"
+                                            type="button"
+                                        >
+                                            {state.theme === 'light' ? '🌙' : '☀️'}
+                                        </button>
+                                        <Link
+                                            to={getCorrectPath("/login")}
+                                            className="login-link"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            Войти
+                                        </Link>
+                                    </>
                                 )}
                             </>
                         )}
 
-                        {/* Кнопка мобильного меню */}
                         <button
                             className={`menu-toggle ${isMenuOpen ? 'menu-open' : ''}`}
                             onClick={toggleMenu}

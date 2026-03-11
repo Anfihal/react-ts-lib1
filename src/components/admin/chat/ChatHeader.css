@@ -1,0 +1,212 @@
+/* === ChatHeader.css === */
+
+.chat-widget-header {
+    padding: 16px;
+    background: #0088cc;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px 16px 0 0;
+}
+
+/* Темы */
+.chat-widget-header.dark {
+    background: #4986cc;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.chat-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.chat-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.chat-user-avatar.online {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-user-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.chat-user-name {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-user-status {
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-action-btn {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.chat-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-action-btn.minimize svg {
+    width: 12px;
+    height: 2px;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .chat-widget-header {
+        padding: 12px;
+    }
+
+    .chat-user-name {
+        font-size: 13px;
+    }
+
+    .chat-user-status {
+        font-size: 10px;
+    }
+}
+
+/* === ChatWidget.css === */
+
+.chat-widget {
+    position: fixed;
+    z-index: 1000;
+}
+
+.chat-widget.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.chat-widget.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+/* Стеклянная тема */
+.chat-widget.light {
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-primary: #051321;
+    --text-secondary: #314c5c;
+    --accent: #3e85a5;
+    --shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.15);
+}
+
+.chat-widget.dark {
+    --glass-bg: rgba(15, 52, 78, 0.6);
+    --glass-border: rgba(215, 229, 234, 0.15);
+    --text-primary: #f8f9fa;
+    --text-secondary: #d7e5ea;
+    --accent: #3e85a5;
+    --shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.3);
+}
+
+/* Кнопка открытия */
+.chat-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.chat-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(62, 133, 165, 0.3);
+    border-color: var(--accent);
+}
+
+/* Контейнер чата */
+.chat-container {
+    width: 380px;
+    height: 560px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.chat-container.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+@media (max-width: 480px) {
+
+    .chat-widget.bottom-right,
+    .chat-widget.bottom-left {
+        bottom: 16px;
+        right: 16px;
+        left: auto;
+    }
+
+    .chat-container {
+        width: calc(100vw - 32px);
+        height: 70vh;
+        max-width: 400px;
+        max-height: 600px;
+    }
+}

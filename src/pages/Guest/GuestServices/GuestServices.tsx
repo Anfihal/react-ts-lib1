@@ -1,7 +1,6 @@
 // src/pages/Services/Services.tsx
 import React from 'react';
 import { useService } from '../../../context/ServiceContext';
-import './GuestServices.css';
 
 const Services: React.FC = () => {
     const { state } = useService();
@@ -16,6 +15,7 @@ const Services: React.FC = () => {
 
     return (
         <div className="services-page">
+            <div className="glass-overlay"></div>
             <div className="services-container">
                 <div className="services-header">
                     <h1 className="services-title">Наши услуги</h1>
@@ -33,7 +33,6 @@ const Services: React.FC = () => {
                     </div>
                 ) : (
                     <>
-
 
                         {state.services.length === 0 ? (
                             <div className="no-services">
@@ -71,7 +70,7 @@ const Services: React.FC = () => {
                                                     </span>
                                                     {service.duration && (
                                                         <span className="service-duration">
-                                                            ⏱️ {service.duration}
+                                                            {service.duration}
                                                         </span>
                                                     )}
                                                 </div>
@@ -81,13 +80,13 @@ const Services: React.FC = () => {
                                                         className="consult-btn"
                                                         onClick={() => handleConsultation(service.name)}
                                                     >
-                                                        📞 Получить консультацию
+                                                        Получить консультацию
                                                     </button>
                                                     <button
                                                         className="details-btn"
                                                         onClick={() => handleDetails(service.name)}
                                                     >
-                                                        ℹ️ заказать
+                                                        Заказать
                                                     </button>
                                                 </div>
                                             </div>
@@ -102,7 +101,7 @@ const Services: React.FC = () => {
                     <h2>Не нашли нужную услугу?</h2>
                     <p>Свяжитесь с нами для обсуждения индивидуального решения</p>
                     <button className="cta-button" onClick={() => handleConsultation('индивидуальное решение')}>
-                        💬 Обсудить проект
+                        Обсудить проект
                     </button>
                 </div>
             </div>

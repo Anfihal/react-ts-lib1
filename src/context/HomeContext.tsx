@@ -49,7 +49,6 @@ const initialHomeContent: HomeContent = {
     videoPoster: '/images/video-poster.jpg',
     primaryButtonText: 'Начать проект',
     secondaryButtonText: 'Узнать больше',
-    primaryButtonIcon: '🚀',
     createdAt: new Date(),
     updatedAt: new Date()
 };

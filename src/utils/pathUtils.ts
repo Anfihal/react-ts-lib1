@@ -1,75 +1,68 @@
-// Универсальная утилита для путей - работает на любом сервере
-export class PathHelper {
-    private static basePath: string = '';
+// src/utils/pathUtils.ts
+/**
+ * Утилиты для работы с путями в Vite
+ */
 
-    // Инициализация базового пути
-    static init() {
-        if (typeof window !== 'undefined') {
-            const path = window.location.pathname;
+// Базовый путь из окружения Vite
+const BASE_PATH = import.meta.env.BASE_URL || '';
 
-            // Автоматически определяем базовый путь
-            if (path.includes('/react-ts-lib1')) {
-                this.basePath = '/react-ts-lib1';
-            } else if (path.includes('/')) {
-                // Для других подпапок
-                const segments = path.split('/').filter(seg => seg);
-                if (segments.length > 0 && !segments[0].includes('.')) {
-                    this.basePath = `/${segments[0]}`;
-                }
-            }
-            // Для корневого домена basePath останется пустым
-        }
+/**
+ * Получение пути для маршрутизации
+ */
+export const getRoutePath = (path: string): string => {
+    // Убираем дублирование базового пути
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+    // Если путь уже содержит базовый путь, возвращаем как есть
+    if (BASE_PATH && normalizedPath.startsWith(BASE_PATH)) {
+        return normalizedPath;
     }
 
-    // Для ассетов (изображения, стили) - УНИВЕРСАЛЬНАЯ
-    static getAssetPath(path: string): string {
-        const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-        // Всегда используем относительные пути или с правильным basePath
-        return this.basePath ? `${this.basePath}/${cleanPath}` : `/${cleanPath}`;
-    }
-
-    // Для маршрутов React Router
-    static getRoutePath(path: string): string {
-        return this.basePath ? `${this.basePath}${path}` : path;
-    }
-
-    // Получить базовый путь для Router
-    static getBasePath(): string {
-        return this.basePath;
-    }
-
-    // Проверить текущее окружение
-    static isGitHubPages(): boolean {
-        return this.basePath === '/react-ts-lib1';
-    }
-
-    static isLocalhost(): boolean {
-        return typeof window !== 'undefined' &&
-            (window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1');
-    }
-
-    static isProduction(): boolean {
-        // Используем Vite env вместо process.env
-        return import.meta.env.PROD;
-    }
-
-    static isDevelopment(): boolean {
-        // Используем Vite env вместо process.env
-        return import.meta.env.DEV;
-    }
-}
-
-// Инициализируем при импорте
-if (typeof window !== 'undefined') {
-    PathHelper.init();
-}
-
-// Устаревшая функция для обратной совместимости
-export const getAssetPath = (path: string): string => {
-    return PathHelper.getAssetPath(path);
+    // Добавляем базовый путь
+    return `${BASE_PATH}${normalizedPath}`;
 };
 
-export const getRoutePath = (path: string): string => {
-    return PathHelper.getRoutePath(path);
+/**
+ * Получение пути для ассетов (изображения, стили) в Vite
+ */
+export const getAssetPath = (path: string): string => {
+    const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+
+    // В Vite ассеты обрабатываются по-разному в dev и production
+    if (import.meta.env.DEV) {
+        // В режиме разработки используем абсолютные пути
+        return `/${normalizedPath}`;
+    } else {
+        // В production используем базовый путь
+        if (BASE_PATH) {
+            return `${BASE_PATH}/${normalizedPath}`;
+        }
+        return `/${normalizedPath}`;
+    }
+};
+
+/**
+ * Проверка активного пути
+ */
+export const isActivePath = (currentPath: string, targetPath: string): boolean => {
+    // Нормализуем пути (убираем trailing slash)
+    const normalizedCurrent = currentPath.replace(/\/$/, '');
+    const normalizedTarget = targetPath.replace(/\/$/, '');
+
+    return normalizedCurrent === normalizedTarget;
+};
+
+/**
+ * Вспомогательные функции для определения окружения
+ */
+export const isDevelopment = (): boolean => {
+    return import.meta.env.DEV;
+};
+
+export const isProduction = (): boolean => {
+    return import.meta.env.PROD;
+};
+
+export const getBaseUrl = (): string => {
+    return BASE_PATH;
 };

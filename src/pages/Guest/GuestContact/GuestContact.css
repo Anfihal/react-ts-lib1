@@ -1,292 +1,286 @@
-.contact-page {
-    padding: 4rem 0;
-    min-height: 80vh;
+/* Глобальные переменные темы — fallback */
+:root {
+    --fg: #000000;
+    --bg: #ffffff;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --card-bg: rgba(255, 255, 255, 0.6);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-.contact-container {
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fg: #f1f5f9;
+        --bg: #0f172a;
+        --muted: #94a3b8;
+        --border: #334155;
+        --card-bg: rgba(30, 41, 59, 0.45);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* Страница контактов */
+.guest-contact-page {
+    min-height: 100vh;
+    padding: 4rem 0;
+    color: var(--fg);
+    position: relative;
+    overflow-x: hidden;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Фон светлой темы */
+@media (prefers-color-scheme: light) {
+    .guest-contact-page {
+        background:
+            url('/images/bg-light.gif') center/cover fixed,
+            linear-gradient(135deg, rgba(185, 185, 185, 0.85), rgba(0, 0, 0, 0.9));
+        background-blend-mode: overlay;
+    }
+}
+
+/* Фон тёмной темы */
+@media (prefers-color-scheme: dark) {
+    .guest-contact-page {
+        background:
+            url('/images/bg-dark.gif') center/cover fixed,
+            linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.95));
+        background-blend-mode: overlay;
+    }
+}
+
+.guest-contact-page .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+    z-index: 1;
 }
 
-.contact-page h1 {
+.guest-contact-page .section-title {
     text-align: center;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--fg);
+    position: relative;
 }
 
-.contact-page>.contact-container>p {
+.guest-contact-page .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    margin: 0.75rem auto 0;
+    border-radius: 2px;
+}
+
+.guest-contact-page .section-subtitle {
     text-align: center;
-    color: var(--text-secondary);
-    margin-bottom: 3rem;
-    font-size: 1.2rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 3rem;
 }
 
-.contact-content {
+/* Макет */
+.guest-contact-page .contact-main {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 3rem;
     margin-top: 2rem;
 }
 
-.contact-info-section {
-    background: var(--background);
+/* Общий стиль карточек (стеклянный эффект) */
+.guest-contact-page .info-panel,
+.guest-contact-page .contact-form {
+    background: var(--card-bg);
+    border-radius: 24px;
     padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow);
     border: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    /* Safari support */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    /* fallback if backdrop-filter unsupported */
+    background: var(--card-bg)
+        /* important fallback */
+    ;
 }
 
-.contact-info-section h2 {
-    color: var(--text-primary);
-    margin-bottom: 2rem;
+/* Акцентная полоса сверху */
+.guest-contact-page .info-panel::before,
+.guest-contact-page .contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.6;
+}
+
+.guest-contact-page .info-panel:hover,
+.guest-contact-page .contact-form:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    border-color: var(--accent);
+}
+
+/* Заголовки внутри карточек */
+.guest-contact-page .info-panel h2,
+.guest-contact-page .contact-form h2 {
+    color: var(--accent);
+    margin-bottom: 1.5rem;
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 700;
+    text-align: center;
 }
 
-.contact-details {
+/* Контактные данные */
+.guest-contact-page .contact-details {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    margin-bottom: 2rem;
 }
 
-.contact-item {
+.guest-contact-page .contact-item {
     display: flex;
     align-items: flex-start;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    background: color-mix(in srgb, var(--surface) 80%, transparent);
-    border-radius: 12px;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
     transition: all 0.3s ease;
     border: 1px solid var(--border);
 }
 
-.contact-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary);
+.guest-contact-page .contact-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(6px);
+    border-color: var(--accent);
 }
 
-.contact-icon {
-    font-size: 2rem;
+.guest-contact-page .contact-icon {
+    width: 50px;
+    height: 50px;
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
+    background: var(--accent);
+    color: white;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--primary);
-    border-radius: 12px;
-    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
-.contact-text {
-    flex: 1;
-}
-
-.contact-text h3 {
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+.guest-contact-page .contact-text h3 {
+    color: var(--fg);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
     font-weight: 600;
 }
 
-.contact-text p {
-    color: var(--text-secondary);
+.guest-contact-page .contact-text p,
+.guest-contact-page .contact-text a {
+    color: var(--muted);
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.5;
-}
-
-.contact-link {
-    color: var(--primary);
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
-.contact-link:hover {
-    color: var(--primary-dark);
+.guest-contact-page .contact-text a:hover {
+    color: var(--accent);
     text-decoration: underline;
 }
 
-/* Социальные сети */
-.social-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-}
-
-.social-section h3 {
-    color: var(--text-primary);
+/* Форма */
+.guest-contact-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
-    font-size: 1.4rem;
+}
+
+.guest-contact-page .form-group label {
+    color: var(--fg);
     font-weight: 600;
+    font-size: 0.95rem;
 }
 
-.social-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+.guest-contact-page .form-group input,
+.guest-contact-page .form-group textarea {
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--fg);
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
-.social-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
+.guest-contact-page .form-group input:focus,
+.guest-contact-page .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Кнопка отправки */
+.guest-contact-page .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent);
+    color: white;
     border: none;
     border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    color: white;
-    font-size: 1rem;
-    min-width: 140px;
-    justify-content: center;
-}
-
-.social-btn.telegram {
-    background: linear-gradient(135deg, #0088cc, #0077b5);
-}
-
-.social-btn.whatsapp {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-}
-
-.social-btn.vk {
-    background: linear-gradient(135deg, #4C75A3, #2a5885);
-}
-
-.social-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.social-icon {
-    font-size: 1.3rem;
-}
-
-/* Карта */
-.map-section {
-    background: var(--background);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid var(--border);
-}
-
-.map-section h2 {
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-}
-
-.map-container {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.map-container:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-.loading {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-secondary);
     font-size: 1.1rem;
-    background: var(--surface);
-    border-radius: 12px;
-    margin: 2rem 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .contact-page {
-        padding: 2rem 0;
-    }
-
-    .contact-container {
-        padding: 0 1rem;
-    }
-
-    .contact-page h1 {
-        font-size: 2rem;
-    }
-
-    .contact-info-section,
-    .map-section {
-        padding: 1.5rem;
-    }
-
-    .contact-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-        padding: 1.25rem;
-    }
-
-    .contact-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        margin: 0 auto;
-    }
-
-    .social-buttons {
-        flex-direction: column;
-    }
-
-    .social-btn {
-        min-width: auto;
-        width: 100%;
-    }
-
-    .contact-content {
-        gap: 2rem;
-    }
+.guest-contact-page .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.6s;
 }
 
-@media (max-width: 480px) {
-    .contact-page {
-        padding: 1.5rem 0;
-    }
+.guest-contact-page .submit-btn:hover::before {
+    left: 100%;
+}
 
-    .contact-page h1 {
-        font-size: 1.75rem;
-    }
-
-    .contact-info-section,
-    .map-section {
-        padding: 1.25rem;
-    }
-
-    .contact-item {
-        padding: 1rem;
-    }
-
-    .contact-text h3 {
-        font-size: 1.1rem;
-    }
-
-    .contact-text p {
-        font-size: 1rem;
-    }
+.guest-contact-page .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
 }
 
 /* Анимации */
-@keyframes fadeIn {
+@keyframes guestContactFadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
     to {
@@ -295,54 +289,197 @@
     }
 }
 
-.contact-item {
-    animation: fadeIn 0.5s ease-out;
+.guest-contact-page .info-panel,
+.guest-contact-page .contact-form {
+    animation: guestContactFadeIn 0.7s ease-out;
 }
 
-.contact-item:nth-child(1) {
+.guest-contact-page .contact-item {
+    animation: guestContactFadeIn 0.6s ease-out;
+}
+
+.guest-contact-page .contact-item:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.contact-item:nth-child(2) {
+.guest-contact-page .contact-item:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.contact-item:nth-child(3) {
+.guest-contact-page .contact-item:nth-child(3) {
     animation-delay: 0.3s;
 }
 
-.contact-item:nth-child(4) {
+.guest-contact-page .contact-item:nth-child(4) {
     animation-delay: 0.4s;
 }
 
-/* Темная тема */
-@media (prefers-color-scheme: dark) {
-
-    .contact-info-section,
-    .map-section {
-        background: color-mix(in srgb, var(--background) 95%, transparent);
-    }
-
-    .contact-item {
-        background: color-mix(in srgb, var(--surface) 60%, transparent);
+/* Адаптивность */
+@media (max-width: 992px) {
+    .guest-contact-page .contact-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 }
 
-/* Поддержка reduced-motion */
+@media (max-width: 768px) {
+    .guest-contact-page {
+        padding: 2rem 0;
+    }
+
+    .guest-contact-page .container {
+        padding: 0 1.5rem;
+    }
+
+    .guest-contact-page .section-title {
+        font-size: 2rem;
+    }
+
+    .guest-contact-page .contact-main {
+        gap: 1.5rem;
+    }
+
+    .guest-contact-page .info-panel,
+    .guest-contact-page .contact-form {
+        padding: 2rem;
+    }
+
+    .guest-contact-page .contact-item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .guest-contact-page .contact-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .guest-contact-page {
+        padding: 1.5rem 0;
+    }
+
+    .guest-contact-page .section-title {
+        font-size: 1.75rem;
+    }
+
+    .guest-contact-page .info-panel,
+    .guest-contact-page .contact-form {
+        padding: 1.5rem;
+    }
+
+    .guest-contact-page .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .guest-contact-page .submit-btn {
+        padding: 0.85rem;
+        font-size: 1rem;
+    }
+}
+
+/* Уважение к prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-
-    .contact-item,
-    .social-btn,
-    .map-container {
-        transition: none;
-        animation: none;
+    .guest-contact-page * {
+        animation: none !important;
+        transition: none !important;
     }
 
-    .contact-item:hover {
-        transform: none;
+    .guest-contact-page .info-panel:hover,
+    .guest-contact-page .contact-form:hover,
+    .guest-contact-page .contact-item:hover {
+        transform: none !important;
     }
+}
 
-    .social-btn:hover {
-        transform: none;
-    }
+/* VK */
+.social-link.vk {
+    color: #4A76A8;
+}
+
+.social-link.vk:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.social-link.vk::before {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('data:image/svg+xml;utf8,<svg width="89" height="85" viewBox="0 0 89 85" fill="none" xmlns="http://www.w3.org/2000/svg"><foreignObject x="-8.39999" y="-8" width="96.8" height="92.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(10px);clip-path:url(%23bgblur_1_210_2_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(%23filter0_di_210_2)" data-figma-bg-blur-radius="20"><g clip-path="url(%23clip0_210_2)"><rect x="12" y="12.4" width="52" height="52" rx="12" fill="url(%23paint0_linear_210_2)" fill-opacity="0.04" shape-rendering="crispEdges"/><rect x="20" y="20.4" width="36" height="36" rx="9" fill="%231A76FF"/><path d="M35.9513 41.4628V32.4H39.4701V37.4194C42.2851 37.0848 44.064 33.9337 44.6016 32.4H48.2669C47.8271 35.6068 44.9192 38.0701 43.4287 38.8137C45.9211 39.5805 49 43.2754 49 45.3668H45.188C43.7805 41.7974 40.7896 40.7192 39.4701 40.6262V45.3668C31.1864 45.9245 26.7879 39.3714 27.0079 32.4H30.6732C30.8931 38.9531 34.4119 40.9051 35.9513 41.4628Z" fill="white"/><g filter="url(%23filter1_f_210_2)"><ellipse cx="36.5" cy="59.9" rx="11.5" ry="6.5" fill="%230A77E8"/></g></g><rect x="12" y="12.4" width="52" height="52" rx="12" stroke="url(%23paint1_linear_210_2)" stroke-opacity="0.5" stroke-width="0.8" shape-rendering="crispEdges"/></g><g style="mix-blend-mode:screen" filter="url(%23filter2_f_210_2)"><circle cx="29" cy="29.4" r="9" fill="white" fill-opacity="0.18"/></g><defs><filter id="filter0_di_210_2" x="-8.39999" y="-8" width="96.8" height="92.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="8" dy="4"/><feGaussianBlur stdDeviation="8"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_210_2"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_210_2" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="4"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.158333 0 0 0 0 0.495 0 0 0 0 1 0 0 0 0.32 0"/><feBlend mode="normal" in2="shape" result="effect2_innerShadow_210_2"/></filter><clipPath id="bgblur_1_210_2_clip_path" transform="translate(8.39999 8)"><rect x="12" y="12.4" width="52" height="52" rx="12"/></clipPath><filter id="filter1_f_210_2" x="7" y="35.4" width="59" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="9" result="effect1_foregroundBlur_210_2"/></filter><filter id="filter2_f_210_2" x="0" y="0.400002" width="58" height="58" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_210_2"/></filter><linearGradient id="paint0_linear_210_2" x1="12" y1="12.4" x2="64" y2="64.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23F8FBFF"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><linearGradient id="paint1_linear_210_2" x1="13.0833" y1="11.3167" x2="62.375" y2="64.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23D8D8D8" stop-opacity="0.05"/><stop offset="1" stop-color="white" stop-opacity="0.4"/></linearGradient><clipPath id="clip0_210_2"><rect x="12" y="12.4" width="52" height="52" rx="12" fill="white"/></clipPath></defs></svg>') no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+    border-radius: 12px;
+}
+
+
+/* Telegram */
+.social-link.telegram {
+    color: #0088CC;
+}
+
+.social-link.telegram:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.social-link.telegram::before {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('data:image/svg+xml;utf8,<svg width="85" height="81" viewBox="0 0 85 81" fill="none" xmlns="http://www.w3.org/2000/svg"><foreignObject x="-8.39999" y="-8" width="92.8" height="88.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(10px);clip-path:url(%23bgblur_1_1_575_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(%23filter0_di_1_575)" data-figma-bg-blur-radius="20"><g clip-path="url(%23clip0_1_575)"><rect x="12" y="12.4" width="48" height="48" rx="12" fill="url(%23paint0_linear_1_575)" fill-opacity="0.04" shape-rendering="crispEdges"/><g style="mix-blend-mode:plus-lighter" opacity="0.5" filter="url(%23filter1_f_1_575)"><path d="M42.9866 30.6088C43.1112 29.8033 42.3454 29.1675 41.6292 29.482L27.3648 35.7448C26.8512 35.9703 26.8888 36.7483 27.4215 36.9179L30.3631 37.8547C30.9246 38.0335 31.5325 37.941 32.0228 37.6023L38.655 33.0203C38.855 32.8821 39.073 33.1665 38.9021 33.3426L34.1281 38.2646C33.665 38.7421 33.7569 39.5512 34.314 39.9005L39.659 43.2523C40.2585 43.6282 41.0297 43.2506 41.1418 42.5261L42.9866 30.6088Z" fill="white"/></g><circle cx="36" cy="36.4" r="14" fill="url(%23paint1_linear_1_575)"/><path d="M42.9866 30.6088C43.1112 29.8033 42.3454 29.1675 41.6292 29.482L27.3648 35.7448C26.8512 35.9703 26.8888 36.7483 27.4215 36.9179L30.3631 37.8547C30.9246 38.0335 31.5325 37.941 32.0228 37.6023L38.655 33.0203C38.855 32.8821 39.073 33.1665 38.9021 33.3426L34.1281 38.2646C33.665 38.7421 33.7569 39.5512 34.314 39.9005L39.659 43.2523C40.2585 43.6282 41.0297 43.2506 41.1418 42.5261L42.9866 30.6088Z" fill="white"/><g filter="url(%23filter2_f_1_575)"><ellipse cx="36.5" cy="59.9" rx="11.5" ry="6.5" fill="%231893D1"/></g></g><rect x="12" y="12.4" width="48" height="48" rx="12" stroke="url(%23paint2_linear_1_575)" stroke-opacity="0.5" stroke-width="0.8" shape-rendering="crispEdges"/></g><g style="mix-blend-mode:screen" filter="url(%23filter3_f_1_575)"><circle cx="29" cy="29.4" r="9" fill="white" fill-opacity="0.18"/></g><defs><filter id="filter0_di_1_575" x="-8.39999" y="-8" width="92.8" height="88.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="8" dy="4"/><feGaussianBlur stdDeviation="8"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_575"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_575" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="4"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.0509804 0 0 0 0 0.707059 0 0 0 0 0.988235 0 0 0 0.32 0"/><feBlend mode="normal" in2="shape" result="effect2_innerShadow_1_575"/></filter><clipPath id="bgblur_1_1_575_clip_path" transform="translate(8.39999 8)"><rect x="12" y="12.4" width="48" height="48" rx="12"/></clipPath><filter id="filter1_f_1_575" x="8" y="8.39999" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_1_575"/></filter><filter id="filter2_f_1_575" x="7" y="35.4" width="59" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="9" result="effect1_foregroundBlur_1_575"/></filter><filter id="filter3_f_1_575" x="0" y="0.399994" width="58" height="58" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_1_575"/></filter><linearGradient id="paint0_linear_1_575" x1="12" y1="12.4" x2="60" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23F8FBFF"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><linearGradient id="paint1_linear_1_575" x1="36" y1="22.4" x2="36" y2="50.4" gradientUnits="userSpaceOnUse"><stop stop-color="%2337BBFE"/><stop offset="1" stop-color="%23007DBB"/></linearGradient><linearGradient id="paint2_linear_1_575" x1="13" y1="11.4" x2="58.5" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23D8D8D8" stop-opacity="0.05"/><stop offset="1" stop-color="white" stop-opacity="0.4"/></linearGradient><clipPath id="clip0_1_575"><rect x="12" y="12.4" width="48" height="48" rx="12" fill="white"/></clipPath></defs></svg>') no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+    border-radius: 12px;
+
+}
+
+
+/* WhatsApp */
+.social-link.whatsapp {
+    color: #28DD43;
+}
+
+.social-link.whatsapp:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.social-link.whatsapp::before {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('data:image/svg+xml;utf8,<svg width="85" height="81" viewBox="0 0 85 81" fill="none" xmlns="http://www.w3.org/2000/svg"><foreignObject x="-8.39999" y="-8" width="92.8" height="88.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(10px);clip-path:url(%23bgblur_1_1_569_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(%23filter0_di_1_569)" data-figma-bg-blur-radius="20"><g clip-path="url(%23clip0_1_569)"><rect x="12" y="12.4" width="48" height="48" rx="12" fill="url(%23paint0_linear_1_569)" fill-opacity="0.04" shape-rendering="crispEdges"/><g style="mix-blend-mode:plus-lighter" opacity="0.5" filter="url(%23filter1_f_1_569)"><path d="M48 36.4C48 43.0274 42.6274 48.4 36 48.4C33.4722 48.4 31.1269 47.6184 29.1927 46.2836L25.0909 47.3091L26.1658 43.2784C24.8009 41.3307 24 38.9589 24 36.4C24 29.7726 29.3726 24.4 36 24.4C42.6274 24.4 48 29.7726 48 36.4Z" fill="url(%23paint1_linear_1_569)"/></g><path fill-rule="evenodd" clip-rule="evenodd" d="M36 51.4C43.732 51.4 50 45.132 50 37.4C50 29.668 43.732 23.4 36 23.4C28.268 23.4 22 29.668 22 37.4C22 39.9109 22.661 42.2674 23.8185 44.305L22 51.4L29.3149 49.7038C31.3014 50.7854 33.5789 51.4 36 51.4ZM36 49.2461C42.5425 49.2461 47.8462 43.9424 47.8462 37.4C47.8462 30.8575 42.5425 25.5538 36 25.5538C29.4576 25.5538 24.1538 30.8575 24.1538 37.4C24.1538 39.9261 24.9445 42.2675 26.2918 44.1902L25.2308 48.1692L29.2799 47.1569C31.1894 48.4746 33.5046 49.2461 36 49.2461Z" fill="%23BFC8D0"/><path d="M48 36.4C48 43.0274 42.6274 48.4 36 48.4C33.4722 48.4 31.1269 47.6184 29.1927 46.2836L25.0909 47.3091L26.1658 43.2784C24.8009 41.3307 24 38.9589 24 36.4C24 29.7726 29.3726 24.4 36 24.4C42.6274 24.4 48 29.7726 48 36.4Z" fill="url(%23paint2_linear_1_569)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M36 50.4C43.732 50.4 50 44.132 50 36.4C50 28.668 43.732 22.4 36 22.4C28.268 22.4 22 28.668 22 36.4C22 38.9109 22.661 41.2674 23.8185 43.305L22 50.4L29.3149 48.7038C31.3014 49.7854 33.5789 50.4 36 50.4ZM36 48.2461C42.5425 48.2461 47.8462 42.9424 47.8462 36.4C47.8462 29.8575 42.5425 24.5538 36 24.5538C29.4576 24.5538 24.1538 29.8575 24.1538 36.4C24.1538 38.9261 24.9445 41.2675 26.2918 43.1902L25.2308 47.1692L29.2799 46.1569C31.1894 47.4746 33.5046 48.2461 36 48.2461Z" fill="white"/><path d="M32.5 29.9C32.1672 29.2314 31.6565 29.2906 31.1407 29.2906C30.2188 29.2906 28.7812 30.3949 28.7812 32.4501C28.7813 34.1344 29.5234 35.9781 32.0244 38.7362C34.438 41.398 37.6094 42.7749 40.2422 42.7281C42.875 42.6812 43.4167 40.4156 43.4167 39.6504C43.4167 39.3113 43.2062 39.1421 43.0613 39.0961C42.1641 38.6656 40.5093 37.8633 40.1328 37.7125C39.7563 37.5618 39.5597 37.7657 39.4375 37.8766C39.0961 38.202 38.4193 39.1609 38.1875 39.3766C37.9558 39.5923 37.6103 39.4831 37.4665 39.4016C36.9374 39.1893 35.5029 38.5512 34.3595 37.4427C32.9453 36.0719 32.8623 35.6003 32.5959 35.1804C32.3828 34.8446 32.5392 34.6385 32.6172 34.5484C32.9219 34.1969 33.3426 33.6541 33.5313 33.3844C33.7199 33.1147 33.5702 32.7051 33.4803 32.4501C33.0938 31.3531 32.7663 30.4349 32.5 29.9Z" fill="white"/><g filter="url(%23filter2_f_1_569)"><ellipse cx="36.5" cy="59.9" rx="11.5" ry="6.5" fill="%2328DD43"/></g></g><rect x="12" y="12.4" width="48" height="48" rx="12" stroke="url(%23paint3_linear_1_569)" stroke-opacity="0.5" stroke-width="0.8" shape-rendering="crispEdges"/></g><g style="mix-blend-mode:screen" filter="url(%23filter3_f_1_569)"><circle cx="29" cy="29.4" r="9" fill="white" fill-opacity="0.18"/></g><defs><filter id="filter0_di_1_569" x="-8.39999" y="-8" width="92.8" height="88.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="8" dy="4"/><feGaussianBlur stdDeviation="8"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_569"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_569" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="4"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.0509804 0 0 0 0 0.988235 0 0 0 0 0.144706 0 0 0 0.32 0"/><feBlend mode="normal" in2="shape" result="effect2_innerShadow_1_569"/></filter><clipPath id="bgblur_1_1_569_clip_path" transform="translate(8.39999 8)"><rect x="12" y="12.4" width="48" height="48" rx="12"/></clipPath><filter id="filter1_f_1_569" x="8" y="8.39999" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_1_569"/></filter><filter id="filter2_f_1_569" x="7" y="35.4" width="59" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="9" result="effect1_foregroundBlur_1_569"/></filter><filter id="filter3_f_1_569" x="0" y="0.399994" width="58" height="58" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_1_569"/></filter><linearGradient id="paint0_linear_1_569" x1="12" y1="12.4" x2="60" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23F8FBFF"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><linearGradient id="paint1_linear_1_569" x1="46.5" y1="27.4" x2="24" y2="48.4" gradientUnits="userSpaceOnUse"><stop stop-color="%235BD066"/><stop offset="1" stop-color="%2327B43E"/></linearGradient><linearGradient id="paint2_linear_1_569" x1="46.5" y1="27.4" x2="24" y2="48.4" gradientUnits="userSpaceOnUse"><stop stop-color="%235BD066"/><stop offset="1" stop-color="%2327B43E"/></linearGradient><linearGradient id="paint3_linear_1_569" x1="13" y1="11.4" x2="58.5" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23D8D8D8" stop-opacity="0.05"/><stop offset="1" stop-color="white" stop-opacity="0.4"/></linearGradient><clipPath id="clip0_1_569"><rect x="12" y="12.4" width="48" height="48" rx="12" fill="white"/></clipPath></defs></svg>') no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+    border-radius: 12px;
+}
+
+/* Instagram */
+.social-link.instagram {
+    color: #E1306C;
+}
+
+.social-link.instagram:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.social-link.instagram::before {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('data:image/svg+xml;utf8,<svg width="81" height="81" viewBox="0 0 81 81" fill="none" xmlns="http://www.w3.org/2000/svg"><foreignObject x="-12" y="-8" width="92.8" height="88.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(10px);clip-path:url(%23bgblur_1_1_179_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(%23filter0_di_1_179)" data-figma-bg-blur-radius="20"><g clip-path="url(%23clip0_1_179)"><rect x="8.39999" y="12.4" width="48" height="48" rx="12" fill="url(%23paint0_linear_1_179)" fill-opacity="0.04" shape-rendering="crispEdges"/><g style="mix-blend-mode:plus-lighter" opacity="0.5" filter="url(%23filter1_f_1_179)"><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint1_radial_1_179)"/><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint2_radial_1_179)"/><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint3_radial_1_179)"/></g><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint4_radial_1_179)"/><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint5_radial_1_179)"/><rect x="18.4" y="22.4" width="28" height="28" rx="6" fill="url(%23paint6_radial_1_179)"/><path d="M39.4 30.9C39.4 31.7284 38.7284 32.4 37.9 32.4C37.0716 32.4 36.4 31.7284 36.4 30.9C36.4 30.0716 37.0716 29.4 37.9 29.4C38.7284 29.4 39.4 30.0716 39.4 30.9Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M32.4 41.4C35.1614 41.4 37.4 39.1614 37.4 36.4C37.4 33.6386 35.1614 31.4 32.4 31.4C29.6386 31.4 27.4 33.6386 27.4 36.4C27.4 39.1614 29.6386 41.4 32.4 41.4ZM32.4 39.4C34.0568 39.4 35.4 38.0568 35.4 36.4C35.4 34.7431 34.0568 33.4 32.4 33.4C30.7431 33.4 29.4 34.7431 29.4 36.4C29.4 38.0568 30.7431 39.4 32.4 39.4Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.4 36C22.4 32.6397 22.4 30.9595 23.054 29.6761C23.6292 28.5471 24.5471 27.6292 25.6761 27.054C26.9595 26.4 28.6397 26.4 32 26.4H32.8C36.1603 26.4 37.8405 26.4 39.1239 27.054C40.2529 27.6292 41.1708 28.5471 41.746 29.6761C42.4 30.9595 42.4 32.6397 42.4 36V36.8C42.4 40.1603 42.4 41.8405 41.746 43.1239C41.1708 44.2529 40.2529 45.1708 39.1239 45.746C37.8405 46.4 36.1603 46.4 32.8 46.4H32C28.6397 46.4 26.9595 46.4 25.6761 45.746C24.5471 45.1708 23.6292 44.2529 23.054 43.1239C22.4 41.8405 22.4 40.1603 22.4 36.8V36ZM32 28.4H32.8C34.5132 28.4 35.6777 28.4015 36.5779 28.4751C37.4547 28.5467 37.9032 28.6766 38.216 28.836C38.9686 29.2195 39.5805 29.8314 39.964 30.584C40.1234 30.8968 40.2533 31.3452 40.3249 32.2221C40.3984 33.1222 40.4 34.2868 40.4 36V36.8C40.4 38.5132 40.3984 39.6777 40.3249 40.5779C40.2533 41.4547 40.1234 41.9032 39.964 42.216C39.5805 42.9686 38.9686 43.5805 38.216 43.964C37.9032 44.1234 37.4547 44.2533 36.5779 44.3249C35.6777 44.3984 34.5132 44.4 32.8 44.4H32C30.2868 44.4 29.1222 44.3984 28.2221 44.3249C27.3452 44.2533 26.8968 44.1234 26.584 43.964C25.8314 43.5805 25.2195 42.9686 24.836 42.216C24.6766 41.9032 24.5467 41.4547 24.4751 40.5779C24.4015 39.6777 24.4 38.5132 24.4 36.8V36C24.4 34.2868 24.4015 33.1222 24.4751 32.2221C24.5467 31.3452 24.6766 30.8968 24.836 30.584C25.2195 29.8314 25.8314 29.2195 26.584 28.836C26.8968 28.6766 27.3452 28.5467 28.2221 28.4751C29.1222 28.4015 30.2868 28.4 32 28.4Z" fill="white"/><g filter="url(%23filter2_f_1_179)"><ellipse cx="32.9" cy="59.9" rx="11.5" ry="6.5" fill="%23D4467E"/></g></g><rect x="8.39999" y="12.4" width="48" height="48" rx="12" stroke="url(%23paint7_linear_1_179)" stroke-opacity="0.5" stroke-width="0.8" shape-rendering="crispEdges"/></g><defs><filter id="filter0_di_1_179" x="-12" y="-8" width="92.8" height="88.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="8" dy="4"/><feGaussianBlur stdDeviation="8"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_179"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_179" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="4"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.744549 0 0 0 0 0.0509804 0 0 0 0 0.988235 0 0 0 0.32 0"/><feBlend mode="normal" in2="shape" result="effect2_innerShadow_1_179"/></filter><clipPath id="bgblur_1_1_179_clip_path" transform="translate(12 8)"><rect x="8.39999" y="12.4" width="48" height="48" rx="12"/></clipPath><filter id="filter1_f_1_179" x="4.39999" y="8.39999" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_1_179"/></filter><filter id="filter2_f_1_179" x="3.39999" y="35.4" width="59" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="9" result="effect1_foregroundBlur_1_179"/></filter><linearGradient id="paint0_linear_1_179" x1="8.39999" y1="12.4" x2="56.4" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23F8FBFF"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><radialGradient id="paint1_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(28.4 43.4) rotate(-55.3758) scale(25.5196)"><stop stop-color="%23B13589"/><stop offset="0.79309" stop-color="%23C62F94"/><stop offset="1" stop-color="%238A3AC8"/></radialGradient><radialGradient id="paint2_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.4 51.4) rotate(-65.1363) scale(22.5942)"><stop stop-color="%23E0E8B7"/><stop offset="0.444662" stop-color="%23FB8A2E"/><stop offset="0.71474" stop-color="%23E2425C"/><stop offset="1" stop-color="%23E2425C" stop-opacity="0"/></radialGradient><radialGradient id="paint3_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16.9 23.4) rotate(-8.1301) scale(38.8909 8.31836)"><stop offset="0.156701" stop-color="%23406ADC"/><stop offset="0.467799" stop-color="%236A45BE"/><stop offset="1" stop-color="%236A45BE" stop-opacity="0"/></radialGradient><radialGradient id="paint4_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(28.4 43.4) rotate(-55.3758) scale(25.5196)"><stop stop-color="%23B13589"/><stop offset="0.79309" stop-color="%23C62F94"/><stop offset="1" stop-color="%238A3AC8"/></radialGradient><radialGradient id="paint5_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.4 51.4) rotate(-65.1363) scale(22.5942)"><stop stop-color="%23E0E8B7"/><stop offset="0.444662" stop-color="%23FB8A2E"/><stop offset="0.71474" stop-color="%23E2425C"/><stop offset="1" stop-color="%23E2425C" stop-opacity="0"/></radialGradient><radialGradient id="paint6_radial_1_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16.9 23.4) rotate(-8.1301) scale(38.8909 8.31836)"><stop offset="0.156701" stop-color="%23406ADC"/><stop offset="0.467799" stop-color="%236A45BE"/><stop offset="1" stop-color="%236A45BE" stop-opacity="0"/></radialGradient><linearGradient id="paint7_linear_1_179" x1="9.39999" y1="11.4" x2="54.9" y2="60.4" gradientUnits="userSpaceOnUse"><stop stop-color="%23D8D8D8" stop-opacity="0.05"/><stop offset="1" stop-color="white" stop-opacity="0.4"/></linearGradient><clipPath id="clip0_1_179"><rect x="8.39999" y="12.4" width="48" height="48" rx="12" fill="white"/></clipPath></defs></svg>') no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+    border-radius: 12px;
 }

@@ -1,111 +1,82 @@
 // src/components/guest/Dashboard/Dashboard.tsx
+// src/components/admin/dashboard/Dashboard.tsx
 import React from 'react';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
     const stats = [
-        { label: 'Мои проекты', value: '3', change: '+1 новый', icon: '💼' },
-        { label: 'Активные заявки', value: '2', change: 'в работе', icon: '📝' },
-        { label: 'Завершенные', value: '5', change: 'всего', icon: '✅' },
-        { label: 'Баланс', value: '₽15,800', change: 'доступно', icon: '💰' }
+        { label: 'Всего пользователей', value: '1,234', change: '+12%', type: 'users' },
+        { label: 'Активных проектов', value: '56', change: '+5%', type: 'projects' },
+        { label: 'Новых заявок', value: '23', change: '+18%', type: 'requests' },
+        { label: 'Доход', value: '₽248,900', change: '+8%', type: 'revenue' }
     ];
 
-    const recentProjects = [
-        { name: 'Корпоративный сайт', status: 'В разработке', progress: 75, deadline: '15.12.2024' },
-        { name: 'Мобильное приложение', status: 'На утверждении', progress: 90, deadline: '20.12.2024' },
-        { name: 'Интернет-магазин', status: 'Завершен', progress: 100, deadline: '05.11.2024' }
-    ];
-
-    const quickActions = [
-        { label: 'Создать заявку', icon: '➕', description: 'Новый проект' },
-        { label: 'Оплатить счет', icon: '💳', description: 'Онлайн оплата' },
-        { label: 'Скачать отчет', icon: '📊', description: 'По проектам' },
-        { label: 'Связаться с поддержкой', icon: '💬', description: 'Помощь 24/7' }
+    const recentActivities = [
+        { user: 'Иван Петров', action: 'создал новый проект', time: '5 мин назад' },
+        { user: 'Мария Сидорова', action: 'обновила профиль', time: '1 час назад' },
+        { user: 'Алексей Козлов', action: 'оставил заявку', time: '2 часа назад' },
+        { user: 'Елена Новикова', action: 'завершила проект', time: '3 часа назад' }
     ];
 
     return (
-        <div className="guest-dashboard">
+        <div className="dashboard">
+            {/* Заголовок дашборда */}
+            <div className="dashboard-header">
+                <h1>Панель управления</h1>
+            </div>
+
             {/* Статистика */}
             <div className="stats-grid">
                 {stats.map((stat, index) => (
-                    <div key={index} className="stat-card">
-                        <div className="stat-icon">{stat.icon}</div>
+                    <div key={index} className="stat-card" data-stat={stat.type}>
+                        <div className="stat-icon"></div>
                         <div className="stat-content">
                             <h3>{stat.value}</h3>
                             <p>{stat.label}</p>
-                            <span className="stat-change">{stat.change}</span>
+                            <span className="stat-change positive">{stat.change}</span>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Основной контент */}
-            <div className="dashboard-content-grid">
-                {/* Текущие проекты */}
-                <div className="projects-card">
-                    <h2>Текущие проекты</h2>
-                    <div className="projects-list">
-                        {recentProjects.map((project, index) => (
-                            <div key={index} className="project-item">
-                                <div className="project-info">
-                                    <h4>{project.name}</h4>
-                                    <span className={`project-status ${project.status.toLowerCase().includes('завершен') ? 'completed' : 'in-progress'}`}>
-                                        {project.status}
-                                    </span>
+            <div className="dashboard-content">
+                <div className="activity-card">
+                    <h2>Последняя активность</h2>
+                    <div className="activity-list">
+                        {recentActivities.map((activity, index) => (
+                            <div key={index} className="activity-item">
+                                <div className="activity-avatar">
+                                    {activity.user.charAt(0)}
                                 </div>
-                                <div className="project-progress">
-                                    <div className="progress-bar">
-                                        <div
-                                            className="progress-fill"
-                                            style={{ width: `${project.progress}%` }}
-                                        ></div>
-                                    </div>
-                                    <span className="progress-text">{project.progress}%</span>
-                                </div>
-                                <div className="project-deadline">
-                                    До: {project.deadline}
+                                <div className="activity-details">
+                                    <strong>{activity.user}</strong> {activity.action}
+                                    <span className="activity-time">{activity.time}</span>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Быстрые действия */}
                 <div className="quick-actions-card">
                     <h2>Быстрые действия</h2>
                     <div className="actions-grid">
-                        {quickActions.map((action, index) => (
-                            <button key={index} className="action-btn">
-                                <span className="action-icon">{action.icon}</span>
-                                <div className="action-text">
-                                    <strong>{action.label}</strong>
-                                    <span>{action.description}</span>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Последние уведомления */}
-                <div className="notifications-card">
-                    <h2>Последние уведомления</h2>
-                    <div className="notifications-list">
-                        <div className="notification-item">
-                            <span className="notification-icon">📋</span>
-                            <div className="notification-content">
-                                <strong>Заявка одобрена</strong>
-                                <span>Ваша заявка на разработку мобильного приложения была одобрена</span>
-                                <span className="notification-time">2 часа назад</span>
-                            </div>
-                        </div>
-                        <div className="notification-item">
-                            <span className="notification-icon">💬</span>
-                            <div className="notification-content">
-                                <strong>Новое сообщение</strong>
-                                <span>Менеджер проекта оставил комментарий</span>
-                                <span className="notification-time">5 часов назад</span>
-                            </div>
-                        </div>
+                        <button className="action-btn" data-action="add-user">
+                            <span className="action-icon"></span>
+                            <span>Добавить пользователя</span>
+                        </button>
+                        <button className="action-btn" data-action="report">
+                            <span className="action-icon"></span>
+                            <span>Создать отчет</span>
+                        </button>
+                        <button className="action-btn" data-action="settings">
+                            <span className="action-icon"></span>
+                            <span>Настройки системы</span>
+                        </button>
+                        <button className="action-btn" data-action="mailing">
+                            <span className="action-icon"></span>
+                            <span>Рассылка</span>
+                        </button>
                     </div>
                 </div>
             </div>

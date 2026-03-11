@@ -1,244 +1,613 @@
-/* src/pages/Services/Services.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 .services-page {
     padding: 4rem 0;
-    min-height: 80vh;
-    background: var(--background);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
-.services-container {
+/* ========== СТЕКЛЯННЫЙ ФОН С GIF И АНИМИРОВАННЫМ ГРАДИЕНТОМ ========== */
+
+/* Базовый цвет фона для каждой темы (запасной вариант) */
+[data-theme='light'] .services-page {
+    background-color: #f4f8f9;
+}
+
+[data-theme='dark'] .services-page {
+    background-color: #051321;
+}
+
+/* Основной стеклянный фон с GIF */
+.services-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+
+    /* GIF фон */
+    background-image: var(--bg-gif, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    /* Стеклянный эффект поверх GIF */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    opacity: var(--bg-opacity, 0.7);
+    animation: bgFadeIn 1s ease-in;
+}
+
+/* Второй слой с анимированным градиентом для стеклянного эффекта */
+.services-page::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+
+    /* Анимированный градиент */
+    background:
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(62, 133, 165, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 40% 70%, rgba(92, 156, 182, 0.1) 0%, transparent 35%),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 25%);
+
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+
+    animation: gradientMove 20s ease-in-out infinite alternate;
+
+    /* Смешивание для стеклянного эффекта */
+    mix-blend-mode: overlay;
+
+    opacity: 0.8;
+}
+
+/* Светлая тема — настройки GIF и градиента */
+[data-theme='light'] .services-page::before {
+    --bg-gif: url('/images/servicesbglight.gif');
+    --bg-opacity: 0.6;
+}
+
+[data-theme='light'] .services-page::after {
+    background:
+        radial-gradient(circle at 20% 50%, rgba(62, 133, 165, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(92, 156, 182, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 40% 70%, rgba(15, 52, 78, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(62, 133, 165, 0.15) 0%, transparent 30%);
+    mix-blend-mode: normal;
+}
+
+/* Тёмная тема — настройки GIF и градиента */
+[data-theme='dark'] .services-page::before {
+    --bg-gif: url('/images/services-bg-dark.gif');
+    --bg-opacity: 0.5;
+}
+
+[data-theme='dark'] .services-page::after {
+    background:
+        radial-gradient(circle at 20% 50%, rgba(15, 52, 78, 0.3) 0%, transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(62, 133, 165, 0.25) 0%, transparent 40%),
+        radial-gradient(circle at 40% 70%, rgba(92, 156, 182, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(15, 52, 78, 0.3) 0%, transparent 35%);
+    mix-blend-mode: soft-light;
+}
+
+/* Fallback если GIF не загрузился — анимированный градиент */
+@supports not (background-image: var(--bg-gif)) {
+    .services-page::before {
+        background: none;
+        backdrop-filter: none;
+    }
+
+    [data-theme='light'] .services-page::after {
+        background:
+            radial-gradient(circle at 30% 40%, rgba(62, 133, 165, 0.25) 0%, transparent 35%),
+            radial-gradient(circle at 70% 60%, rgba(92, 156, 182, 0.3) 0%, transparent 40%),
+            radial-gradient(circle at 20% 80%, rgba(15, 52, 78, 0.2) 0%, transparent 45%),
+            radial-gradient(circle at 90% 20%, rgba(62, 133, 165, 0.25) 0%, transparent 35%);
+        background-size: 300% 300%;
+        animation: gradientIntense 15s ease-in-out infinite;
+        mix-blend-mode: normal;
+        opacity: 0.9;
+    }
+
+    [data-theme='dark'] .services-page::after {
+        background:
+            radial-gradient(circle at 20% 30%, rgba(15, 52, 78, 0.4) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(62, 133, 165, 0.35) 0%, transparent 45%),
+            radial-gradient(circle at 50% 50%, rgba(92, 156, 182, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 10% 90%, rgba(15, 52, 78, 0.4) 0%, transparent 40%);
+        background-size: 300% 300%;
+        animation: gradientIntense 15s ease-in-out infinite;
+        mix-blend-mode: soft-light;
+        opacity: 0.9;
+    }
+}
+
+/* Анимации для градиентов */
+@keyframes bgFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: var(--bg-opacity, 0.7);
+    }
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    25% {
+        background-position: 20% 30%;
+    }
+
+    50% {
+        background-position: 40% 60%;
+    }
+
+    75% {
+        background-position: 60% 30%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes gradientIntense {
+    0% {
+        background-position: 0% 0%;
+        opacity: 0.7;
+    }
+
+    33% {
+        background-position: 50% 50%;
+        opacity: 0.9;
+    }
+
+    66% {
+        background-position: 100% 100%;
+        opacity: 0.8;
+    }
+
+    100% {
+        background-position: 0% 0%;
+        opacity: 0.7;
+    }
+}
+
+/* Третий слой для дополнительного стеклянного эффекта */
+.services-page .glass-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+[data-theme='dark'] .services-page .glass-overlay {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+/* ========== КОНТЕЙНЕР ========== */
+
+.services-page .services-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+    z-index: 2;
 }
 
-.services-page h1 {
+.services-page .services-header {
     text-align: center;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.services-page>.services-container>p {
-    text-align: center;
-    color: var(--text-secondary);
     margin-bottom: 3rem;
-    font-size: 1.2rem;
-    line-height: 1.6;
 }
 
-/* Статистика */
-.services-stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    text-align: center;
-    background: var(--surface);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-    min-width: 180px;
-}
-
-.stat-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
-}
-
-.stat-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--primary);
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.services-page .services-title {
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
+    font-size: 55px;
+    line-height: 67px;
+    margin-bottom: 1rem;
 }
 
-/* Сетка услуг */
-.services-grid {
+[data-theme='light'] .services-page .services-title {
+    color: #051321;
+    text-shadow: 0px 2px 4px rgba(5, 19, 33, 0.1);
+}
+
+[data-theme='dark'] .services-page .services-title {
+    color: #d7e5ea;
+    text-shadow:
+        0px 100px 80px rgba(0, 0, 0, 0.36),
+        0px 50.0488px 40.0391px rgba(0, 0, 0, 0.27372),
+        0px 30.1471px 24.1177px rgba(0, 0, 0, 0.234572),
+        0px 19.3198px 15.4559px rgba(0, 0, 0, 0.205522),
+        0px 12.5216px 10.0172px rgba(0, 0, 0, 0.18),
+        0px 7.88218px 6.30574px rgba(0, 0, 0, 0.154478),
+        0px 4.5288px 3.62304px rgba(0, 0, 0, 0.125428),
+        0px 1.99324px 1.59459px rgba(0, 0, 0, 0.0862802);
+}
+
+/* ========== СЕТКА УСЛУГ ========== */
+
+.services-page .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(512px, 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
+    justify-content: center;
 }
 
-.service-card {
-    background: var(--surface);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
+/* ========== КАРТОЧКА УСЛУГИ ========== */
 
-.service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    border-color: var(--primary);
-}
-
-.service-image {
+.services-page .service-card {
+    position: relative;
     width: 100%;
-    height: 200px;
+    max-width: 512px;
+    height: 644px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border-radius: 77px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
     overflow: hidden;
-    background: var(--background);
 }
 
-.service-image img {
+[data-theme='light'] .services-page .service-card {
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    box-shadow: 0px 9px 18.4px rgba(5, 19, 33, 0.1);
+}
+
+[data-theme='dark'] .services-page .service-card {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.35);
+}
+
+.services-page .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
+    border-color: rgba(215, 229, 234, 0.4);
+}
+
+[data-theme='light'] .services-page .service-card:hover {
+    background: rgba(230, 238, 242, 0.85);
+    border-color: rgba(15, 52, 78, 0.3);
+    box-shadow: 0px 15px 30px rgba(5, 19, 33, 0.15);
+}
+
+[data-theme='dark'] .services-page .service-card:hover {
+    background: rgba(15, 52, 78, 0.55);
+    border-color: rgba(215, 229, 234, 0.35);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* ========== ОБЛАСТЬ ИЗОБРАЖЕНИЯ/ВИДЕО ========== */
+
+.services-page .service-image {
+    width: calc(100% + 80px);
+    height: 280px;
+    margin: -40px -40px 20px -40px;
+    border-radius: 77px 77px 0 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e6eef2 0%, #d7e5ea 100%);
+}
+
+[data-theme='light'] .services-page .service-image {
+    background: linear-gradient(135deg, #e6eef2 0%, #d7e5ea 100%);
+}
+
+[data-theme='dark'] .services-page .service-image {
+    background: linear-gradient(135deg, #071a2a 0%, #0b273c 100%);
+}
+
+.services-page .service-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
 }
 
-.service-card:hover .service-image img {
-    transform: scale(1.05);
+/* Если нет изображения — скрываем область и меняем высоту карточки */
+.services-page .service-card:not(.has-image) .service-image {
+    display: none;
 }
 
-.service-content {
-    padding: 2rem;
+.services-page .service-card:not(.has-image) {
+    height: auto;
+    min-height: 420px;
+    padding-top: 40px;
 }
 
-.service-header {
+/* ========== РАЗДЕЛИТЕЛЬНАЯ ЛИНИЯ ========== */
+
+.services-page .service-divider {
+    width: 100%;
+    height: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+}
+
+[data-theme='light'] .services-page .service-divider {
+    border-color: rgba(15, 52, 78, 0.25);
+}
+
+[data-theme='dark'] .services-page .service-divider {
+    border-color: rgba(215, 229, 234, 0.3);
+}
+
+/* Если нет изображения — скрываем разделитель */
+.services-page .service-card:not(.has-image) .service-divider {
+    display: none;
+}
+
+/* ========== НАЗВАНИЕ И ЦЕНА ========== */
+
+.services-page .service-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+    align-items: center;
+    margin-bottom: 15px;
     gap: 1rem;
-}
-
-.service-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    flex: 1;
-    line-height: 1.3;
-}
-
-.service-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    white-space: nowrap;
-}
-
-.service-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-
-.service-meta {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
     flex-wrap: wrap;
 }
 
-.service-category {
-    background: var(--primary);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.service-duration {
-    background: var(--secondary);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* Кнопки для пользователей */
-.service-actions {
+.services-page .service-name {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 46px;
     display: flex;
-    gap: 0.75rem;
+    align-items: center;
+    flex: 1;
+    color: #051321;
 }
 
-.consult-btn,
-.details-btn {
-    flex: 1;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
+[data-theme='dark'] .services-page .service-name {
+    color: #d7e5ea;
+}
+
+.services-page .service-price {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 46px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .service-price {
+    color: #d7e5ea;
+}
+
+/* ========== ОПИСАНИЕ ========== */
+
+.services-page .service-description {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 30px;
+    color: #314c5c;
+}
+
+[data-theme='dark'] .services-page .service-description {
+    color: #8494a4;
+}
+
+/* ========== МЕТА-ИНФОРМАЦИЯ ========== */
+
+.services-page .service-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.services-page .service-category,
+.services-page .service-duration {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(62, 133, 165, 0.2);
+    color: #3e85a5;
+}
+
+[data-theme='light'] .services-page .service-category,
+[data-theme='light'] .services-page .service-duration {
+    background: rgba(15, 52, 78, 0.15);
+    color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .service-category,
+[data-theme='dark'] .services-page .service-duration {
+    background: rgba(215, 229, 234, 0.15);
+    color: #d7e5ea;
+}
+
+/* ========== КНОПКИ ========== */
+
+.services-page .service-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+/* Кнопка консультации */
+.services-page .consult-btn {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    background: transparent;
+    border: 2px solid rgba(15, 52, 78, 0.4);
+    border-radius: 12px;
+    padding: 19px 30px;
+    height: 60px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
-    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 237px;
+    text-decoration: none;
+    color: #0f344e;
 }
 
-.consult-btn {
-    background: var(--primary);
-    color: white;
+[data-theme='dark'] .services-page .consult-btn {
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #d7e5ea;
 }
 
-.consult-btn:hover {
-    background: var(--primary-dark);
+.services-page .consult-btn:hover {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.details-btn {
+[data-theme='light'] .services-page .consult-btn:hover {
+    background: rgba(15, 52, 78, 0.1);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .consult-btn:hover {
+    background: rgba(215, 229, 234, 0.1);
+    color: #d7e5ea;
+}
+
+/* Кнопка подробнее */
+.services-page .details-btn {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
     background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    border: 2px solid rgba(15, 52, 78, 0.4);
+    border-radius: 12px;
+    padding: 19px 30px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 136px;
+    text-decoration: none;
+    color: #0f344e;
 }
 
-.details-btn:hover {
-    background: var(--primary);
-    color: white;
+[data-theme='dark'] .services-page .details-btn {
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #d7e5ea;
+}
+
+.services-page .details-btn:hover {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Состояния загрузки и ошибок */
-.loading-section,
-.error-section,
-.no-services {
+[data-theme='light'] .services-page .details-btn:hover {
+    background: rgba(15, 52, 78, 0.1);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .details-btn:hover {
+    background: rgba(215, 229, 234, 0.1);
+    color: #d7e5ea;
+}
+
+/* ========== СОСТОЯНИЯ ЗАГРУЗКИ И ОШИБОК ========== */
+
+.services-page .loading-section,
+.services-page .error-section,
+.services-page .no-services {
     text-align: center;
     padding: 3rem;
-    background: var(--surface);
-    border-radius: 16px;
-    color: var(--text-primary);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border-radius: 77px;
     margin-bottom: 3rem;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    max-width: 512px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
 }
 
-.loading-spinner {
+[data-theme='dark'] .services-page .loading-section,
+[data-theme='dark'] .services-page .error-section,
+[data-theme='dark'] .services-page .no-services {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #d7e5ea;
+}
+
+.services-page .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 3px solid var(--border);
-    border-top: 3px solid var(--primary);
+    border: 3px solid rgba(15, 52, 78, 0.2);
+    border-top: 3px solid #0f344e;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: services-spin 1s linear infinite;
     margin: 0 auto 1.5rem;
 }
 
-@keyframes spin {
+[data-theme='dark'] .services-page .loading-spinner {
+    border-color: rgba(215, 229, 234, 0.2);
+    border-top-color: #d7e5ea;
+}
+
+@keyframes services-spin {
     0% {
         transform: rotate(0deg);
     }
@@ -248,70 +617,141 @@
     }
 }
 
-.error-section h3,
-.no-services h3 {
-    font-size: 1.5rem;
+.services-page .error-section h3,
+.services-page .no-services h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    line-height: 46px;
     margin-bottom: 1rem;
-    font-weight: 600;
+    font-weight: 400;
+    color: #051321;
 }
 
-.error-section p,
-.no-services p {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    max-width: 500px;
+[data-theme='dark'] .services-page .error-section h3,
+[data-theme='dark'] .services-page .no-services h3 {
+    color: #d7e5ea;
+}
+
+.services-page .error-section p,
+.services-page .no-services p {
+    font-size: 24px;
+    line-height: 29px;
+    max-width: 400px;
     margin: 0 auto;
-    line-height: 1.6;
+    color: #314c5c;
 }
 
-/* CTA секция */
-.services-cta {
+[data-theme='dark'] .services-page .error-section p,
+[data-theme='dark'] .services-page .no-services p {
+    color: #8494a4;
+}
+
+/* ========== CTA СЕКЦИЯ ========== */
+
+.services-page .services-cta {
     text-align: center;
-    background: var(--surface);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
     padding: 3rem 2rem;
-    border-radius: 16px;
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 77px;
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    max-width: 512px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
 }
 
-.services-cta h2 {
-    font-size: 2rem;
+[data-theme='dark'] .services-page .services-cta {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+}
+
+.services-page .services-cta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='light'] .services-page .services-cta:hover {
+    box-shadow: 0px 15px 30px rgba(5, 19, 33, 0.15);
+}
+
+[data-theme='dark'] .services-page .services-cta:hover {
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.45);
+}
+
+.services-page .services-cta h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    line-height: 46px;
     margin-bottom: 1rem;
-    font-weight: 600;
+    font-weight: 400;
+    color: #051321;
 }
 
-.services-cta p {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
+[data-theme='dark'] .services-page .services-cta h2 {
+    color: #d7e5ea;
+}
+
+.services-page .services-cta p {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    line-height: 29px;
     margin-bottom: 2rem;
-    max-width: 500px;
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.6;
+    color: #314c5c;
 }
 
-.cta-button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
+[data-theme='dark'] .services-page .services-cta p {
+    color: #8494a4;
+}
+
+.services-page .cta-button {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    background: transparent;
+    border: 2px solid rgba(15, 52, 78, 0.4);
+    border-radius: 12px;
+    padding: 19px 40px;
+    height: 60px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #0f344e;
 }
 
-.cta-button:hover {
-    background: var(--primary-dark);
+[data-theme='dark'] .services-page .cta-button {
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #d7e5ea;
+}
+
+.services-page .cta-button:hover {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Анимации */
-@keyframes fadeIn {
+[data-theme='light'] .services-page .cta-button:hover {
+    background: rgba(15, 52, 78, 0.1);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .cta-button:hover {
+    background: rgba(215, 229, 234, 0.1);
+    color: #d7e5ea;
+}
+
+/* ========== АНИМАЦИИ ========== */
+
+@keyframes services-fadeIn {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -323,144 +763,236 @@
     }
 }
 
-.service-card {
-    animation: fadeIn 0.5s ease-out;
+.services-page .service-card {
+    animation: services-fadeIn 0.5s ease-out;
 }
 
-.service-card:nth-child(1) {
+.services-page .service-card:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.service-card:nth-child(2) {
+.services-page .service-card:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.service-card:nth-child(3) {
+.services-page .service-card:nth-child(3) {
     animation-delay: 0.3s;
 }
 
-.service-card:nth-child(4) {
+.services-page .service-card:nth-child(4) {
     animation-delay: 0.4s;
 }
 
-.service-card:nth-child(5) {
+.services-page .service-card:nth-child(5) {
     animation-delay: 0.5s;
 }
 
-.service-card:nth-child(6) {
+.services-page .service-card:nth-child(6) {
     animation-delay: 0.6s;
 }
 
-/* Адаптивность */
+/* ========== АДАПТИВНОСТЬ ========== */
+
 @media (max-width: 768px) {
     .services-page {
         padding: 2rem 0;
     }
 
-    .services-container {
+    .services-page .services-container {
         padding: 0 1rem;
     }
 
-    .services-page h1 {
-        font-size: 2rem;
+    .services-page .services-title {
+        font-size: 40px;
+        line-height: 50px;
     }
 
-    .services-stats {
-        gap: 1rem;
-    }
-
-    .stat-item {
-        padding: 1.5rem;
-        min-width: 140px;
-    }
-
-    .stat-number {
-        font-size: 2rem;
-    }
-
-    .services-grid {
+    .services-page .services-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
-    .service-header {
+    .services-page .service-card {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        min-height: 600px;
+        border-radius: 40px;
+        padding: 30px 20px;
+    }
+
+    .services-page .service-image {
+        height: 200px;
+        margin: -30px -20px 20px -20px;
+        width: calc(100% + 40px);
+        border-radius: 40px 40px 0 0;
+    }
+
+    .services-page .service-card:not(.has-image) {
+        min-height: 400px;
+    }
+
+    .services-page .service-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
 
-    .service-actions {
+    .services-page .service-name {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .services-page .service-price {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .services-page .service-description {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .services-page .service-actions {
         flex-direction: column;
+        align-items: stretch;
     }
 
-    .services-cta {
+    .services-page .consult-btn,
+    .services-page .details-btn {
+        min-width: 100%;
+        height: 50px;
+        padding: 15px 20px;
+    }
+
+    /* CTA секция как основная карточка на мобильном */
+    .services-page .services-cta {
+        max-width: 100%;
+        width: 100%;
         padding: 2rem 1.5rem;
+        border-radius: 40px;
     }
 
-    .services-cta h2 {
-        font-size: 1.6rem;
+    .services-page .services-cta h2 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .services-page .services-cta p {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .services-page .cta-button {
+        min-width: 100%;
+        height: 50px;
+        padding: 15px 20px;
+    }
+
+    .services-page .loading-section,
+    .services-page .error-section,
+    .services-page .no-services {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 40px;
+        padding: 2rem 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .services-page {
-        padding: 1.5rem 0;
+    .services-page .services-title {
+        font-size: 32px;
+        line-height: 40px;
     }
 
-    .services-page h1 {
-        font-size: 1.75rem;
+    .services-page .service-card {
+        padding: 20px 15px;
+        border-radius: 30px;
+        min-height: 550px;
     }
 
-    .service-content {
-        padding: 1.5rem;
+    .services-page .service-image {
+        height: 180px;
+        margin: -20px -15px 15px -15px;
+        width: calc(100% + 30px);
+        border-radius: 30px 30px 0 0;
     }
 
-    .service-name {
-        font-size: 1.2rem;
+    .services-page .service-card:not(.has-image) {
+        min-height: 380px;
     }
 
-    .service-price {
-        font-size: 1.3rem;
+    .services-page .service-name {
+        font-size: 24px;
+        line-height: 30px;
     }
 
-    .services-cta h2 {
-        font-size: 1.4rem;
+    .services-page .service-price {
+        font-size: 24px;
+        line-height: 30px;
     }
 
-    .services-cta p {
-        font-size: 1rem;
+    .services-page .service-description {
+        font-size: 16px;
+        line-height: 22px;
     }
 
-    .service-meta {
-        flex-direction: column;
-        align-items: flex-start;
+    .services-page .services-cta {
+        padding: 1.5rem 1rem;
+        border-radius: 30px;
+    }
+
+    .services-page .services-cta h2 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .services-page .services-cta p {
+        font-size: 16px;
+        line-height: 22px;
     }
 }
 
-/* Поддержка reduced-motion */
+/* ========== REDUCED MOTION ========== */
+
 @media (prefers-reduced-motion: reduce) {
 
-    .service-card,
-    .stat-item,
-    .consult-btn,
-    .details-btn,
-    .cta-button {
+    .services-page::after,
+    .services-page .service-card,
+    .services-page .consult-btn,
+    .services-page .details-btn,
+    .services-page .cta-button,
+    .services-page .services-cta {
         transition: none;
         animation: none;
     }
 
-    .service-card:hover,
-    .stat-item:hover {
+    .services-page .service-card:hover,
+    .services-page .consult-btn:hover,
+    .services-page .details-btn:hover,
+    .services-page .cta-button:hover,
+    .services-page .services-cta:hover {
         transform: none;
     }
+}
 
-    .consult-btn:hover,
-    .details-btn:hover,
-    .cta-button:hover {
-        transform: none;
-    }
+/* ========== ФОКУС ДЛЯ ДОСТУПНОСТИ ========== */
 
-    .service-card:hover .service-image img {
-        transform: none;
-    }
+.services-page .consult-btn:focus,
+.services-page .details-btn:focus,
+.services-page .cta-button:focus {
+    outline: 3px solid #3e85a5;
+    outline-offset: 2px;
+}
+
+[data-theme='light'] .services-page .consult-btn:focus,
+[data-theme='light'] .services-page .details-btn:focus,
+[data-theme='light'] .services-page .cta-button:focus {
+    outline-color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .consult-btn:focus,
+[data-theme='dark'] .services-page .details-btn:focus,
+[data-theme='dark'] .services-page .cta-button:focus {
+    outline-color: #d7e5ea;
 }

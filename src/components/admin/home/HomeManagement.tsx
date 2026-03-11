@@ -1,4 +1,5 @@
 // src/components/admin/home/HomeManagement.tsx
+// src/components/admin/home/HomeManagement.tsx
 import React, { useState, useEffect } from 'react';
 import { useHome } from '../../../context/HomeContext';
 import type { HomeUpdateRequest } from '../../../types/HomeTypes';
@@ -12,8 +13,7 @@ const HomeManagement: React.FC = () => {
         videoUrl: '',
         videoPoster: '',
         primaryButtonText: '',
-        secondaryButtonText: '',
-        primaryButtonIcon: ''
+        secondaryButtonText: ''
     });
 
     useEffect(() => {
@@ -24,8 +24,7 @@ const HomeManagement: React.FC = () => {
                 videoUrl: state.homeContent.videoUrl,
                 videoPoster: state.homeContent.videoPoster,
                 primaryButtonText: state.homeContent.primaryButtonText,
-                secondaryButtonText: state.homeContent.secondaryButtonText,
-                primaryButtonIcon: state.homeContent.primaryButtonIcon
+                secondaryButtonText: state.homeContent.secondaryButtonText
             });
         }
     }, [state.homeContent]);
@@ -40,8 +39,7 @@ const HomeManagement: React.FC = () => {
             videoUrl: formData.videoUrl,
             videoPoster: formData.videoPoster,
             primaryButtonText: formData.primaryButtonText,
-            secondaryButtonText: formData.secondaryButtonText,
-            primaryButtonIcon: formData.primaryButtonIcon
+            secondaryButtonText: formData.secondaryButtonText
         };
 
         await updateHomeContent(updateData);
@@ -56,14 +54,13 @@ const HomeManagement: React.FC = () => {
                 videoUrl: state.homeContent.videoUrl,
                 videoPoster: state.homeContent.videoPoster,
                 primaryButtonText: state.homeContent.primaryButtonText,
-                secondaryButtonText: state.homeContent.secondaryButtonText,
-                primaryButtonIcon: state.homeContent.primaryButtonIcon
+                secondaryButtonText: state.homeContent.secondaryButtonText
             });
         }
     };
 
     if (!state.homeContent) {
-        return <div>Загрузка...</div>;
+        return <div className="home-management">Загрузка...</div>;
     }
 
     return (
@@ -76,7 +73,7 @@ const HomeManagement: React.FC = () => {
                             className="edit-btn"
                             onClick={() => setEditing(true)}
                         >
-                            ✏️ Редактировать
+                            Редактировать
                         </button>
                     )}
                 </div>
@@ -84,7 +81,7 @@ const HomeManagement: React.FC = () => {
 
             {state.error && (
                 <div className="error-message">
-                    ❌ {state.error}
+                    {state.error}
                 </div>
             )}
 
@@ -162,18 +159,6 @@ const HomeManagement: React.FC = () => {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="primaryButtonIcon">Иконка основной кнопки</label>
-                                <input
-                                    type="text"
-                                    id="primaryButtonIcon"
-                                    value={formData.primaryButtonIcon}
-                                    onChange={(e) => setFormData({ ...formData, primaryButtonIcon: e.target.value })}
-                                    disabled={state.isLoading}
-                                    placeholder="🚀"
-                                />
-                            </div>
-
-                            <div className="form-group">
                                 <label htmlFor="secondaryButtonText">Текст второй кнопки *</label>
                                 <input
                                     type="text"
@@ -193,7 +178,7 @@ const HomeManagement: React.FC = () => {
                             className="save-btn"
                             disabled={state.isLoading}
                         >
-                            {state.isLoading ? 'Сохранение...' : '💾 Сохранить изменения'}
+                            {state.isLoading ? 'Сохранение...' : 'Сохранить изменения'}
                         </button>
                         <button
                             type="button"
@@ -201,7 +186,7 @@ const HomeManagement: React.FC = () => {
                             onClick={handleCancel}
                             disabled={state.isLoading}
                         >
-                            ❌ Отмена
+                            Отмена
                         </button>
                     </div>
                 </form>
@@ -212,7 +197,7 @@ const HomeManagement: React.FC = () => {
                         <div className="preview-content">
                             <h4>{state.homeContent.heroTitle}</h4>
                             <p><strong>Подзаголовок:</strong> {state.homeContent.heroSubtitle}</p>
-                            <p><strong>Основная кнопка:</strong> {state.homeContent.primaryButtonText} {state.homeContent.primaryButtonIcon}</p>
+                            <p><strong>Основная кнопка:</strong> {state.homeContent.primaryButtonText}</p>
                             <p><strong>Вторая кнопка:</strong> {state.homeContent.secondaryButtonText}</p>
                             <p><strong>Видео:</strong> {state.homeContent.videoUrl}</p>
                             <p><strong>Постер:</strong> {state.homeContent.videoPoster}</p>

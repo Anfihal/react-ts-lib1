@@ -1,4 +1,5 @@
 // src/components/admin/products/ProductManagement.tsx
+// src/components/admin/products/ProductManagement.tsx
 import React, { useState, useEffect } from 'react';
 import { useProduct } from '../../../context/ProductContext';
 import type { Product, ProductCreateRequest, ProductUpdateRequest } from '../../../types/ProductTypes';
@@ -162,13 +163,13 @@ const ProductManagement: React.FC = () => {
                     onClick={() => setIsAdding(true)}
                     disabled={state.isLoading || !!state.editingProduct}
                 >
-                    ➕ Добавить товар
+                    Добавить товар
                 </button>
             </div>
 
             {state.error && (
                 <div className="error-message">
-                    ❌ {state.error}
+                    {state.error}
                 </div>
             )}
 
@@ -285,7 +286,7 @@ const ProductManagement: React.FC = () => {
                                         className="remove-image-btn"
                                         onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
                                     >
-                                        ❌
+                                        Удалить
                                     </button>
                                 </div>
                             )}
@@ -337,7 +338,7 @@ const ProductManagement: React.FC = () => {
                             className="save-btn"
                             disabled={state.isLoading}
                         >
-                            {state.isLoading ? 'Сохранение...' : '💾 Сохранить'}
+                            {state.isLoading ? 'Сохранение...' : 'Сохранить'}
                         </button>
                         <button
                             type="button"
@@ -345,7 +346,7 @@ const ProductManagement: React.FC = () => {
                             onClick={handleCancel}
                             disabled={state.isLoading}
                         >
-                            ❌ Отмена
+                            Отмена
                         </button>
                     </div>
                 </form>
@@ -390,7 +391,7 @@ const ProductManagement: React.FC = () => {
                                     <div className="product-meta">
                                         <span className="product-category">{product.category}</span>
                                         <span className={`product-stock ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                                            {product.inStock ? `✅ ${product.stockQuantity} шт.` : '❌ Нет в наличии'}
+                                            {product.inStock ? `${product.stockQuantity} шт.` : 'Нет в наличии'}
                                         </span>
                                     </div>
                                     <div className="product-tags">
@@ -408,14 +409,14 @@ const ProductManagement: React.FC = () => {
                                         onClick={() => handleEdit(product)}
                                         disabled={state.isLoading}
                                     >
-                                        ✏️ Редактировать
+                                        Редактировать
                                     </button>
                                     <button
                                         className="delete-btn"
                                         onClick={() => handleDelete(product.id)}
                                         disabled={state.isLoading}
                                     >
-                                        🗑️ Удалить
+                                        Удалить
                                     </button>
                                 </div>
                             </div>

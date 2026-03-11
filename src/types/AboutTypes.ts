@@ -19,7 +19,6 @@ export interface CompanyStat {
     id: number;
     number: string;
     label: string;
-    icon: string;
 }
 
 export interface TeamMember {
@@ -40,7 +39,6 @@ export interface Achievement {
     year: string;
     title: string;
     description: string;
-    icon: string;
 }
 
 export interface AboutUpdateRequest {
@@ -54,4 +52,19 @@ export interface AboutUpdateRequest {
     stats: CompanyStat[];
     teamMembers: TeamMember[];
     achievements: Achievement[];
+}
+export interface TeamMember {
+    id: number;
+    name: string;
+    position: string;
+    description: string;
+    imageUrl: string;
+    imagePosition?: string;      // 'center', 'top', 'bottom' или координаты
+    imageSize?: 'cover' | 'contain' | 'fill';
+    imageScale?: number;          // масштаб от 0.5 до 3
+    socialLinks?: {
+        linkedin?: string;
+        telegram?: string;
+        github?: string;
+    };
 }

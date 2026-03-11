@@ -1,9 +1,11 @@
+// src/components/admin/contact/ContactManagement.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useContact } from '../../../context/ContactContext';
 import './ContactManagement.css';
 
 const ContactManagement: React.FC = () => {
-    const { state, updateContactInfo } = useContact();
+    const { state, updateContactInfo, resetContactInfo, deleteContactInfo } = useContact();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         companyName: '',
@@ -14,10 +16,10 @@ const ContactManagement: React.FC = () => {
         telegram: '',
         whatsapp: '',
         vk: '',
+        instagram: '',
         mapEmbedUrl: ''
     });
 
-    // Заполняем форму данными при загрузке связать все нужное с бд и бэком
     useEffect(() => {
         if (state.contactInfo) {
             setFormData({
@@ -29,6 +31,7 @@ const ContactManagement: React.FC = () => {
                 telegram: state.contactInfo.socialLinks.telegram || '',
                 whatsapp: state.contactInfo.socialLinks.whatsapp || '',
                 vk: state.contactInfo.socialLinks.vk || '',
+                instagram: state.contactInfo.socialLinks.instagram || '',
                 mapEmbedUrl: state.contactInfo.mapEmbedUrl || ''
             });
         }
@@ -54,7 +57,8 @@ const ContactManagement: React.FC = () => {
             socialLinks: {
                 telegram: formData.telegram || undefined,
                 whatsapp: formData.whatsapp || undefined,
-                vk: formData.vk || undefined
+                vk: formData.vk || undefined,
+                instagram: formData.instagram || undefined
             },
             mapEmbedUrl: formData.mapEmbedUrl || undefined
         };
@@ -74,14 +78,27 @@ const ContactManagement: React.FC = () => {
                 telegram: state.contactInfo.socialLinks.telegram || '',
                 whatsapp: state.contactInfo.socialLinks.whatsapp || '',
                 vk: state.contactInfo.socialLinks.vk || '',
+                instagram: state.contactInfo.socialLinks.instagram || '',
                 mapEmbedUrl: state.contactInfo.mapEmbedUrl || ''
             });
         }
         setIsEditing(false);
     };
 
+    const handleDelete = async () => {
+        if (window.confirm('Вы действительно хотите удалить всю контактную информацию?')) {
+            await deleteContactInfo();
+        }
+    };
+
+    const handleReset = () => {
+        if (window.confirm('Вы действительно хотите сбросить контактную информацию к значениям по умолчанию?')) {
+            resetContactInfo();
+        }
+    };
+
     if (!state.contactInfo) {
-        return <div className="loading">Загрузка контактной информации...</div>;
+        return <div className="contact-management-loading">Загрузка контактной информации...</div>;
     }
 
     return (
@@ -96,12 +113,26 @@ const ContactManagement: React.FC = () => {
                     <div className="contact-preview">
                         <div className="preview-header">
                             <h3>Текущие контакты</h3>
-                            <button
-                                className="edit-btn"
-                                onClick={() => setIsEditing(true)}
-                            >
-                                ✏️ Редактировать контакты
-                            </button>
+                            <div className="preview-actions">
+                                <button
+                                    className="btn btn--primary"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Редактировать контакты
+                                </button>
+                                <button
+                                    className="btn btn--secondary"
+                                    onClick={handleReset}
+                                >
+                                    Сбросить к умолчанию
+                                </button>
+                                <button
+                                    className="btn btn--danger"
+                                    onClick={handleDelete}
+                                >
+                                    Удалить все
+                                </button>
+                            </div>
                         </div>
 
                         <div className="contact-info-grid">
@@ -129,17 +160,21 @@ const ContactManagement: React.FC = () => {
                                 <label>Социальные сети:</label>
                                 <div className="social-links">
                                     {state.contactInfo.socialLinks.telegram && (
-                                        <span className="social-link">📱 Telegram: {state.contactInfo.socialLinks.telegram}</span>
+                                        <span className="social-link">Telegram: {state.contactInfo.socialLinks.telegram}</span>
                                     )}
                                     {state.contactInfo.socialLinks.whatsapp && (
-                                        <span className="social-link">💬 WhatsApp: {state.contactInfo.socialLinks.whatsapp}</span>
+                                        <span className="social-link">WhatsApp: {state.contactInfo.socialLinks.whatsapp}</span>
                                     )}
                                     {state.contactInfo.socialLinks.vk && (
-                                        <span className="social-link">👥 VK: {state.contactInfo.socialLinks.vk}</span>
+                                        <span className="social-link">VK: {state.contactInfo.socialLinks.vk}</span>
+                                    )}
+                                    {state.contactInfo.socialLinks.instagram && (
+                                        <span className="social-link">Instagram: {state.contactInfo.socialLinks.instagram}</span>
                                     )}
                                     {!state.contactInfo.socialLinks.telegram &&
                                         !state.contactInfo.socialLinks.whatsapp &&
-                                        !state.contactInfo.socialLinks.vk && (
+                                        !state.contactInfo.socialLinks.vk &&
+                                        !state.contactInfo.socialLinks.instagram && (
                                             <span className="no-social">Социальные сети не настроены</span>
                                         )}
                                 </div>
@@ -147,13 +182,13 @@ const ContactManagement: React.FC = () => {
                             <div className="info-item">
                                 <label>Карта:</label>
                                 <span className={state.contactInfo.mapEmbedUrl ? 'map-configured' : 'map-not-configured'}>
-                                    {state.contactInfo.mapEmbedUrl ? '✅ Настроена' : '❌ Не настроена'}
+                                    {state.contactInfo.mapEmbedUrl ? 'Настроена' : 'Не настроена'}
                                 </span>
                             </div>
                         </div>
 
                         <div className="last-updated">
-                            <strong>Последнее обновление:</strong> {state.contactInfo.lastUpdated.toLocaleString('ru-RU')}
+                            Последнее обновление: {state.contactInfo.lastUpdated.toLocaleString('ru-RU')}
                         </div>
                     </div>
                 ) : (
@@ -161,11 +196,11 @@ const ContactManagement: React.FC = () => {
                         <div className="form-header">
                             <h3>Редактирование контактов</h3>
                             <div className="form-actions">
-                                <button type="submit" className="save-btn" disabled={state.isLoading}>
-                                    {state.isLoading ? '⏳ Сохранение...' : '💾 Сохранить изменения'}
+                                <button type="submit" className="btn btn--primary" disabled={state.isSaving}>
+                                    {state.isSaving ? 'Сохранение...' : 'Сохранить изменения'}
                                 </button>
-                                <button type="button" className="cancel-btn" onClick={handleCancel}>
-                                    ❌ Отменить
+                                <button type="button" className="btn btn--secondary" onClick={handleCancel}>
+                                    Отменить
                                 </button>
                             </div>
                         </div>
@@ -244,7 +279,7 @@ const ContactManagement: React.FC = () => {
                                     name="telegram"
                                     value={formData.telegram}
                                     onChange={handleInputChange}
-                                    placeholder="https://t.me/username"
+                                    placeholder="https://t.me/InfiniteleadersTech"
                                 />
                             </div>
 
@@ -268,7 +303,19 @@ const ContactManagement: React.FC = () => {
                                     name="vk"
                                     value={formData.vk}
                                     onChange={handleInputChange}
-                                    placeholder="https://vk.com/username"
+                                    placeholder="https://vk.com/infiniteleaderstech"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="instagram">Instagram</label>
+                                <input
+                                    type="url"
+                                    id="instagram"
+                                    name="instagram"
+                                    value={formData.instagram}
+                                    onChange={handleInputChange}
+                                    placeholder="https://www.instagram.com/infiniteleaderstech"
                                 />
                             </div>
 
@@ -290,7 +337,7 @@ const ContactManagement: React.FC = () => {
 
                         {state.error && (
                             <div className="error-message">
-                                ❌ {state.error}
+                                {state.error}
                             </div>
                         )}
                     </form>

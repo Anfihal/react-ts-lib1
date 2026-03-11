@@ -1,4 +1,6 @@
 /* src/components/admin/home/HomeManagement.css */
+/* src/components/admin/home/HomeManagement.css */
+
 .home-management {
     padding: 20px;
 }
@@ -9,7 +11,6 @@
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 2px solid var(--border);
 }
 
 .home-management-header h2 {
@@ -35,12 +36,12 @@
 }
 
 .error-message {
-    background: #f8d7da;
-    color: #721c24;
+    background: var(--danger, #f8d7da);
+    color: white;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 25px;
-    border: 1px solid #f5c6cb;
+    border: 1px solid var(--border, #f5c6cb);
     font-weight: 500;
 }
 
@@ -174,10 +175,6 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.preview-section {
-    margin-bottom: 30px;
-}
-
 .preview-section h3 {
     color: var(--text-primary);
     margin-bottom: 20px;
@@ -205,9 +202,47 @@
     font-size: 14px;
     color: var(--text-secondary);
     text-align: right;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid var(--border);
+    margin-top: 10px;
+}
+
+/* ===== ИКОНКИ ЧЕРЕЗ CSS ===== */
+.edit-btn::before,
+.save-btn::before,
+.cancel-btn::before,
+.error-message::before {
+    content: '';
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 0.5em;
+    filter: brightness(0) invert(1);
+    /* белый цвет на цветном фоне */
+}
+
+/* Иконка редактирования (карандаш) */
+.edit-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.474 5.408L18.592 7.526M15.293 4.232L7.293 12.232c-.188.188-.302.436-.324.7l-.212 2.313 2.313-.212c.264-.022.512-.136.7-.324l8-8c.39-.39.39-1.024 0-1.414l-1.061-1.06c-.39-.39-1.024-.39-1.414 0z'/%3E%3C/svg%3E");
+}
+
+/* Иконка сохранения (галочка) */
+.save-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 14l4 4L19 8'/%3E%3C/svg%3E");
+}
+
+/* Иконка отмены (крестик) */
+.cancel-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 18L18 6M6 6l12 12'/%3E%3C/svg%3E");
+}
+
+/* Иконка для сообщения об ошибке (восклицательный знак в круге) */
+.error-message::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 8v4M12 16h.01' stroke-linecap='round'/%3E%3C/svg%3E");
+    width: 1em;
+    height: 1em;
 }
 
 /* Адаптивность */
@@ -254,6 +289,8 @@
     --border: #e9ecef;
     --text-primary: #2d3748;
     --text-secondary: #718096;
+    --danger: #dc3545;
+    /* добавлено для error-message */
 }
 
 [data-theme="dark"] {
@@ -264,4 +301,5 @@
     --border: #4a5568;
     --text-primary: #f7fafc;
     --text-secondary: #cbd5e0;
+    --danger: #f87171;
 }

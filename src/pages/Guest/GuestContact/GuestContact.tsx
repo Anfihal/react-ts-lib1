@@ -1,6 +1,6 @@
 // src/pages/Guest/GuestContact/GuestContact.tsx
 import React from 'react';
-import { useContact } from '../../../context/ContactContext'; // Правильный путь
+import { useContact } from '../../../context/ContactContext';
 import './GuestContact.css';
 
 const GuestContact: React.FC = () => {
@@ -11,7 +11,7 @@ const GuestContact: React.FC = () => {
         return (
             <div className="guest-contact-page">
                 <div className="container">
-                    <h1>📞 Контакты</h1>
+                    <h1>Контакты</h1>
                     <p>Загрузка контактной информации...</p>
                 </div>
             </div>
@@ -21,18 +21,12 @@ const GuestContact: React.FC = () => {
     return (
         <div className="guest-contact-page">
             <div className="container">
-                <div className="guest-contact-header">
-                    <h1>📞 Контакты</h1>
-                    <p>Свяжитесь с нами удобным для вас способом</p>
-                </div>
-
                 <div className="guest-contact-content">
                     {/* Основная контактная информация */}
                     <div className="contact-info-section">
                         <h2>Контактная информация</h2>
                         <div className="contact-info-grid">
                             <div className="contact-item">
-                                <span className="contact-icon">🏢</span>
                                 <div className="contact-details">
                                     <strong>Компания</strong>
                                     <span>{contactInfo.companyName}</span>
@@ -40,7 +34,6 @@ const GuestContact: React.FC = () => {
                             </div>
 
                             <div className="contact-item">
-                                <span className="contact-icon">📍</span>
                                 <div className="contact-details">
                                     <strong>Адрес</strong>
                                     <span>{contactInfo.address}</span>
@@ -48,7 +41,6 @@ const GuestContact: React.FC = () => {
                             </div>
 
                             <div className="contact-item">
-                                <span className="contact-icon">📞</span>
                                 <div className="contact-details">
                                     <strong>Телефон</strong>
                                     <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
@@ -56,7 +48,6 @@ const GuestContact: React.FC = () => {
                             </div>
 
                             <div className="contact-item">
-                                <span className="contact-icon">✉️</span>
                                 <div className="contact-details">
                                     <strong>Email</strong>
                                     <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
@@ -64,7 +55,6 @@ const GuestContact: React.FC = () => {
                             </div>
 
                             <div className="contact-item">
-                                <span className="contact-icon">🕒</span>
                                 <div className="contact-details">
                                     <strong>Часы работы</strong>
                                     <span>{contactInfo.workingHours}</span>
@@ -83,9 +73,9 @@ const GuestContact: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="social-link telegram"
+                                    aria-label="Telegram"
                                 >
-                                    <span className="social-icon">📱</span>
-                                    Telegram
+                                    {/* SVG иконка будет через CSS */}
                                 </a>
                             )}
                             {contactInfo.socialLinks.whatsapp && (
@@ -94,9 +84,9 @@ const GuestContact: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="social-link whatsapp"
+                                    aria-label="WhatsApp"
                                 >
-                                    <span className="social-icon">💬</span>
-                                    WhatsApp
+                                    {/* SVG иконка будет через CSS */}
                                 </a>
                             )}
                             {contactInfo.socialLinks.vk && (
@@ -105,9 +95,20 @@ const GuestContact: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="social-link vk"
+                                    aria-label="ВКонтакте"
                                 >
-                                    <span className="social-icon">👥</span>
-                                    VKontakte
+                                    {/* SVG иконка будет через CSS */}
+                                </a>
+                            )}
+                            {contactInfo.socialLinks.instagram && (
+                                <a
+                                    href={contactInfo.socialLinks.instagram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="social-link instagram"
+                                    aria-label="Instagram"
+                                >
+                                    {/* SVG иконка будет через CSS */}
                                 </a>
                             )}
                         </div>
@@ -122,7 +123,7 @@ const GuestContact: React.FC = () => {
                                     src={contactInfo.mapEmbedUrl}
                                     width="100%"
                                     height="400"
-                                    style={{ border: 0, borderRadius: '12px' }}
+                                    className="map-iframe"
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"

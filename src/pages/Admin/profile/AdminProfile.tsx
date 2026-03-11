@@ -1,3 +1,4 @@
+// src / components / admin / profile / AdminProfile.tsx
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { useProfile } from '../../../context/ProfileContext';

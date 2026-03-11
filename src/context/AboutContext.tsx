@@ -164,7 +164,7 @@ const aboutReducer = (state: AboutState, action: AboutAction): AboutState => {
 
 const initialAboutContent: AboutContent = {
     id: '1',
-    companyName: 'IT Solutions Pro',
+    companyName: 'ILT',
     title: 'О нашей компании',
     subtitle: 'Создаем цифровые решения для бизнеса будущего',
     description: 'Мы - команда профессионалов, которая специализируется на создании современных веб-приложений, мобильных решений и комплексных IT-систем. Наша миссия - помогать бизнесу расти с помощью передовых технологий.',
@@ -178,55 +178,47 @@ const initialAboutContent: AboutContent = {
         'Командная работа'
     ],
     stats: [
-        { id: 1, number: '5+', label: 'Лет опыта', icon: '🎯' },
-        { id: 2, number: '150+', label: 'Завершенных проектов', icon: '🚀' },
-        { id: 3, number: '50+', label: 'Довольных клиентов', icon: '❤️' },
-        { id: 4, number: '15+', label: 'Профессионалов', icon: '👥' }
+        { id: 1, number: '5+', label: 'Лет опыта' },
+        { id: 2, number: '150+', label: 'Завершенных проектов' },
+        { id: 3, number: '50+', label: 'Довольных клиентов' },
+        { id: 4, number: '15+', label: 'Профессионалов' }
     ],
     teamMembers: [
         {
             id: 1,
-            name: 'Александр Иванов',
+            name: 'Пишук Анфиса Игоревна',
             position: 'Генеральный директор',
             description: 'Основатель компании с 10-летним опытом в IT-индустрии',
-            imageUrl: '/images/team/alexander.jpg',
-            socialLinks: {
-                linkedin: 'https://linkedin.com/in/alexander',
-                telegram: 'https://t.me/alexander'
-            }
+            imageUrl: '/images/team/anfisa.jpg'
         },
         {
             id: 2,
-            name: 'Мария Петрова',
-            position: 'Технический директор',
-            description: 'Эксперт в области веб-разработки и облачных технологий',
-            imageUrl: '/images/team/maria.jpg',
-            socialLinks: {
-                linkedin: 'https://linkedin.com/in/maria',
-                github: 'https://github.com/maria'
-            }
+            name: 'Кувшинников Никита Владимирович',
+            position: 'frontend',
+            description: 'Специализируется на React и Node.js разработке',
+
+            imageUrl: '/images/team/nikita.jpg'
         },
         {
             id: 3,
-            name: 'Дмитрий Сидоров',
+            name: 'Мытько Сергей Степанович',
             position: 'Lead Developer',
-            description: 'Специализируется на React и Node.js разработке',
-            imageUrl: '/images/team/dmitry.jpg',
-            socialLinks: {
-                linkedin: 'https://linkedin.com/in/dmitry',
-                github: 'https://github.com/dmitry'
-            }
+            description: 'Эксперт в области веб-разработки и облачных технологий',
+            imageUrl: '/images/team/srgei.jpg'
         },
         {
             id: 4,
+            name: 'Кучинский Артем Витальевич',
+            position: 'backend',
+            description: 'Создает интуитивные и красивые интерфейсы',
+            imageUrl: '/images/team/elena.jpg'
+        },
+        {
+            id: 5,
             name: 'Елена Козлова',
             position: 'UI/UX Дизайнер',
             description: 'Создает интуитивные и красивые интерфейсы',
-            imageUrl: '/images/team/elena.jpg',
-            socialLinks: {
-                linkedin: 'https://linkedin.com/in/elena',
-                telegram: 'https://t.me/elena'
-            }
+            imageUrl: '/images/team/elena.jpg'
         }
     ],
     achievements: [
@@ -234,36 +226,31 @@ const initialAboutContent: AboutContent = {
             id: 1,
             year: '2020',
             title: 'Основание компании',
-            description: 'Начали свой путь с небольшой команды энтузиастов',
-            icon: '🏢'
+            description: 'Начали свой путь с небольшой команды энтузиастов'
         },
         {
             id: 2,
             year: '2021',
             title: 'Первые 50 проектов',
-            description: 'Успешно завершили 50+ проектов для клиентов',
-            icon: '🎉'
+            description: 'Успешно завершили 50+ проектов для клиентов'
         },
         {
             id: 3,
             year: '2022',
             title: 'Расширение команды',
-            description: 'Команда выросла до 15 профессионалов',
-            icon: '👥'
+            description: 'Команда выросла до 15 профессионалов'
         },
         {
             id: 4,
             year: '2023',
             title: 'Международные проекты',
-            description: 'Начали работать с клиентами из Европы и США',
-            icon: '🌍'
+            description: 'Начали работать с клиентами из Европы и США'
         },
         {
             id: 5,
             year: '2024',
             title: 'Инновации и рост',
-            description: 'Запустили собственные SaaS продукты',
-            icon: '🚀'
+            description: 'Запустили собственные SaaS продукты'
         }
     ],
     createdAt: new Date('2020-01-15'),

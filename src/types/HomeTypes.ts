@@ -7,7 +7,6 @@ export interface HomeContent {
     videoPoster: string;
     primaryButtonText: string;
     secondaryButtonText: string;
-    primaryButtonIcon: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -19,5 +18,4 @@ export interface HomeUpdateRequest {
     videoPoster: string;
     primaryButtonText: string;
     secondaryButtonText: string;
-    primaryButtonIcon: string;
 }

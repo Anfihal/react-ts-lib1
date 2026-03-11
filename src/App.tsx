@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
@@ -9,6 +8,8 @@ import { AboutProvider } from './context/AboutContext';
 import { HomeProvider } from './context/HomeContext';
 import { ProfileProvider } from './context/ProfileContext';
 import { CartProvider } from './context/CartContext';
+import { ReviewsProvider } from './context/ReviewsContext';
+import { ChatProvider } from './context/ChatContext'; // ИМПОРТ ChatProvider
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home/Home';
@@ -18,6 +19,9 @@ import Admin from './pages/Admin/Admin';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import Login from './components/auth/Login';
+import Registration from './components/auth/Registration';
+
+// Гостевые страницы
 import GuestDashboard from './pages/Guest/Dashboard/Dashboard';
 import GuestProfile from './pages/Guest/GuestProfile/Profile';
 import GuestOrders from './pages/Guest/GuestOrders/Orders';
@@ -26,20 +30,25 @@ import GuestShop from './pages/Guest/GuestShop/GuestShop';
 import GuestAbout from './pages/Guest/GuestAbout/GuestAbout';
 import GuestContact from './pages/Guest/GuestContact/GuestContact';
 import GuestCart from './pages/Guest/Cart/Cart';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import './styles/App.css';
 
-// Компонент для автоматического редиректа
+// Страницы отзывов
+import Reviews from './pages/Reviews/Reviews';
+import GuestReviews from './pages/Guest/GuestReviews/GuestReviews';
+import AdminReviews from './pages/Admin/AdminReviews/AdminReviews';
+
+// Компоненты чата
+import AdminChatLayout from './components/admin/chat/AdminChatLayout'; // ИЗМЕНИЛИ ИМПОРТ
+
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import './App.css';
+
 const AppRouter: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Автоматический редирект с любых GitHub Pages путей на корневой
-    const currentPath = location.pathname;
-
-    if (currentPath.startsWith('/react-ts-lib1')) {
-      const newPath = currentPath.replace('/react-ts-lib1', '') || '/';
+    if (location.pathname.startsWith('/react-ts-lib1')) {
+      const newPath = location.pathname.replace('/react-ts-lib1', '') || '/';
       navigate(newPath, { replace: true });
     }
   }, [location, navigate]);
@@ -49,93 +58,33 @@ const AppRouter: React.FC = () => {
       <Header />
       <main className="main-content">
         <Routes>
-          {/* Главная страница */}
+          {/* Главная и публичные маршруты */}
           <Route path="/" element={<Home />} />
-
-          {/* Публичные маршруты */}
           <Route path="/services" element={<Services />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/reviews" element={<Reviews />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Registration />} />
 
-          {/* Защищенные маршруты гостя */}
-          <Route
-            path="/guest"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestprofile"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestorders"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestOrders />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestservices"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestServices />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestshop"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestShop />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/cart"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestCart />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestabout"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestAbout />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/guest/guestcontact"
-            element={
-              <ProtectedRoute requireAdmin={false}>
-                <GuestContact />
-              </ProtectedRoute>
-            }
-          />
+          {/* Гостевые маршруты */}
+          <Route path="/guest" element={<ProtectedRoute requireAdmin={false}><GuestDashboard /></ProtectedRoute>} />
+          <Route path="/guest/guestprofile" element={<ProtectedRoute requireAdmin={false}><GuestProfile /></ProtectedRoute>} />
+          <Route path="/guest/guestorders" element={<ProtectedRoute requireAdmin={false}><GuestOrders /></ProtectedRoute>} />
+          <Route path="/guest/guestservices" element={<ProtectedRoute requireAdmin={false}><GuestServices /></ProtectedRoute>} />
+          <Route path="/guest/guestshop" element={<ProtectedRoute requireAdmin={false}><GuestShop /></ProtectedRoute>} />
+          <Route path="/guest/cart" element={<ProtectedRoute requireAdmin={false}><GuestCart /></ProtectedRoute>} />
+          <Route path="/guest/guestabout" element={<ProtectedRoute requireAdmin={false}><GuestAbout /></ProtectedRoute>} />
+          <Route path="/guest/guestcontact" element={<ProtectedRoute requireAdmin={false}><GuestContact /></ProtectedRoute>} />
+          <Route path="/guest/reviews" element={<ProtectedRoute requireAdmin={false}><GuestReviews /></ProtectedRoute>} />
 
-          {/* Защищенные маршруты админа */}
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute requireAdmin={true}>
-                <Admin />
-              </ProtectedRoute>
-            }
-          />
+          {/* Админка */}
+          <Route path="/admin/*" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
+          <Route path="/admin/reviews" element={<ProtectedRoute requireAdmin={true}><AdminReviews /></ProtectedRoute>} />
+          <Route path="/admin/chat" element={<ProtectedRoute requireAdmin={true}><AdminChatLayout /></ProtectedRoute>} />
 
-          {/* Страница 404 */}
+          {/* 404 */}
           <Route path="*" element={
             <div className="not-found">
               <h2>Страница не найдена</h2>
@@ -159,7 +108,11 @@ const App: React.FC = () => {
               <AboutProvider>
                 <HomeProvider>
                   <CartProvider>
-                    <AppRouter />
+                    <ReviewsProvider>
+                      <ChatProvider> {/* ДОБАВЛЕН ChatProvider */}
+                        <AppRouter />
+                      </ChatProvider>
+                    </ReviewsProvider>
                   </CartProvider>
                 </HomeProvider>
               </AboutProvider>
