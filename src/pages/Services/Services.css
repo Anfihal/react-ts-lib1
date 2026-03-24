@@ -1,51 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+/* ============================================
+   СТРАНИЦА УСЛУГ (services-page)
+   Использует глобальные переменные из app.css
+   ============================================ */
 
 .services-page {
-    padding: 4rem 0;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    font-family: 'Inter', sans-serif;
 }
 
-/* ========== СТЕКЛЯННЫЙ ФОН С GIF И АНИМИРОВАННЫМ ГРАДИЕНТОМ ========== */
-
-/* Базовый цвет фона для каждой темы (запасной вариант) */
-[data-theme='light'] .services-page {
-    background-color: #f4f8f9;
-}
-
-[data-theme='dark'] .services-page {
-    background-color: #051321;
-}
-
-/* Основной стеклянный фон с GIF */
-.services-page::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    pointer-events: none;
-
-    /* GIF фон */
-    background-image: var(--bg-gif, none);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
-    /* Стеклянный эффект поверх GIF */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    opacity: var(--bg-opacity, 0.7);
-    animation: bgFadeIn 1s ease-in;
-}
-
-/* Второй слой с анимированным градиентом для стеклянного эффекта */
+/* ----- СТЕКЛЯННЫЙ ФОН (GIF + анимированный градиент) ----- */
+.services-page::before,
 .services-page::after {
     content: '';
     position: fixed;
@@ -53,28 +18,31 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
     pointer-events: none;
+}
 
-    /* Анимированный градиент */
-    background:
-        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 25%),
-        radial-gradient(circle at 80% 30%, rgba(62, 133, 165, 0.15) 0%, transparent 30%),
-        radial-gradient(circle at 40% 70%, rgba(92, 156, 182, 0.1) 0%, transparent 35%),
-        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 25%);
+.services-page::before {
+    z-index: -2;
+    background-image: var(--bg-gif, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    backdrop-filter: blur(8px);
+    opacity: var(--bg-opacity, 0.7);
+    animation: bgFadeIn 1s ease-in;
+}
 
+.services-page::after {
+    z-index: -1;
     background-size: 200% 200%;
     background-position: 0% 0%;
-
     animation: gradientMove 20s ease-in-out infinite alternate;
-
-    /* Смешивание для стеклянного эффекта */
     mix-blend-mode: overlay;
-
     opacity: 0.8;
 }
 
-/* Светлая тема — настройки GIF и градиента */
+/* Светлая тема */
 [data-theme='light'] .services-page::before {
     --bg-gif: url('/images/servicesbglight.gif');
     --bg-opacity: 0.6;
@@ -89,9 +57,9 @@
     mix-blend-mode: normal;
 }
 
-/* Тёмная тема — настройки GIF и градиента */
+/* Тёмная тема */
 [data-theme='dark'] .services-page::before {
-    --bg-gif: url('/images/services-bg-dark.gif');
+    --bg-gif: url('/images/servicesbgdark.gif');
     --bg-opacity: 0.5;
 }
 
@@ -104,11 +72,17 @@
     mix-blend-mode: soft-light;
 }
 
-/* Fallback если GIF не загрузился — анимированный градиент */
+/* Fallback если GIF не загрузился */
 @supports not (background-image: var(--bg-gif)) {
     .services-page::before {
         background: none;
         backdrop-filter: none;
+    }
+
+    .services-page::after {
+        background-size: 300% 300%;
+        animation: gradientIntense 15s ease-in-out infinite;
+        opacity: 0.9;
     }
 
     [data-theme='light'] .services-page::after {
@@ -117,10 +91,7 @@
             radial-gradient(circle at 70% 60%, rgba(92, 156, 182, 0.3) 0%, transparent 40%),
             radial-gradient(circle at 20% 80%, rgba(15, 52, 78, 0.2) 0%, transparent 45%),
             radial-gradient(circle at 90% 20%, rgba(62, 133, 165, 0.25) 0%, transparent 35%);
-        background-size: 300% 300%;
-        animation: gradientIntense 15s ease-in-out infinite;
         mix-blend-mode: normal;
-        opacity: 0.9;
     }
 
     [data-theme='dark'] .services-page::after {
@@ -129,14 +100,11 @@
             radial-gradient(circle at 80% 70%, rgba(62, 133, 165, 0.35) 0%, transparent 45%),
             radial-gradient(circle at 50% 50%, rgba(92, 156, 182, 0.3) 0%, transparent 50%),
             radial-gradient(circle at 10% 90%, rgba(15, 52, 78, 0.4) 0%, transparent 40%);
-        background-size: 300% 300%;
-        animation: gradientIntense 15s ease-in-out infinite;
         mix-blend-mode: soft-light;
-        opacity: 0.9;
     }
 }
 
-/* Анимации для градиентов */
+/* Анимации градиентов */
 @keyframes bgFadeIn {
     from {
         opacity: 0;
@@ -191,30 +159,12 @@
     }
 }
 
-/* Третий слой для дополнительного стеклянного эффекта */
-.services-page .glass-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-[data-theme='dark'] .services-page .glass-overlay {
-    background: rgba(0, 0, 0, 0.03);
-}
-
-/* ========== КОНТЕЙНЕР ========== */
-
+/* ----- КОНТЕЙНЕР И ЗАГОЛОВОК ----- */
 .services-page .services-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 4rem 2rem;
+    /* вертикальные отступы */
     position: relative;
     z-index: 2;
 }
@@ -225,7 +175,6 @@
 }
 
 .services-page .services-title {
-    font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 55px;
     line-height: 67px;
@@ -234,104 +183,93 @@
 
 [data-theme='light'] .services-page .services-title {
     color: #051321;
-    text-shadow: 0px 2px 4px rgba(5, 19, 33, 0.1);
+    text-shadow: 0 2px 4px rgba(5, 19, 33, 0.1);
 }
 
 [data-theme='dark'] .services-page .services-title {
     color: #d7e5ea;
-    text-shadow:
-        0px 100px 80px rgba(0, 0, 0, 0.36),
-        0px 50.0488px 40.0391px rgba(0, 0, 0, 0.27372),
-        0px 30.1471px 24.1177px rgba(0, 0, 0, 0.234572),
-        0px 19.3198px 15.4559px rgba(0, 0, 0, 0.205522),
-        0px 12.5216px 10.0172px rgba(0, 0, 0, 0.18),
-        0px 7.88218px 6.30574px rgba(0, 0, 0, 0.154478),
-        0px 4.5288px 3.62304px rgba(0, 0, 0, 0.125428),
-        0px 1.99324px 1.59459px rgba(0, 0, 0, 0.0862802);
+    text-shadow: 0 100px 80px rgba(0, 0, 0, 0.36),
+        0 50px 40px rgba(0, 0, 0, 0.274),
+        0 30px 24px rgba(0, 0, 0, 0.235),
+        0 19px 15px rgba(0, 0, 0, 0.206),
+        0 12px 10px rgba(0, 0, 0, 0.18),
+        0 7.9px 6.3px rgba(0, 0, 0, 0.154),
+        0 4.5px 3.6px rgba(0, 0, 0, 0.125),
+        0 2px 1.6px rgba(0, 0, 0, 0.086);
 }
 
-/* ========== СЕТКА УСЛУГ ========== */
-
+/* ----- СЕТКА УСЛУГ ----- */
 .services-page .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(512px, 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
-    justify-content: center;
+    justify-items: center;
+    /* центрируем карточки в ячейках */
+    align-items: start;
 }
 
-/* ========== КАРТОЧКА УСЛУГИ ========== */
-
+/* ----- КАРТОЧКА УСЛУГИ ----- */
 .services-page .service-card {
     position: relative;
     width: 100%;
     max-width: 512px;
-    height: 644px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12.5px);
-    -webkit-backdrop-filter: blur(12.5px);
-    border-radius: 77px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
+    height: auto;
+    min-height: 644px;
     padding: 40px;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12.5px);
+    border-radius: var(--glass-radius-lg, 77px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
+    transition: all var(--transition-speed, 0.3s) ease;
+    margin: 0 auto;
+    /* дополнительное центрирование */
 }
 
 [data-theme='light'] .services-page .service-card {
-    background: rgba(244, 248, 249, 0.75);
-    border: 1px solid rgba(15, 52, 78, 0.15);
-    box-shadow: 0px 9px 18.4px rgba(5, 19, 33, 0.1);
+    background: var(--glass-bg-light, rgba(244, 248, 249, 0.75));
+    border-color: var(--glass-border-light, rgba(15, 52, 78, 0.15));
 }
 
 [data-theme='dark'] .services-page .service-card {
-    background: rgba(15, 52, 78, 0.4);
-    border: 1px solid rgba(215, 229, 234, 0.2);
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.35);
+    background: var(--glass-bg-dark, rgba(15, 52, 78, 0.4));
+    border-color: var(--glass-border-dark, rgba(215, 229, 234, 0.2));
 }
 
 .services-page .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
-    border-color: rgba(215, 229, 234, 0.4);
+    transform: translateY(var(--hover-lift, -5px));
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme='light'] .services-page .service-card:hover {
     background: rgba(230, 238, 242, 0.85);
     border-color: rgba(15, 52, 78, 0.3);
-    box-shadow: 0px 15px 30px rgba(5, 19, 33, 0.15);
 }
 
 [data-theme='dark'] .services-page .service-card:hover {
     background: rgba(15, 52, 78, 0.55);
     border-color: rgba(215, 229, 234, 0.35);
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.45);
 }
 
-/* ========== ОБЛАСТЬ ИЗОБРАЖЕНИЯ/ВИДЕО ========== */
-
+/* Изображение */
 .services-page .service-image {
     width: calc(100% + 80px);
     height: 280px;
     margin: -40px -40px 20px -40px;
-    border-radius: 77px 77px 0 0;
+    border-radius: var(--glass-radius-lg, 77px) var(--glass-radius-lg, 77px) 0 0;
     overflow: hidden;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #e6eef2 0%, #d7e5ea 100%);
-}
-
-[data-theme='light'] .services-page .service-image {
-    background: linear-gradient(135deg, #e6eef2 0%, #d7e5ea 100%);
+    background: linear-gradient(135deg, #e6eef2, #d7e5ea);
 }
 
 [data-theme='dark'] .services-page .service-image {
-    background: linear-gradient(135deg, #071a2a 0%, #0b273c 100%);
+    background: linear-gradient(135deg, #071a2a, #0b273c);
 }
 
 .services-page .service-image img {
@@ -340,41 +278,23 @@
     object-fit: cover;
 }
 
-/* Если нет изображения — скрываем область и меняем высоту карточки */
 .services-page .service-card:not(.has-image) .service-image {
     display: none;
 }
 
 .services-page .service-card:not(.has-image) {
-    height: auto;
     min-height: 420px;
     padding-top: 40px;
 }
 
-/* ========== РАЗДЕЛИТЕЛЬНАЯ ЛИНИЯ ========== */
-
-.services-page .service-divider {
-    width: 100%;
-    height: 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    margin: 20px 0;
+/* Контент карточки */
+.services-page .service-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-[data-theme='light'] .services-page .service-divider {
-    border-color: rgba(15, 52, 78, 0.25);
-}
-
-[data-theme='dark'] .services-page .service-divider {
-    border-color: rgba(215, 229, 234, 0.3);
-}
-
-/* Если нет изображения — скрываем разделитель */
-.services-page .service-card:not(.has-image) .service-divider {
-    display: none;
-}
-
-/* ========== НАЗВАНИЕ И ЦЕНА ========== */
-
+/* Заголовок и цена */
 .services-page .service-header {
     display: flex;
     justify-content: space-between;
@@ -384,48 +304,33 @@
     flex-wrap: wrap;
 }
 
-.services-page .service-name {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
+.services-page .service-name,
+.services-page .service-price {
     font-weight: 400;
     font-size: 38px;
     line-height: 46px;
-    display: flex;
-    align-items: center;
+}
+
+.services-page .service-name {
     flex: 1;
     color: #051321;
 }
 
-[data-theme='dark'] .services-page .service-name {
-    color: #d7e5ea;
-}
-
 .services-page .service-price {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 38px;
-    line-height: 46px;
-    display: flex;
-    align-items: center;
     white-space: nowrap;
     color: #0f344e;
 }
 
+[data-theme='dark'] .services-page .service-name,
 [data-theme='dark'] .services-page .service-price {
     color: #d7e5ea;
 }
 
-/* ========== ОПИСАНИЕ ========== */
-
+/* Описание */
 .services-page .service-description {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
-    display: flex;
-    align-items: center;
     flex-grow: 1;
     margin-bottom: 30px;
     color: #314c5c;
@@ -435,8 +340,7 @@
     color: #8494a4;
 }
 
-/* ========== МЕТА-ИНФОРМАЦИЯ ========== */
-
+/* Мета-информация */
 .services-page .service-meta {
     display: flex;
     gap: 10px;
@@ -446,7 +350,6 @@
 
 .services-page .service-category,
 .services-page .service-duration {
-    font-family: 'Inter', sans-serif;
     font-size: 14px;
     padding: 6px 16px;
     border-radius: 20px;
@@ -466,21 +369,17 @@
     color: #d7e5ea;
 }
 
-/* ========== КНОПКИ ========== */
-
+/* Кнопки */
 .services-page .service-actions {
     display: flex;
     gap: 15px;
-    align-items: center;
     flex-wrap: wrap;
     margin-top: auto;
 }
 
-/* Кнопка консультации */
-.services-page .consult-btn {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
+.services-page .consult-btn,
+.services-page .details-btn,
+.services-page .cta-button {
     font-size: 18px;
     line-height: 22px;
     background: transparent;
@@ -490,198 +389,80 @@
     height: 60px;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-width: 237px;
-    text-decoration: none;
     color: #0f344e;
 }
 
-[data-theme='dark'] .services-page .consult-btn {
-    border-color: rgba(215, 229, 234, 0.4);
-    color: #d7e5ea;
-}
-
-.services-page .consult-btn:hover {
-    background: rgba(62, 133, 165, 0.2);
-    border-color: #3e85a5;
-    transform: translateY(-2px);
-}
-
-[data-theme='light'] .services-page .consult-btn:hover {
-    background: rgba(15, 52, 78, 0.1);
-    color: #051321;
-}
-
-[data-theme='dark'] .services-page .consult-btn:hover {
-    background: rgba(215, 229, 234, 0.1);
-    color: #d7e5ea;
-}
-
-/* Кнопка подробнее */
 .services-page .details-btn {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    background: transparent;
-    border: 2px solid rgba(15, 52, 78, 0.4);
-    border-radius: 12px;
-    padding: 19px 30px;
-    height: 60px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     min-width: 136px;
-    text-decoration: none;
-    color: #0f344e;
 }
 
-[data-theme='dark'] .services-page .details-btn {
+.services-page .consult-btn {
+    min-width: 237px;
+}
+
+.services-page .cta-button {
+    padding: 19px 40px;
+}
+
+[data-theme='dark'] .services-page .consult-btn,
+[data-theme='dark'] .services-page .details-btn,
+[data-theme='dark'] .services-page .cta-button {
     border-color: rgba(215, 229, 234, 0.4);
     color: #d7e5ea;
 }
 
-.services-page .details-btn:hover {
+.services-page .consult-btn:hover,
+.services-page .details-btn:hover,
+.services-page .cta-button:hover {
     background: rgba(62, 133, 165, 0.2);
     border-color: #3e85a5;
     transform: translateY(-2px);
 }
 
-[data-theme='light'] .services-page .details-btn:hover {
+[data-theme='light'] .services-page .consult-btn:hover,
+[data-theme='light'] .services-page .details-btn:hover,
+[data-theme='light'] .services-page .cta-button:hover {
     background: rgba(15, 52, 78, 0.1);
     color: #051321;
 }
 
-[data-theme='dark'] .services-page .details-btn:hover {
+[data-theme='dark'] .services-page .consult-btn:hover,
+[data-theme='dark'] .services-page .details-btn:hover,
+[data-theme='dark'] .services-page .cta-button:hover {
     background: rgba(215, 229, 234, 0.1);
     color: #d7e5ea;
 }
 
-/* ========== СОСТОЯНИЯ ЗАГРУЗКИ И ОШИБОК ========== */
-
-.services-page .loading-section,
-.services-page .error-section,
-.services-page .no-services {
-    text-align: center;
-    padding: 3rem;
-    backdrop-filter: blur(12.5px);
-    -webkit-backdrop-filter: blur(12.5px);
-    border-radius: 77px;
-    margin-bottom: 3rem;
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
-    max-width: 512px;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgba(244, 248, 249, 0.75);
-    border: 1px solid rgba(15, 52, 78, 0.15);
-    color: #051321;
-}
-
-[data-theme='dark'] .services-page .loading-section,
-[data-theme='dark'] .services-page .error-section,
-[data-theme='dark'] .services-page .no-services {
-    background: rgba(15, 52, 78, 0.4);
-    border: 1px solid rgba(215, 229, 234, 0.2);
-    color: #d7e5ea;
-}
-
-.services-page .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(15, 52, 78, 0.2);
-    border-top: 3px solid #0f344e;
-    border-radius: 50%;
-    animation: services-spin 1s linear infinite;
-    margin: 0 auto 1.5rem;
-}
-
-[data-theme='dark'] .services-page .loading-spinner {
-    border-color: rgba(215, 229, 234, 0.2);
-    border-top-color: #d7e5ea;
-}
-
-@keyframes services-spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.services-page .error-section h3,
-.services-page .no-services h3 {
-    font-family: 'Inter', sans-serif;
-    font-size: 38px;
-    line-height: 46px;
-    margin-bottom: 1rem;
-    font-weight: 400;
-    color: #051321;
-}
-
-[data-theme='dark'] .services-page .error-section h3,
-[data-theme='dark'] .services-page .no-services h3 {
-    color: #d7e5ea;
-}
-
-.services-page .error-section p,
-.services-page .no-services p {
-    font-size: 24px;
-    line-height: 29px;
-    max-width: 400px;
-    margin: 0 auto;
-    color: #314c5c;
-}
-
-[data-theme='dark'] .services-page .error-section p,
-[data-theme='dark'] .services-page .no-services p {
-    color: #8494a4;
-}
-
-/* ========== CTA СЕКЦИЯ ========== */
-
+/* CTA-секция */
 .services-page .services-cta {
     text-align: center;
-    backdrop-filter: blur(12.5px);
-    -webkit-backdrop-filter: blur(12.5px);
     padding: 3rem 2rem;
-    border-radius: 77px;
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     max-width: 512px;
-    margin: 0 auto;
+    margin: 2rem auto 0;
+    /* отступ сверху */
     transition: all 0.3s ease;
+    backdrop-filter: blur(12.5px);
+    border-radius: var(--glass-radius-lg, 77px);
+    box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
     background: rgba(244, 248, 249, 0.75);
     border: 1px solid rgba(15, 52, 78, 0.15);
 }
 
 [data-theme='dark'] .services-page .services-cta {
     background: rgba(15, 52, 78, 0.4);
-    border: 1px solid rgba(215, 229, 234, 0.2);
+    border-color: rgba(215, 229, 234, 0.2);
 }
 
 .services-page .services-cta:hover {
     transform: translateY(-5px);
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
-}
-
-[data-theme='light'] .services-page .services-cta:hover {
-    box-shadow: 0px 15px 30px rgba(5, 19, 33, 0.15);
-}
-
-[data-theme='dark'] .services-page .services-cta:hover {
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
 }
 
 .services-page .services-cta h2 {
-    font-family: 'Inter', sans-serif;
     font-size: 38px;
     line-height: 46px;
     margin-bottom: 1rem;
@@ -694,7 +475,6 @@
 }
 
 .services-page .services-cta p {
-    font-family: 'Inter', sans-serif;
     font-size: 24px;
     line-height: 29px;
     margin-bottom: 2rem;
@@ -708,63 +488,69 @@
     color: #8494a4;
 }
 
-.services-page .cta-button {
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    background: transparent;
-    border: 2px solid rgba(15, 52, 78, 0.4);
-    border-radius: 12px;
-    padding: 19px 40px;
-    height: 60px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+/* Состояния загрузки/ошибок */
+.services-page .loading-section,
+.services-page .error-section,
+.services-page .no-services {
     text-align: center;
-    color: #0f344e;
-}
-
-[data-theme='dark'] .services-page .cta-button {
-    border-color: rgba(215, 229, 234, 0.4);
-    color: #d7e5ea;
-}
-
-.services-page .cta-button:hover {
-    background: rgba(62, 133, 165, 0.2);
-    border-color: #3e85a5;
-    transform: translateY(-2px);
-}
-
-[data-theme='light'] .services-page .cta-button:hover {
-    background: rgba(15, 52, 78, 0.1);
+    padding: 3rem;
+    backdrop-filter: blur(12.5px);
+    border-radius: var(--glass-radius-lg, 77px);
+    max-width: 512px;
+    margin: 2rem auto;
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
     color: #051321;
 }
 
-[data-theme='dark'] .services-page .cta-button:hover {
-    background: rgba(215, 229, 234, 0.1);
+[data-theme='dark'] .services-page .loading-section,
+[data-theme='dark'] .services-page .error-section,
+[data-theme='dark'] .services-page .no-services {
+    background: rgba(15, 52, 78, 0.4);
+    border-color: rgba(215, 229, 234, 0.2);
     color: #d7e5ea;
 }
 
-/* ========== АНИМАЦИИ ========== */
+.services-page .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(15, 52, 78, 0.2);
+    border-top: 3px solid #0f344e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1.5rem;
+}
 
-@keyframes services-fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+[data-theme='dark'] .services-page .loading-spinner {
+    border-color: rgba(215, 229, 234, 0.2);
+    border-top-color: #d7e5ea;
+}
 
+@keyframes spin {
     to {
-        opacity: 1;
-        transform: translateY(0);
+        transform: rotate(360deg);
     }
 }
 
+.services-page .error-section h3,
+.services-page .no-services h3 {
+    font-size: 38px;
+    line-height: 46px;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.services-page .error-section p,
+.services-page .no-services p {
+    font-size: 24px;
+    line-height: 29px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Анимация появления карточек */
 .services-page .service-card {
-    animation: services-fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.5s ease-out forwards;
 }
 
 .services-page .service-card:nth-child(1) {
@@ -791,15 +577,22 @@
     animation-delay: 0.6s;
 }
 
-/* ========== АДАПТИВНОСТЬ ========== */
-
-@media (max-width: 768px) {
-    .services-page {
-        padding: 2rem 0;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ----- АДАПТИВНОСТЬ ----- */
+@media (max-width: 768px) {
     .services-page .services-container {
-        padding: 0 1rem;
+        padding: 2rem 1rem;
     }
 
     .services-page .services-title {
@@ -814,10 +607,8 @@
 
     .services-page .service-card {
         max-width: 100%;
-        width: 100%;
-        height: auto;
         min-height: 600px;
-        border-radius: 40px;
+        border-radius: var(--glass-radius-lg, 40px);
         padding: 30px 20px;
     }
 
@@ -825,7 +616,7 @@
         height: 200px;
         margin: -30px -20px 20px -20px;
         width: calc(100% + 40px);
-        border-radius: 40px 40px 0 0;
+        border-radius: var(--glass-radius-lg, 40px) var(--glass-radius-lg, 40px) 0 0;
     }
 
     .services-page .service-card:not(.has-image) {
@@ -838,11 +629,7 @@
         gap: 0.5rem;
     }
 
-    .services-page .service-name {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
+    .services-page .service-name,
     .services-page .service-price {
         font-size: 28px;
         line-height: 36px;
@@ -859,18 +646,17 @@
     }
 
     .services-page .consult-btn,
-    .services-page .details-btn {
+    .services-page .details-btn,
+    .services-page .cta-button {
         min-width: 100%;
         height: 50px;
         padding: 15px 20px;
     }
 
-    /* CTA секция как основная карточка на мобильном */
     .services-page .services-cta {
         max-width: 100%;
-        width: 100%;
         padding: 2rem 1.5rem;
-        border-radius: 40px;
+        border-radius: var(--glass-radius-lg, 40px);
     }
 
     .services-page .services-cta h2 {
@@ -883,18 +669,11 @@
         line-height: 24px;
     }
 
-    .services-page .cta-button {
-        min-width: 100%;
-        height: 50px;
-        padding: 15px 20px;
-    }
-
     .services-page .loading-section,
     .services-page .error-section,
     .services-page .no-services {
         max-width: 100%;
-        width: 100%;
-        border-radius: 40px;
+        border-radius: var(--glass-radius-lg, 40px);
         padding: 2rem 1.5rem;
     }
 }
@@ -907,7 +686,7 @@
 
     .services-page .service-card {
         padding: 20px 15px;
-        border-radius: 30px;
+        border-radius: var(--glass-radius-lg, 30px);
         min-height: 550px;
     }
 
@@ -915,18 +694,14 @@
         height: 180px;
         margin: -20px -15px 15px -15px;
         width: calc(100% + 30px);
-        border-radius: 30px 30px 0 0;
+        border-radius: var(--glass-radius-lg, 30px) var(--glass-radius-lg, 30px) 0 0;
     }
 
     .services-page .service-card:not(.has-image) {
         min-height: 380px;
     }
 
-    .services-page .service-name {
-        font-size: 24px;
-        line-height: 30px;
-    }
-
+    .services-page .service-name,
     .services-page .service-price {
         font-size: 24px;
         line-height: 30px;
@@ -939,7 +714,7 @@
 
     .services-page .services-cta {
         padding: 1.5rem 1rem;
-        border-radius: 30px;
+        border-radius: var(--glass-radius-lg, 30px);
     }
 
     .services-page .services-cta h2 {
@@ -953,8 +728,7 @@
     }
 }
 
-/* ========== REDUCED MOTION ========== */
-
+/* ----- REDUCED MOTION ----- */
 @media (prefers-reduced-motion: reduce) {
 
     .services-page::after,
@@ -976,8 +750,7 @@
     }
 }
 
-/* ========== ФОКУС ДЛЯ ДОСТУПНОСТИ ========== */
-
+/* ----- ДОСТУПНОСТЬ ----- */
 .services-page .consult-btn:focus,
 .services-page .details-btn:focus,
 .services-page .cta-button:focus {

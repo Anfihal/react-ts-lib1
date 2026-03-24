@@ -168,7 +168,7 @@ const Profile: React.FC = () => {
                                 {isEditing && (
                                     <div className="avatar-overlay">
                                         <span className="avatar-upload-text">
-                                            {avatar ? '📷 Сменить фото' : '📷 Добавить фото'}
+                                            {avatar ? 'Сменить фото' : 'Добавить фото'}
                                         </span>
                                     </div>
                                 )}
@@ -188,7 +188,7 @@ const Profile: React.FC = () => {
                                 onClick={removeAvatar}
                                 type="button"
                             >
-                                🗑️ Удалить фото
+                                Удалить фото
                             </button>
                         )}
 
@@ -197,7 +197,7 @@ const Profile: React.FC = () => {
                                 className="edit-btn primary"
                                 onClick={() => setIsEditing(true)}
                             >
-                                {isProfileEmpty() ? '➕ Создать профиль' : '✏️ Редактировать профиль'}
+                                {isProfileEmpty() ? 'Создать профиль' : 'Редактировать профиль'}
                             </button>
                         )}
                     </div>
@@ -261,7 +261,7 @@ const Profile: React.FC = () => {
 
                                 <div className="form-actions">
                                     <button className="save-btn primary" onClick={handleSave}>
-                                        💾 Сохранить изменения
+                                        Сохранить изменения
                                     </button>
                                     <button className="cancel-btn secondary" onClick={handleCancel} type="button">
                                         Отмена
@@ -280,26 +280,26 @@ const Profile: React.FC = () => {
                                         <div className="info-grid">
                                             {name && (
                                                 <div className="info-item">
-                                                    <span className="label">👤 Имя:</span>
+                                                    <span className="label">Имя:</span>
                                                     <span className="value">{name}</span>
                                                 </div>
                                             )}
                                             {email && (
                                                 <div className="info-item">
-                                                    <span className="label">📧 Email:</span>
+                                                    <span className="label">Email:</span>
                                                     <span className="value">{email}</span>
                                                 </div>
                                             )}
                                             {phone && (
                                                 <div className="info-item">
-                                                    <span className="label">📞 Телефон:</span>
+                                                    <span className="label">Телефон:</span>
                                                     <span className="value">{phone}</span>
                                                 </div>
                                             )}
                                         </div>
                                         {bio && (
                                             <div className="bio-section">
-                                                <h3>📝 О себе</h3>
+                                                <h3>О себе</h3>
                                                 <p className="bio-text">{bio}</p>
                                             </div>
                                         )}
@@ -312,7 +312,7 @@ const Profile: React.FC = () => {
 
                 {/* Информация о сохранении */}
                 <div className="save-info">
-                    <p>💾 Все изменения сохраняются в вашем профиле</p>
+                    <p>Все изменения сохраняются в вашем профиле</p>
                 </div>
             </div>
         </div>

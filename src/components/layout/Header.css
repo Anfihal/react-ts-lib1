@@ -1,5 +1,4 @@
 /* Header.css */
-
 /* === СБРОС И БАЗОВЫЕ СТИЛИ === */
 .header *,
 .header *::before,
@@ -347,6 +346,12 @@
     color: var(--text-secondary);
     transition: transform 0.3s ease;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 0.25rem;
 }
 
 .dropdown-arrow.open {

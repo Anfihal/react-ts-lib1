@@ -1,4 +1,8 @@
+/* =============================================================================
+   ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+   ========================================================================== */
 :root {
+  /* Базовые настройки */
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -6,9 +10,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-:root {
+  /* Цветовая схема (светлая) */
   --primary: #2563eb;
   --secondary: #64748b;
   --background: #ffffff;
@@ -18,7 +21,24 @@
   --border: #e2e8f0;
   --error: #dc2626;
   --success: #16a34a;
-  --primary1: #282828;
+
+  /* Стеклянные эффекты (светлая тема) */
+  --glass-bg-light: rgba(244, 248, 249, 0.75);
+  --glass-bg-dark: rgba(15, 52, 78, 0.4);
+  --glass-blur: 12.5px;
+  --glass-border-light: rgba(15, 52, 78, 0.15);
+  --glass-border-dark: rgba(215, 229, 234, 0.2);
+  --glass-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+  --glass-radius: 30px;
+  --glass-radius-lg: 77px;
+
+  /* Анимации и переходы */
+  --transition-speed: 0.3s;
+  --hover-lift: -5px;
+
+  /* Контейнер */
+  --container-max-width: 1400px;
+  --container-padding: 0 2rem;
 }
 
 [data-theme="dark"] {
@@ -31,8 +51,14 @@
   --border: #334155;
   --error: #ef4444;
   --success: #22c55e;
+
+  --glass-bg-light: var(--glass-bg-dark);
+  --glass-border-light: var(--glass-border-dark);
 }
 
+/* =============================================================================
+   БАЗОВЫЙ СБРОС
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -42,7 +68,7 @@
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   line-height: 1.6;
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
 }
 
 .app {
@@ -57,15 +83,303 @@ body {
   flex: 1;
 }
 
+/* =============================================================================
+   КОНТЕЙНЕР (общий для всех страниц)
+   ========================================================================== */
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: var(--container-padding);
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-/* Мобильная адаптация */
+/* =============================================================================
+   СТЕКЛЯННАЯ КАРТОЧКА (универсальная)
+   ========================================================================== */
+.glass-card {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  transition: all var(--transition-speed) ease;
+}
+
+.glass-card:hover {
+  transform: translateY(var(--hover-lift));
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .glass-card {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+/* Модификатор для крупных карточек (например, услуги, контакты) */
+.glass-card--lg {
+  border-radius: var(--glass-radius-lg);
+}
+
+/* =============================================================================
+   КНОПКИ (общие)
+   ========================================================================== */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 2px solid rgba(128, 128, 128, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3e85a5, #2c5f7a);
+  border: none;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(var(--hover-lift));
+  box-shadow: 0 6px 16px rgba(62, 133, 165, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+.btn-icon {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 0;
+  border-radius: 12px;
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.btn-icon:hover {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+/* Тёмная тема для кнопок */
+[data-theme="dark"] .btn {
+  border-color: rgba(215, 229, 234, 0.4);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: rgba(15, 52, 78, 0.4);
+}
+
+[data-theme="light"] .btn {
+  border-color: rgba(15, 52, 78, 0.4);
+  color: #051321;
+}
+
+/* =============================================================================
+   ПОЛЯ ВВОДА, СЕЛЕКТЫ, ТЕКСТАРЕА
+   ========================================================================== */
+.input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border-light);
+  border-radius: 12px;
+  color: inherit;
+  transition: all var(--transition-speed) ease;
+}
+
+.input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3e85a5;
+  box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
+}
+
+[data-theme="dark"] .input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: rgba(15, 52, 78, 0.4);
+  border-color: var(--glass-border-dark);
+}
+
+/* =============================================================================
+   СОСТОЯНИЯ ЗАГРУЗКИ, ОШИБКИ, ОТСУТСТВИЯ ДАННЫХ
+   ========================================================================== */
+.loading-section,
+.error-section,
+.no-items {
+  text-align: center;
+  padding: 3rem;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--glass-bg-light);
+  border: 1px solid var(--glass-border-light);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .loading-section,
+[data-theme="dark"] .error-section,
+[data-theme="dark"] .no-items {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(15, 52, 78, 0.2);
+  border-top: 3px solid #0f344e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+[data-theme="dark"] .loading-spinner {
+  border-color: rgba(215, 229, 234, 0.2);
+  border-top-color: #d7e5ea;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================================================================
+   ОБЩИЕ АНИМАЦИИ
+   ========================================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* =============================================================================
+   АДАПТИВНОСТЬ (общие правила)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  :root {
+    --container-padding: 0 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .container {
-    padding: 0 15px;
+  :root {
+    --container-padding: 0 1rem;
+    --glass-radius: 25px;
+    --glass-radius-lg: 40px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    height: 45px;
+  }
+
+  .btn-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .input,
+  select,
+  textarea {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 0 0.75rem;
+    --glass-radius: 20px;
+    --glass-radius-lg: 30px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    height: 40px;
+  }
+
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .input,
+  select,
+  textarea {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* =============================================================================
+   ДОСТУПНОСТЬ
+   ========================================================================== */
+:focus-visible {
+  outline: 3px solid #3e85a5;
+  outline-offset: 2px;
+}
+
+[data-theme="light"] :focus-visible {
+  outline-color: #0f344e;
+}
+
+[data-theme="dark"] :focus-visible {
+  outline-color: #d7e5ea;
+}
+
+/* =============================================================================
+   REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
   }
 }

@@ -67,7 +67,6 @@ const Login: React.FC = () => {
                     <div className="login-card">
                         <div className="login-header">
                             <h2>Вход в систему</h2>
-                            <p>Выберите тип пользователя для демо доступа</p>
                         </div>
 
                         {error && (
@@ -77,24 +76,6 @@ const Login: React.FC = () => {
                         )}
 
                         <form onSubmit={handleSubmit} className="login-form">
-                            <div className="form-group">
-                                <label htmlFor="userType">Тип демо пользователя</label>
-                                <select
-                                    id="userType"
-                                    name="userType"
-                                    value={formData.userType}
-                                    onChange={handleChange}
-                                    disabled={loading}
-                                    className="user-type-select"
-                                >
-                                    <option value="guest">Гость (Личный кабинет)</option>
-                                    <option value="admin">Администратор</option>
-                                </select>
-                                <small className="select-help">
-                                    Выберите тип демо аккаунта для входа
-                                </small>
-                            </div>
-
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <input

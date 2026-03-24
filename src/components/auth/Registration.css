@@ -1,216 +1,243 @@
 /* Registration.css */
+/* Registration.css */
+
+/* ========== ОСНОВНЫЕ СТИЛИ ========== */
 .registration-page {
+    position: relative;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 2rem 0;
 }
 
+/* Фон с GIF */
+[data-theme='light'] .registration-page {
+    background-color: #f4f8f9;
+    background-image: url('/images/servicesbglight.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+[data-theme='dark'] .registration-page {
+    background-color: #051321;
+    background-image: url('/images/servicesbgdark.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Контейнер */
+.registration-page .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+/* ========== СТЕКЛЯННАЯ КАРТОЧКА ========== */
 .registration-container {
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
 }
 
 .registration-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
-
-.registration-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 30px;
-    text-align: center;
-}
-
-.registration-header h2 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 600;
-}
-
-.registration-header p {
-    margin: 10px 0 0;
-    opacity: 0.9;
-    font-size: 16px;
-}
-
-.registration-form {
-    padding: 30px;
-}
-
-.error-message {
-    background: #fee;
-    color: #c33;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid #c33;
-    font-size: 14px;
-}
-
-.success-message {
-    background: #efe;
-    color: #2a7;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid #2a7;
-    font-size: 14px;
-}
-
-.user-type-label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: #333;
-}
-
-.user-type-selector {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.user-type-btn {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    padding: 2.5rem;
     transition: all 0.3s ease;
 }
 
-.user-type-btn:hover:not(:disabled) {
-    border-color: #667eea;
-    background: #f0f3ff;
+[data-theme='light'] .registration-card {
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    box-shadow: 0px 9px 18.4px rgba(5, 19, 33, 0.1);
 }
 
-.user-type-btn.active {
-    border-color: #667eea;
-    background: #f0f3ff;
-    color: #667eea;
+[data-theme='dark'] .registration-card {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
 }
 
-.user-type-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.registration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
 }
 
-.user-type-icon {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 5px;
+/* ========== ЗАГОЛОВОК ========== */
+.registration-header {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.user-type-text {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 3px;
-}
-
-.user-type-btn small {
-    color: #666;
-    font-size: 12px;
-}
-
-.admin-code-group {
-    background: #fff8e1;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ffd54f;
-}
-
-.admin-code-group label {
-    color: #e65100;
+.registration-header h2 {
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
 }
 
-.field-help {
-    display: block;
-    margin-top: 5px;
-    color: #666;
-    font-size: 12px;
+[data-theme='light'] .registration-header h2 {
+    color: #051321;
+}
+
+[data-theme='dark'] .registration-header h2 {
+    color: #d7e5ea;
+    text-shadow: 0px 100px 80px rgba(0, 0, 0, 0.36),
+        0px 50.0488px 40.0391px rgba(0, 0, 0, 0.27372),
+        0px 30.1471px 24.1177px rgba(0, 0, 0, 0.234572),
+        0px 19.3198px 15.4559px rgba(0, 0, 0, 0.205522),
+        0px 12.5216px 10.0172px rgba(0, 0, 0, 0.18),
+        0px 7.88218px 6.30574px rgba(0, 0, 0, 0.154478),
+        0px 4.5288px 3.62304px rgba(0, 0, 0, 0.125428),
+        0px 1.99324px 1.59459px rgba(0, 0, 0, 0.0862802);
+}
+
+.registration-header p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* ========== ФОРМА ========== */
+.registration-form {
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary);
+}
+
+[data-theme='light'] .form-group label {
+    color: #051321;
+}
+
+[data-theme='dark'] .form-group label {
+    color: #d7e5ea;
 }
 
 .form-group input {
     width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-    box-sizing: border-box;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+[data-theme='light'] .form-group input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(15, 52, 78, 0.2);
+    color: #051321;
+}
+
+[data-theme='dark'] .form-group input {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #3e85a5;
+    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
 }
 
-.form-group input:disabled {
-    background: #f8f9fa;
-    cursor: not-allowed;
+.form-group input::placeholder {
+    color: rgba(128, 128, 128, 0.6);
 }
 
+/* Ряд с двумя полями */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 1rem;
 }
 
+/* ========== КНОПКА РЕГИСТРАЦИИ ========== */
 .register-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 14px 40px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
+    color: inherit;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 10px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+[data-theme='light'] .register-btn {
+    background: rgba(244, 248, 249, 0.75);
+    border-color: rgba(15, 52, 78, 0.4);
+    color: #0f344e;
+}
+
+[data-theme='dark'] .register-btn {
+    background: rgba(15, 52, 78, 0.4);
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #d7e5ea;
 }
 
 .register-btn:hover:not(:disabled) {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
+    box-shadow: 0 4px 12px rgba(62, 133, 165, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
 }
 
 .register-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
-.register-btn .spinner {
+/* Спиннер в кнопке */
+.spinner {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
+    border-top-color: currentColor;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-right: 8px;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -219,73 +246,219 @@
     }
 }
 
+/* ========== СООБЩЕНИЯ ========== */
+.error-message {
+    background: rgba(231, 76, 60, 0.2);
+    border-left: 4px solid #e74c3c;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #e74c3c;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.success-message {
+    background: rgba(46, 204, 113, 0.2);
+    border-left: 4px solid #2ecc71;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #2ecc71;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* ========== ВСПОМОГАТЕЛЬНЫЕ КНОПКИ ========== */
 .helper-buttons {
-    margin: 20px 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
 }
 
 .demo-fill-btn {
-    background: transparent;
-    color: #667eea;
-    border: 1px solid #667eea;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: 14px;
+    padding: 8px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+[data-theme='light'] .demo-fill-btn {
+    background: rgba(244, 248, 249, 0.75);
+    border-color: rgba(15, 52, 78, 0.2);
+    color: #0f344e;
+}
+
+[data-theme='dark'] .demo-fill-btn {
+    background: rgba(15, 52, 78, 0.4);
+    border-color: rgba(215, 229, 234, 0.2);
+    color: #d7e5ea;
 }
 
 .demo-fill-btn:hover:not(:disabled) {
-    background: #667eea;
-    color: white;
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
+    transform: translateY(-2px);
 }
 
-.demo-fill-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
+/* ========== ПОДВАЛ РЕГИСТРАЦИИ ========== */
 .registration-footer {
     text-align: center;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #e9ecef;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .registration-footer {
+    border-top-color: rgba(15, 52, 78, 0.15);
+}
+
+[data-theme='dark'] .registration-footer {
+    border-top-color: rgba(215, 229, 234, 0.2);
 }
 
 .registration-footer p {
-    color: #666;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
 }
 
 .login-link {
-    color: #ffffff;
+    color: #3e85a5;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .login-link:hover {
+    color: #2c5f7a;
     text-decoration: underline;
 }
 
+[data-theme='dark'] .login-link {
+    color: #7ac4ff;
+}
+
+[data-theme='dark'] .login-link:hover {
+    color: #a8d8ff;
+}
+
 .terms-note {
-    color: #888;
-    font-size: 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    opacity: 0.7;
     display: block;
 }
 
-/* Адаптивность */
-@media (max-width: 600px) {
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 768px) {
+    .registration-page {
+        padding: 1.5rem 0;
+    }
 
-    .user-type-selector,
+    .registration-card {
+        padding: 2rem;
+        border-radius: 25px;
+    }
+
+    .registration-header h2 {
+        font-size: 28px;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-page .container {
+        padding: 0 1rem;
     }
 
-    .registration-form {
-        padding: 20px;
+    .registration-card {
+        padding: 1.5rem;
+        border-radius: 20px;
     }
 
-    .registration-header {
-        padding: 20px;
+    .registration-header h2 {
+        font-size: 24px;
     }
+
+    .registration-header p {
+        font-size: 13px;
+    }
+
+    .form-group input {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .register-btn {
+        padding: 12px 30px;
+        font-size: 15px;
+    }
+
+    .demo-fill-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .registration-footer p {
+        font-size: 13px;
+    }
+
+    .terms-note {
+        font-size: 10px;
+    }
+}
+
+/* ========== REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+
+    .registration-card,
+    .register-btn,
+    .demo-fill-btn,
+    .login-link,
+    .spinner {
+        transition: none;
+        animation: none;
+    }
+
+    .registration-card:hover,
+    .register-btn:hover,
+    .demo-fill-btn:hover {
+        transform: none;
+    }
+}
+
+/* ========== ФОКУС ДЛЯ ДОСТУПНОСТИ ========== */
+.register-btn:focus-visible,
+.login-link:focus-visible,
+.demo-fill-btn:focus-visible,
+.form-group input:focus-visible {
+    outline: 3px solid #3e85a5;
+    outline-offset: 2px;
+}
+
+[data-theme='light'] .register-btn:focus-visible,
+[data-theme='light'] .login-link:focus-visible,
+[data-theme='light'] .demo-fill-btn:focus-visible {
+    outline-color: #0f344e;
+}
+
+[data-theme='dark'] .register-btn:focus-visible,
+[data-theme='dark'] .login-link:focus-visible,
+[data-theme='dark'] .demo-fill-btn:focus-visible {
+    outline-color: #d7e5ea;
 }
