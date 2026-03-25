@@ -1,5 +1,5 @@
 // src/components/LazyVideoPlayer/LazyVideoPlayer.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './LazyVideoPlayer.css'; // Небольшой файл стилей для плеера
 
 interface LazyVideoPlayerProps {

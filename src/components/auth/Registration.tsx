@@ -1,5 +1,5 @@
 // src/components/auth/Registration.tsx
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import './Registration.css';
@@ -7,6 +7,8 @@ import './Registration.css';
 const Registration: React.FC = () => {
     const { register } = useApp();
     const navigate = useNavigate();
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null); // ← передаём null
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,13 +20,19 @@ const Registration: React.FC = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
+    useEffect(() => {
+        // Очистка таймаута при размонтировании
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
         setSuccess('');
 
-        // Валидация
         if (formData.password !== formData.confirmPassword) {
             setError('Пароли не совпадают');
             setLoading(false);
@@ -40,15 +48,11 @@ const Registration: React.FC = () => {
             });
 
             if (result.success) {
-                setSuccess('Регистрация успешна! Теперь вы можете войти в систему.');
-                // Очищаем форму
-                setFormData({
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    fullName: '',
-                    phone: ''
-                });
+                setSuccess('Регистрация успешна! Перенаправление на страницу входа...');
+                // Перенаправление через 2 секунды
+                timeoutRef.current = setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
             } else {
                 setError(result.error || 'Ошибка регистрации');
             }

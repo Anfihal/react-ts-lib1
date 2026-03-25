@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatHeader from './ChatHeader';
-import type { User, Message } from '../../../types/chat';
+import type { User, Message } from '../../../types/chat.types.ts';
 import './ChatMain.css'; // ← подключаем CSS
 
 interface ChatMainProps {

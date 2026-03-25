@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { ChatFilter } from '../../../types/chat';
+import type { ChatFilter } from '../../../types/chat.types.ts';
 import './SettingsPanel.css'; // ← исправлено!
 
 interface SettingsPanelProps {

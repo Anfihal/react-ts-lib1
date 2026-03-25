@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ChatUserList from './ChatUserList';
-import type { ChatListItem } from '../../../types/chat';
+import type { ChatListItem } from '../../../types/chat.types.ts';
 import './ChatSidebar.css';
 
 interface ChatSidebarProps {

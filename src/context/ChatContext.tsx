@@ -35,7 +35,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         loading: false
     });
 
-    // Инициализация с задержкой для предотвращения ошибок
+    // Инициализация с задержкой
     useEffect(() => {
         const timer = setTimeout(() => {
             const initialUsers: User[] = [
@@ -153,7 +153,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
                     ? {
                         ...chat,
                         lastMessage: newMessage,
-                        unreadCount: chat.unreadCount + 1,
+                        unreadCount: (chat.unreadCount || 0) + 1,
                         updatedAt: new Date()
                     }
                     : chat

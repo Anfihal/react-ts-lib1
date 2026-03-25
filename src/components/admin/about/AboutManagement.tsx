@@ -767,7 +767,7 @@ const AboutManagement: React.FC = () => {
 
     // Компонент предпросмотра страницы для публичной версии
     const PublicPreview = () => (
-        <div className={`about - page ${previewMode === 'mobile' ? 'mobile-view' : ''} `}>
+        <div className={`about-page ${previewMode === 'mobile' ? 'mobile-view' : ''}`}>
             {/* Герой секция */}
             <section className="about-hero">
                 <div className="about-hero__overlay"></div>
@@ -843,7 +843,7 @@ const AboutManagement: React.FC = () => {
                             {state.aboutContent.teamMembers.map((member: TeamMember) => {
                                 const imageStyles = {
                                     objectFit: member.imageSize || 'cover',
-                                    objectPosition: member.imagePosition || 'center',
+                                    objectPosition: (member.imagePosition as 'top' | 'center' | 'bottom') || 'center',
                                     transform: member.imageScale ? `scale(${member.imageScale})` : 'none'
                                 };
 
@@ -934,7 +934,7 @@ const AboutManagement: React.FC = () => {
 
     // Компонент предпросмотра страницы для гостевой версии
     const GuestPreview = () => (
-        <div className={`guest - about - page ${previewMode === 'mobile' ? 'mobile-view' : ''} `}>
+        <div className={`guest-about-page ${previewMode === 'mobile' ? 'mobile-view' : ''}`}>
             {/* Герой секция */}
             <section className="guest-hero">
                 <div className="guest-hero__overlay"></div>
@@ -1010,7 +1010,7 @@ const AboutManagement: React.FC = () => {
                             {state.aboutContent.teamMembers.map((member: TeamMember) => {
                                 const imageStyles = {
                                     objectFit: member.imageSize || 'cover',
-                                    objectPosition: member.imagePosition || 'center',
+                                    objectPosition: (member.imagePosition as 'top' | 'center' | 'bottom') || 'center',
                                     transform: member.imageScale ? `scale(${member.imageScale})` : 'none'
                                 };
 
@@ -1104,32 +1104,32 @@ const AboutManagement: React.FC = () => {
         if (!showPreview) return null;
 
         return (
-            <div className={`preview - overlay ${previewMode === 'mobile' ? 'mobile-preview' : ''} `}>
+            <div className={`preview-overlay ${previewMode === 'mobile' ? 'mobile-preview' : ''}`}>
                 <div className="preview-header">
                     <h3>Предпросмотр страницы</h3>
                     <div className="preview-controls">
                         <div className="preview-type-selector">
                             <button
-                                className={`preview - type - btn ${previewType === 'public' ? 'active' : ''} `}
+                                className={`preview-type-btn ${previewType === 'public' ? 'active' : ''}`}
                                 onClick={() => setPreviewType('public')}
                             >
                                 Публичная
                             </button>
                             <button
-                                className={`preview - type - btn ${previewType === 'guest' ? 'active' : ''} `}
+                                className={`preview-type-btn ${previewType === 'guest' ? 'active' : ''}`}
                                 onClick={() => setPreviewType('guest')}
                             >
                                 Гостевая
                             </button>
                         </div>
                         <button
-                            className={`preview - mode - btn ${previewMode === 'desktop' ? 'active' : ''} `}
+                            className={`preview-mode-btn ${previewMode === 'desktop' ? 'active' : ''}`}
                             onClick={() => setPreviewMode('desktop')}
                         >
                             Десктоп
                         </button>
                         <button
-                            className={`preview - mode - btn ${previewMode === 'mobile' ? 'active' : ''} `}
+                            className={`preview-mode-btn ${previewMode === 'mobile' ? 'active' : ''}`}
                             onClick={() => setPreviewMode('mobile')}
                         >
                             Мобильный
@@ -1137,7 +1137,7 @@ const AboutManagement: React.FC = () => {
                         <button className="close-preview" onClick={() => setShowPreview(false)} />
                     </div>
                 </div>
-                <div className={`preview - content ${previewMode === 'mobile' ? 'mobile-view' : ''} `}>
+                <div className={`preview-content ${previewMode === 'mobile' ? 'mobile-view' : ''}`}>
                     {previewType === 'public' ? <PublicPreview /> : <GuestPreview />}
                 </div>
             </div>
@@ -1174,25 +1174,25 @@ const AboutManagement: React.FC = () => {
                     {/* Навигация по вкладкам */}
                     <div className="edit-tabs">
                         <button
-                            className={`tab - btn ${activeTab === 'general' ? 'active' : ''} `}
+                            className={`tab-btn ${activeTab === 'general' ? 'active' : ''}`}
                             onClick={() => setActiveTab('general')}
                         >
                             Основная информация
                         </button>
                         <button
-                            className={`tab - btn ${activeTab === 'stats' ? 'active' : ''} `}
+                            className={`tab-btn ${activeTab === 'stats' ? 'active' : ''}`}
                             onClick={() => setActiveTab('stats')}
                         >
                             Статистика ({state.aboutContent.stats.length})
                         </button>
                         <button
-                            className={`tab - btn ${activeTab === 'team' ? 'active' : ''} `}
+                            className={`tab-btn ${activeTab === 'team' ? 'active' : ''}`}
                             onClick={() => setActiveTab('team')}
                         >
                             Команда ({state.aboutContent.teamMembers.length})
                         </button>
                         <button
-                            className={`tab - btn ${activeTab === 'achievements' ? 'active' : ''} `}
+                            className={`tab-btn ${activeTab === 'achievements' ? 'active' : ''}`}
                             onClick={() => setActiveTab('achievements')}
                         >
                             Достижения ({state.aboutContent.achievements.length})
@@ -1515,9 +1515,9 @@ const AboutManagement: React.FC = () => {
                                                             type="file"
                                                             accept="image/*"
                                                             onChange={(e) => handleImageChange(e, true, member.id)}
-                                                            id={`edit - member - photo - ${member.id} `}
+                                                            id={`edit-member-photo-${member.id}`}
                                                         />
-                                                        <label htmlFor={`edit - member - photo - ${member.id} `} className="file-input-label">
+                                                        <label htmlFor={`edit-member-photo-${member.id}`} className="file-input-label">
                                                             {editingMember.imagePreview ? 'Фото выбрано' : 'Изменить фото'}
                                                         </label>
                                                     </div>
@@ -1581,7 +1581,7 @@ const AboutManagement: React.FC = () => {
                                                                 alt={member.name}
                                                                 style={{
                                                                     objectFit: member.imageSize || 'cover',
-                                                                    objectPosition: member.imagePosition || 'center',
+                                                                    objectPosition: (member.imagePosition as 'top' | 'center' | 'bottom') || 'center',
                                                                     transform: member.imageScale ? `scale(${member.imageScale})` : 'none'
                                                                 }}
                                                             />
@@ -1609,7 +1609,7 @@ const AboutManagement: React.FC = () => {
                                                         ...member,
                                                         imageFile: null,
                                                         imagePreview: '',
-                                                        imagePosition: member.imagePosition || 'center',
+                                                        imagePosition: (member.imagePosition as "center" | "top" | "bottom") || 'center',
                                                         imageSize: member.imageSize || 'cover',
                                                         imageScale: member.imageScale || 1
                                                     })} />
@@ -1753,7 +1753,7 @@ const AboutManagement: React.FC = () => {
                                 {state.aboutContent.teamMembers.map(member => {
                                     const imageStyles = {
                                         objectFit: member.imageSize || 'cover',
-                                        objectPosition: (member.imagePosition ?? 'center') as 'top' | 'center' | 'bottom',
+                                        objectPosition: (member.imagePosition as 'top' | 'center' | 'bottom') || 'center',
                                         transform: member.imageScale ? `scale(${member.imageScale})` : 'none'
                                     };
 

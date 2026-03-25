@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ChatHeader from './ChatHeader';
 import ChatMain from './ChatMain';
-import type { User, Message } from '../../../types/chat';
+import type { User, Message } from '../../../types/chat.types.ts';
 import './ChatWidget.css';
 
 interface ChatWidgetProps {

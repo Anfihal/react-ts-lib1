@@ -1,5 +1,5 @@
 import React from 'react';
-import type { User } from '../../../types/chat';
+import type { User } from '../../../types/chat.types.ts';
 import './ChatHeader.css'; // ← добавлено
 
 interface ChatHeaderProps {

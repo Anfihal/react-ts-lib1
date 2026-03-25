@@ -1,7 +1,7 @@
 // src/components/admin/chat/ChatUserList.tsx
 
 import React from 'react';
-import type { ChatListItem } from '../../../types/chat';
+import type { ChatListItem } from '../../../types/chat.types.ts';
 import './ChatUserList.css';
 
 interface ChatUserListProps {
