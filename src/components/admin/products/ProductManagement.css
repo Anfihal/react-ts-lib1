@@ -1,0 +1,889 @@
+/* src/components/admin/products/ProductManagement.css */
+
+/* src/components/admin/products/ProductManagement.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* ===== ПЕРЕМЕННЫЕ ТЕМ ===== */
+[data-theme='light'] {
+    --pm-bg-page: #f4f8f9;
+    --pm-text-primary: #051321;
+    --pm-text-secondary: #314c5c;
+    --pm-surface: rgba(244, 248, 249, 0.75);
+    --pm-card-bg: rgba(244, 248, 249, 0.75);
+    --pm-border: rgba(15, 52, 78, 0.15);
+    --pm-primary: #3e85a5;
+    --pm-primary-dark: #2d6b8a;
+    --pm-primary-light: #5fa3c2;
+    --pm-danger: #ef4444;
+    --pm-success: #22c55e;
+    --pm-warning: #f59e0b;
+    --pm-glass-shadow: 0px 9px 18.4px rgba(5, 19, 33, 0.1);
+    --pm-glass-border: 1px solid rgba(15, 52, 78, 0.15);
+}
+
+[data-theme='dark'] {
+    --pm-bg-page: #051321;
+    --pm-text-primary: #d7e5ea;
+    --pm-text-secondary: #8494a4;
+    --pm-surface: rgba(15, 52, 78, 0.4);
+    --pm-card-bg: rgba(15, 52, 78, 0.4);
+    --pm-border: rgba(215, 229, 234, 0.2);
+    --pm-primary: #3e85a5;
+    --pm-primary-dark: #2d6b8a;
+    --pm-primary-light: #5fa3c2;
+    --pm-danger: #f87171;
+    --pm-success: #4ade80;
+    --pm-warning: #fbbf24;
+    --pm-glass-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.35);
+    --pm-glass-border: 1px solid rgba(215, 229, 234, 0.2);
+}
+
+/* ===== ОСНОВНЫЕ СТИЛИ (изолированы через родительский класс) ===== */
+.product-management {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--pm-text-primary);
+    background-color: var(--pm-bg-page);
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* ШАПКА */
+.product-management .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--pm-border);
+}
+
+.product-management .product-header h2 {
+    margin: 0;
+    font-size: 55px;
+    font-weight: 600;
+    line-height: 67px;
+    color: var(--pm-text-primary);
+    text-shadow: 0px 2px 4px rgba(5, 19, 33, 0.1);
+}
+
+[data-theme='dark'] .product-management .product-header h2 {
+    text-shadow: 0px 100px 80px rgba(0, 0, 0, 0.36);
+}
+
+/* КНОПКА ДОБАВЛЕНИЯ */
+.product-management .add-product-btn {
+    padding: 19px 30px;
+    height: 60px;
+    background: var(--pm-primary);
+    color: white;
+    border: var(--pm-glass-border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--pm-glass-shadow);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.product-management .add-product-btn:hover:not(:disabled) {
+    background: var(--pm-primary-dark);
+    transform: translateY(-2px);
+    border-color: var(--pm-primary-light);
+}
+
+.product-management .add-product-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* СООБЩЕНИЕ ОБ ОШИБКЕ */
+.product-management .error-message {
+    background: var(--pm-danger);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: var(--pm-glass-border);
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--pm-glass-shadow);
+}
+
+/* ФОРМА */
+.product-management .product-form {
+    background: var(--pm-surface);
+    padding: 40px;
+    border-radius: 77px;
+    margin-bottom: 30px;
+    border: var(--pm-glass-border);
+    box-shadow: var(--pm-glass-shadow);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+}
+
+.product-management .product-form h3 {
+    margin-bottom: 30px;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 46px;
+    color: var(--pm-text-primary);
+}
+
+.product-management .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.product-management .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.product-management .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.product-management .form-group label {
+    font-weight: 600;
+    color: var(--pm-text-primary);
+    font-size: 14px;
+}
+
+.product-management .form-group input,
+.product-management .form-group select,
+.product-management .form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid var(--pm-border);
+    border-radius: 16px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: var(--pm-card-bg);
+    color: var(--pm-text-primary);
+    font-family: 'Inter', sans-serif;
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.product-management .form-group input:focus,
+.product-management .form-group select:focus,
+.product-management .form-group textarea:focus {
+    outline: none;
+    border-color: var(--pm-primary);
+    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
+}
+
+.product-management .form-group input:disabled,
+.product-management .form-group select:disabled,
+.product-management .form-group textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Загрузка изображений */
+.product-management .image-upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-management .image-input {
+    padding: 14px;
+    border: 2px dashed var(--pm-border);
+    border-radius: 16px;
+    background: var(--pm-card-bg);
+    color: var(--pm-text-primary);
+    backdrop-filter: blur(5px);
+}
+
+.product-management .image-preview {
+    position: relative;
+    width: 200px;
+    height: 150px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: var(--pm-glass-border);
+}
+
+.product-management .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-management .remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(239, 68, 68, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.product-management .remove-image-btn:hover {
+    background: var(--pm-danger);
+}
+
+/* Кнопки формы */
+.product-management .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.product-management .save-btn,
+.product-management .cancel-btn {
+    padding: 19px 30px;
+    height: 60px;
+    border: var(--pm-glass-border);
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--pm-glass-shadow);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.product-management .save-btn {
+    background: var(--pm-primary);
+}
+
+.product-management .save-btn:hover:not(:disabled) {
+    background: var(--pm-primary-dark);
+    transform: translateY(-2px);
+}
+
+.product-management .cancel-btn {
+    background: var(--pm-text-secondary);
+}
+
+.product-management .cancel-btn:hover:not(:disabled) {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.product-management .save-btn:disabled,
+.product-management .cancel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* СПИСОК ТОВАРОВ */
+.product-management .products-list-section h3 {
+    margin-bottom: 30px;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 46px;
+    color: var(--pm-text-primary);
+}
+
+.product-management .no-products {
+    text-align: center;
+    padding: 50px;
+    background: var(--pm-surface);
+    border-radius: 77px;
+    border: var(--pm-glass-border);
+    backdrop-filter: blur(12.5px);
+    box-shadow: var(--pm-glass-shadow);
+    color: var(--pm-text-secondary);
+    font-size: 24px;
+    line-height: 29px;
+}
+
+/* Сетка карточек */
+.product-management .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(512px, 1fr));
+    gap: 2rem;
+    justify-content: center;
+}
+
+/* Карточка товара */
+.product-management .product-card {
+    background: var(--pm-card-bg);
+    border: var(--pm-glass-border);
+    border-radius: 77px;
+    padding: 40px;
+    box-shadow: var(--pm-glass-shadow);
+    backdrop-filter: blur(12.5px);
+    -webkit-backdrop-filter: blur(12.5px);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: pm-fadeIn 0.5s ease-out;
+    width: 100%;
+    max-width: 512px;
+    margin: 0 auto;
+}
+
+.product-management .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
+    border-color: var(--pm-primary);
+}
+
+[data-theme='light'] .product-management .product-card:hover {
+    background: rgba(230, 238, 242, 0.85);
+}
+
+[data-theme='dark'] .product-management .product-card:hover {
+    background: rgba(15, 52, 78, 0.55);
+}
+
+.product-management .product-card.editing {
+    border-color: var(--pm-primary);
+    box-shadow: 0 0 0 3px var(--pm-primary);
+}
+
+/* Область изображения */
+.product-management .product-image {
+    position: relative;
+    width: calc(100% + 80px);
+    height: 280px;
+    margin: -40px -40px 20px -40px;
+    border-radius: 77px 77px 0 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e6eef2 0%, #d7e5ea 100%);
+}
+
+[data-theme='dark'] .product-management .product-image {
+    background: linear-gradient(135deg, #071a2a 0%, #0b273c 100%);
+}
+
+.product-management .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Бейджи */
+.product-management .out-of-stock-badge,
+.product-management .discount-badge {
+    position: absolute;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.product-management .out-of-stock-badge {
+    top: 10px;
+    left: 10px;
+    background: rgba(239, 68, 68, 0.8);
+}
+
+.product-management .discount-badge {
+    top: 10px;
+    right: 10px;
+    background: rgba(34, 197, 94, 0.8);
+}
+
+/* Контент карточки */
+.product-management .product-content {
+    flex: 1;
+}
+
+/* Заголовок и цены */
+.product-management .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border: none;
+    padding: 0;
+}
+
+.product-management .product-name {
+    margin: 0;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 46px;
+    color: var(--pm-text-primary);
+    flex: 1;
+}
+
+.product-management .product-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.product-management .product-price {
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 46px;
+    color: var(--pm-primary);
+}
+
+.product-management .product-original-price {
+    font-size: 24px;
+    color: var(--pm-text-secondary);
+    text-decoration: line-through;
+}
+
+/* Описание */
+.product-management .product-description {
+    font-size: 24px;
+    line-height: 29px;
+    color: var(--pm-text-secondary);
+    margin: 0 0 20px 0;
+}
+
+/* Мета-информация */
+.product-management .product-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.product-management .product-category {
+    background: rgba(62, 133, 165, 0.2);
+    color: var(--pm-primary);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    backdrop-filter: blur(4px);
+}
+
+.product-management .product-stock.in-stock {
+    background: rgba(34, 197, 94, 0.2);
+    color: var(--pm-success);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    backdrop-filter: blur(4px);
+}
+
+.product-management .product-stock.out-of-stock {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--pm-danger);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    backdrop-filter: blur(4px);
+}
+
+/* Теги */
+.product-management .product-tags {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.product-management .product-tag {
+    background: var(--pm-surface);
+    color: var(--pm-text-secondary);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    border: 1px solid var(--pm-border);
+    backdrop-filter: blur(4px);
+}
+
+/* Даты */
+.product-management .product-dates {
+    font-size: 14px;
+    color: var(--pm-text-secondary);
+    margin-top: 10px;
+}
+
+/* Кнопки в карточке */
+.product-management .product-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.product-management .edit-btn,
+.product-management .delete-btn {
+    padding: 15px 30px;
+    height: 60px;
+    border: var(--pm-glass-border);
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--pm-glass-shadow);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: white;
+}
+
+.product-management .edit-btn {
+    background: var(--pm-primary);
+}
+
+.product-management .edit-btn:hover:not(:disabled) {
+    background: var(--pm-primary-dark);
+    transform: translateY(-2px);
+}
+
+.product-management .delete-btn {
+    background: var(--pm-danger);
+}
+
+.product-management .delete-btn:hover:not(:disabled) {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.product-management .edit-btn:disabled,
+.product-management .delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes pm-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== SVG ИКОНКИ ===== */
+.product-management .add-product-btn::before,
+.product-management .edit-btn::before,
+.product-management .delete-btn::before,
+.product-management .save-btn::before,
+.product-management .cancel-btn::before,
+.product-management .out-of-stock-badge::before,
+.product-management .discount-badge::before,
+.product-management .product-category::before,
+.product-management .product-stock.in-stock::before,
+.product-management .product-stock.out-of-stock::before,
+.product-management .remove-image-btn::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 0.5em;
+    filter: brightness(0) invert(1);
+}
+
+/* Для элементов, где иконка должна быть цвета текста */
+.product-management .product-tag::before,
+.product-management .product-dates::before,
+.product-management .no-products::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 0.3em;
+    /* filter отсутствует – используем currentColor из SVG */
+}
+
+/* Размеры */
+.product-management .add-product-btn::before,
+.product-management .edit-btn::before,
+.product-management .delete-btn::before,
+.product-management .save-btn::before,
+.product-management .cancel-btn::before {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+/* Иконка "Добавить товар" */
+.product-management .add-product-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 4v16M20 12H4'/%3E%3C/svg%3E");
+}
+
+/* Иконка "Редактировать" */
+.product-management .edit-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16.474 5.408L18.592 7.526M15.293 4.232L7.293 12.232c-.188.188-.302.436-.324.7l-.212 2.313 2.313-.212c.264-.022.512-.136.7-.324l8-8c.39-.39.39-1.024 0-1.414l-1.061-1.06c-.39-.39-1.024-.39-1.414 0z'/%3E%3C/svg%3E");
+}
+
+/* Иконка "Удалить" */
+.product-management .delete-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M19 7l-.867 12.142A2 2 0 0116.144 21H7.856a2 2 0 01-1.989-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'/%3E%3C/svg%3E");
+}
+
+/* Иконка "Сохранить" */
+.product-management .save-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 14l4 4L19 8'/%3E%3C/svg%3E");
+}
+
+/* Иконка "Отмена" */
+.product-management .cancel-btn::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 18L18 6M6 6l12 12'/%3E%3C/svg%3E");
+}
+
+/* Иконка "Нет в наличии" (бейдж) */
+.product-management .out-of-stock-badge::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 8v4M12 16h.01' stroke-linecap='round'/%3E%3C/svg%3E");
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Иконка "Скидка" */
+.product-management .discount-badge::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8'%3E%3Cpath d='M9 15l6-6M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z'/%3E%3Ccircle cx='9' cy='9' r='1' fill='white'/%3E%3Ccircle cx='15' cy='15' r='1' fill='white'/%3E%3C/svg%3E");
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Иконка категории */
+.product-management .product-category::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8'%3E%3Cpath d='M4 6h16M4 12h16M4 18h10' stroke-linecap='round'/%3E%3Crect x='16' y='16' width='4' height='4' rx='1'/%3E%3C/svg%3E");
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Иконка "В наличии" */
+.product-management .product-stock.in-stock::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cpath d='M8 12l3 3 5-5' stroke-linecap='round'/%3E%3C/svg%3E");
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Иконка "Нет в наличии" (в статусе) */
+.product-management .product-stock.out-of-stock::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cpath d='M8 8l8 8M16 8l-8 8' stroke-linecap='round'/%3E%3C/svg%3E");
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Иконка тега (наследует цвет текста) */
+.product-management .product-tag::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8'%3E%3Cpath d='M4 4h6l10 10-6 6L4 10V4z'/%3E%3Ccircle cx='7' cy='7' r='1' fill='currentColor'/%3E%3C/svg%3E");
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 0.2em;
+}
+
+/* Иконка даты (наследует цвет текста) */
+.product-management .product-dates::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M3 10h18M8 2v4M16 2v4' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='16' r='1' fill='currentColor'/%3E%3Ccircle cx='16' cy='16' r='1' fill='currentColor'/%3E%3Ccircle cx='8' cy='16' r='1' fill='currentColor'/%3E%3C/svg%3E");
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 0.2em;
+}
+
+/* Иконка для пустого списка (наследует цвет текста) */
+.product-management .no-products::before {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 20px auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2'%3E%3Crect x='4' y='7' width='16' height='14' rx='2'/%3E%3Cpath d='M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Иконка удаления изображения */
+.product-management .remove-image-btn::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0 auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8 8l8 8M16 8l-8 8'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: none;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .product-management .product-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .product-management .product-header h2 {
+        font-size: 40px;
+        line-height: 50px;
+    }
+
+    .product-management .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-management .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .product-management .product-card {
+        max-width: 100%;
+        border-radius: 40px;
+        padding: 30px 20px;
+    }
+
+    .product-management .product-image {
+        width: calc(100% + 40px);
+        height: 200px;
+        margin: -30px -20px 20px -20px;
+        border-radius: 40px 40px 0 0;
+    }
+
+    .product-management .product-name {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .product-management .product-price {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .product-management .product-description {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .product-management .product-actions {
+        flex-direction: column;
+    }
+
+    .product-management .edit-btn,
+    .product-management .delete-btn,
+    .product-management .add-product-btn,
+    .product-management .save-btn,
+    .product-management .cancel-btn {
+        height: 50px;
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-management .product-header h2 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+
+    .product-management .product-card {
+        border-radius: 30px;
+        padding: 20px 15px;
+    }
+
+    .product-management .product-image {
+        width: calc(100% + 30px);
+        height: 180px;
+        margin: -20px -15px 15px -15px;
+        border-radius: 30px 30px 0 0;
+    }
+
+    .product-management .product-name {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .product-management .product-price {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .product-management .product-description {
+        font-size: 16px;
+        line-height: 22px;
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    .product-management::after,
+    .product-management .product-card,
+    .product-management .add-product-btn,
+    .product-management .edit-btn,
+    .product-management .delete-btn,
+    .product-management .save-btn,
+    .product-management .cancel-btn {
+        transition: none;
+        animation: none;
+    }
+
+    .product-management .product-card:hover,
+    .product-management .add-product-btn:hover,
+    .product-management .edit-btn:hover,
+    .product-management .delete-btn:hover,
+    .product-management .save-btn:hover,
+    .product-management .cancel-btn:hover {
+        transform: none;
+    }
+}
+
+/* ===== ФОКУС ДЛЯ ДОСТУПНОСТИ ===== */
+.product-management .add-product-btn:focus,
+.product-management .edit-btn:focus,
+.product-management .delete-btn:focus,
+.product-management .save-btn:focus,
+.product-management .cancel-btn:focus {
+    outline: 3px solid var(--pm-primary);
+    outline-offset: 2px;
+}

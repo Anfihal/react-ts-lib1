@@ -1,0 +1,697 @@
+/* src/pages/guest/profile/Profile.css */
+
+/* ========== ИЗОЛИРОВАННЫЕ CSS ПЕРЕМЕННЫЕ ДЛЯ ПРОФИЛЯ ========== */
+.profile-page {
+    /* Светлая тема (по умолчанию) */
+    --profile-bg-primary: #f8fafc;
+    --profile-bg-secondary: #ffffff;
+    --profile-bg-surface: #ffffff;
+    --profile-bg-card: #ffffff;
+    --profile-text-primary: #1e293b;
+    --profile-text-secondary: #64748b;
+    --profile-text-muted: #94a3b8;
+    --profile-border: #e2e8f0;
+    --profile-border-hover: #cbd5e1;
+    --profile-primary: #3b82f6;
+    --profile-primary-hover: #2563eb;
+    --profile-secondary: #6b7280;
+    --profile-secondary-hover: #4b5563;
+    --profile-success: #10b981;
+    --profile-warning: #f59e0b;
+    --profile-error: #ef4444;
+    --profile-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --profile-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --profile-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --profile-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --profile-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --profile-radius-sm: 8px;
+    --profile-radius-md: 12px;
+    --profile-radius-lg: 16px;
+    --profile-radius-xl: 20px;
+    --profile-transition-fast: 150ms ease;
+    --profile-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .profile-page {
+        --profile-bg-primary: #0f172a;
+        --profile-bg-secondary: #1e293b;
+        --profile-bg-surface: #1e293b;
+        --profile-bg-card: #1e293b;
+        --profile-text-primary: #f1f5f9;
+        --profile-text-secondary: #cbd5e1;
+        --profile-text-muted: #94a3b8;
+        --profile-border: #334155;
+        --profile-border-hover: #475569;
+        --profile-primary: #60a5fa;
+        --profile-primary-hover: #3b82f6;
+        --profile-secondary: #9ca3af;
+        --profile-secondary-hover: #d1d5db;
+        --profile-success: #34d399;
+        --profile-warning: #fbbf24;
+        --profile-error: #f87171;
+        --profile-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+        --profile-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        --profile-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        --profile-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        --profile-gradient-primary: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    }
+}
+
+/* ========== БАЗОВЫЕ СТИЛИ ПРОФИЛЯ ========== */
+.profile-page {
+    min-height: 100vh;
+    background: var(--profile-bg-primary);
+    color: var(--profile-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
+    padding: 2rem 1.5rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.profile-page * {
+    box-sizing: border-box;
+}
+
+/* Декоративный фон */
+.profile-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .profile-page::before {
+        background-image:
+            radial-gradient(circle at 10% 20%, rgba(96, 165, 250, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 90% 80%, rgba(167, 139, 250, 0.08) 0%, transparent 50%);
+    }
+}
+
+/* Контейнер */
+.profile-page .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== ШАПКА ПРОФИЛЯ ========== */
+.profile-page .profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.profile-page .profile-header h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: var(--profile-text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+}
+
+.profile-page .profile-status {
+    display: inline-block;
+    background: var(--profile-success);
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--profile-radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: var(--profile-shadow-sm);
+}
+
+/* ========== КАРТОЧКА ПРОФИЛЯ ========== */
+.profile-page .profile-card {
+    background: var(--profile-bg-card);
+    border-radius: var(--profile-radius-xl);
+    border: 1px solid var(--profile-border);
+    box-shadow: var(--profile-shadow-lg);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    transition: all var(--profile-transition-normal);
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .profile-page .profile-card {
+        grid-template-columns: 280px 1fr;
+        padding: 3rem;
+    }
+}
+
+/* ========== СЕКЦИЯ АВАТАРА ========== */
+.profile-page .profile-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-page .avatar-container {
+    position: relative;
+    cursor: pointer;
+    transition: transform var(--profile-transition-normal);
+}
+
+.profile-page .avatar-container.editable:hover {
+    transform: scale(1.02);
+}
+
+.profile-page .avatar-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--profile-border);
+    box-shadow: var(--profile-shadow-md);
+}
+
+.profile-page .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--profile-transition-normal);
+}
+
+.profile-page .avatar-container.editable:hover .avatar {
+    transform: scale(1.05);
+}
+
+.profile-page .avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--profile-transition-normal);
+}
+
+.profile-page .avatar-container.editable:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.profile-page .avatar-upload-text {
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+/* Кнопки аватара */
+.profile-page .remove-avatar-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--profile-error);
+    border: 1px solid var(--profile-error);
+    padding: 0.5rem 1rem;
+    border-radius: var(--profile-radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--profile-transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-page .remove-avatar-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}
+
+.profile-page .edit-btn.primary {
+    background: var(--profile-gradient-primary);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--profile-radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--profile-transition-fast);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 200px;
+}
+
+.profile-page .edit-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+    .profile-page .edit-btn.primary {
+        box-shadow: 0 4px 16px rgba(96, 165, 250, 0.3);
+    }
+
+    .profile-page .edit-btn.primary:hover {
+        box-shadow: 0 8px 24px rgba(96, 165, 250, 0.4);
+    }
+}
+
+/* ========== СЕКЦИЯ ИНФОРМАЦИИ ========== */
+.profile-page .profile-info {
+    min-height: 400px;
+}
+
+/* Пустой профиль */
+.profile-page .empty-profile {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--profile-text-secondary);
+}
+
+.profile-page .empty-profile h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--profile-text-primary);
+}
+
+/* Режим просмотра */
+.profile-page .view-mode .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .profile-page .view-mode .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.profile-page .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--profile-bg-surface);
+    border-radius: var(--profile-radius-lg);
+    border: 1px solid var(--profile-border);
+    transition: all var(--profile-transition-fast);
+}
+
+.profile-page .info-item:hover {
+    border-color: var(--profile-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--profile-shadow-md);
+}
+
+.profile-page .info-item .label {
+    font-weight: 600;
+    color: var(--profile-text-secondary);
+    min-width: 120px;
+    font-size: 0.875rem;
+}
+
+.profile-page .info-item .value {
+    color: var(--profile-text-primary);
+    flex: 1;
+    word-break: break-word;
+}
+
+.profile-page .info-item .value.link {
+    color: var(--profile-primary);
+    text-decoration: none;
+    transition: color var(--profile-transition-fast);
+}
+
+.profile-page .info-item .value.link:hover {
+    color: var(--profile-primary-hover);
+    text-decoration: underline;
+}
+
+/* Секция "О себе" */
+.profile-page .bio-section {
+    background: var(--profile-bg-surface);
+    border-radius: var(--profile-radius-lg);
+    border: 1px solid var(--profile-border);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.profile-page .bio-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--profile-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-page .bio-text {
+    color: var(--profile-text-secondary);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* ========== ФОРМА РЕДАКТИРОВАНИЯ ========== */
+.profile-page .edit-form {
+    animation: profileFadeIn 0.3s ease-out;
+}
+
+@keyframes profileFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Строки формы */
+.profile-page .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .profile-page .form-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Группы формы */
+.profile-page .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-page .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--profile-text-primary);
+    font-size: 0.875rem;
+}
+
+.profile-page .form-group label::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--profile-primary);
+    border-radius: 50%;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+
+/* Поля ввода */
+.profile-page input[type="text"],
+.profile-page input[type="email"],
+.profile-page input[type="tel"],
+.profile-page input[type="url"],
+.profile-page textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--profile-bg-surface);
+    border: 2px solid var(--profile-border);
+    border-radius: var(--profile-radius-md);
+    color: var(--profile-text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all var(--profile-transition-fast);
+}
+
+.profile-page input[type="text"]:focus,
+.profile-page input[type="email"]:focus,
+.profile-page input[type="tel"]:focus,
+.profile-page input[type="url"]:focus,
+.profile-page textarea:focus {
+    outline: none;
+    border-color: var(--profile-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .profile-page input[type="text"]:focus,
+    .profile-page input[type="email"]:focus,
+    .profile-page input[type="tel"]:focus,
+    .profile-page input[type="url"]:focus,
+    .profile-page textarea:focus {
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+    }
+}
+
+.profile-page textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Счетчик символов */
+.profile-page .char-count {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--profile-text-muted);
+    margin-top: 0.25rem;
+}
+
+/* Действия формы */
+.profile-page .form-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--profile-border);
+}
+
+.profile-page .save-btn.primary {
+    background: var(--profile-gradient-primary);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--profile-radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--profile-transition-fast);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-page .save-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+.profile-page .cancel-btn.secondary {
+    background: transparent;
+    color: var(--profile-text-primary);
+    border: 2px solid var(--profile-border);
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--profile-radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--profile-transition-fast);
+}
+
+.profile-page .cancel-btn.secondary:hover {
+    border-color: var(--profile-primary);
+    background: rgba(59, 130, 246, 0.05);
+    transform: translateY(-2px);
+}
+
+@media (prefers-color-scheme: dark) {
+    .profile-page .save-btn.primary {
+        box-shadow: 0 4px 16px rgba(96, 165, 250, 0.3);
+    }
+
+    .profile-page .save-btn.primary:hover {
+        box-shadow: 0 8px 24px rgba(96, 165, 250, 0.4);
+    }
+
+    .profile-page .cancel-btn.secondary:hover {
+        background: rgba(96, 165, 250, 0.1);
+    }
+}
+
+/* ========== ИНФОРМАЦИЯ О СОХРАНЕНИИ ========== */
+.profile-page .save-info {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--profile-bg-surface);
+    border-radius: var(--profile-radius-lg);
+    border: 1px solid var(--profile-border);
+    color: var(--profile-text-secondary);
+    font-size: 0.875rem;
+    margin-top: 2rem;
+}
+
+/* ========== СОСТОЯНИЕ ЗАГРУЗКИ ========== */
+.profile-page .loading {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--profile-text-secondary);
+    font-size: 1.125rem;
+}
+
+/* Анимация загрузки */
+.profile-page .loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--profile-border);
+    border-top-color: var(--profile-primary);
+    border-radius: 50%;
+    margin-left: 0.75rem;
+    animation: profileSpin 1s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes profileSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 767px) {
+    .profile-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .profile-page .profile-card {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+
+    .profile-page .avatar-wrapper {
+        width: 160px;
+        height: 160px;
+    }
+
+    .profile-page .form-actions {
+        flex-direction: column;
+    }
+
+    .profile-page .save-btn.primary,
+    .profile-page .cancel-btn.secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-page .profile-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .profile-page .profile-card {
+        padding: 1.25rem;
+    }
+
+    .profile-page .avatar-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .profile-page .info-item {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .profile-page .info-item .label {
+        min-width: auto;
+    }
+}
+
+/* ========== ДОСТУПНОСТЬ ========== */
+@media (prefers-reduced-motion: reduce) {
+    .profile-page * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Фокус-состояния для доступности */
+.profile-page input:focus-visible,
+.profile-page textarea:focus-visible,
+.profile-page button:focus-visible {
+    outline: 2px solid var(--profile-primary);
+    outline-offset: 2px;
+}
+
+/* Поддержка высокого контраста */
+@media (prefers-contrast: high) {
+    .profile-page {
+        --profile-border: #000000;
+        --profile-primary: #0000ff;
+    }
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: high) {
+    .profile-page {
+        --profile-border: #ffffff;
+        --profile-primary: #ffff00;
+    }
+}
+
+/* Стили для печати */
+@media print {
+    .profile-page {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+    }
+
+    .profile-page .profile-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        background: white !important;
+        break-inside: avoid;
+    }
+
+    .profile-page button,
+    .profile-page .avatar-overlay,
+    .profile-page .save-info {
+        display: none !important;
+    }
+
+    .profile-page .avatar-container {
+        cursor: default !important;
+    }
+}
+
+/* Гарантия изоляции */
+.profile-page,
+.profile-page *,
+.profile-page *::before,
+.profile-page *::after {
+    --primary: initial;
+    --secondary: initial;
+    --background: initial;
+    --surface: initial;
+    --text-primary: initial;
+    --text-secondary: initial;
+    --border: initial;
+}

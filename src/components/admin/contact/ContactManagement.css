@@ -1,0 +1,320 @@
+/* src/components/admin/contact/ContactManagement.css */
+
+.contact-management {
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== ЦВЕТА И ТЕМЫ (локальные для удобства) ===== */
+:root {
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --background: #ffffff;
+    --background: #ffffff;
+    --surface: #f8fafc;
+    --border: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --success: #10b981;
+    --error: #ef4444;
+}
+
+[data-theme="dark"] {
+    --primary: #818cf8;
+    --primary-dark: #6366f1;
+    --background: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --success: #34d399;
+    --error: #f87171;
+}
+
+/* Заголовок секции */
+.contact-management .contact-header {
+    margin-bottom: 24px;
+}
+
+.contact-management .contact-header h2 {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.contact-management .contact-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Превью */
+.contact-management .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.contact-management .preview-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Кнопки */
+.contact-management .preview-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.contact-management .btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.contact-management .btn--primary {
+    background: var(--primary);
+    color: white;
+}
+
+.contact-management .btn--primary:hover {
+    background: var(--primary-dark);
+}
+
+.contact-management .btn--secondary {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.contact-management .btn--secondary:hover {
+    opacity: 0.9;
+}
+
+.contact-management .btn--danger {
+    background: var(--error);
+    color: white;
+}
+
+.contact-management .btn--danger:hover {
+    background: #dc2626;
+}
+
+/* Сетка информации */
+.contact-management .contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.contact-management .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-management .info-item label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.contact-management .info-item span {
+    color: var(--text-secondary);
+}
+
+/* Соцсети */
+.contact-management .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contact-management .no-social {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.875rem;
+}
+
+/* Состояние карты */
+.contact-management .map-configured {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.contact-management .map-not-configured {
+    color: var(--error);
+    font-weight: 600;
+}
+
+/* Последнее обновление */
+.contact-management .last-updated {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* Форма редактирования */
+.contact-management .contact-form {
+    background: var(--background);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.contact-management .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.contact-management .form-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.contact-management .form-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Сетка формы */
+.contact-management .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-management .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-management .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.contact-management .form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.contact-management .form-group input,
+.contact-management .form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: inherit;
+}
+
+.contact-management .form-group input:focus,
+.contact-management .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.contact-management .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Подсказка под полем карты */
+.contact-management .help-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Сообщение об ошибке */
+.contact-management .error-message {
+    margin-top: 20px;
+    padding: 12px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* Загрузка */
+.contact-management-loading {
+    padding-top: 80px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .contact-management {
+        padding-top: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .contact-management .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-management .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-management .form-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .contact-management .preview-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .contact-management .preview-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .contact-management .preview-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-management {
+        padding-top: 60px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

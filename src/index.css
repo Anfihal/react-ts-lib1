@@ -1,0 +1,41 @@
+/* Улучшенная адаптация для index.css */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Улучшенная типографика для мобильных */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+}
+
+/* Поддержка очень маленьких экранов */
+@media (max-width: 320px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
+/* Поддержка очень больших экранов */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Улучшенная доступность */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
