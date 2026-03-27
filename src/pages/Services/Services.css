@@ -3,7 +3,7 @@
    Использует глобальные переменные из app.css
    ============================================ */
 
-.services-page {
+найди причину пелины .services-page {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -163,7 +163,7 @@
 .services-page .services-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 2rem 1rem;
     /* вертикальные отступы */
     position: relative;
     z-index: 2;
