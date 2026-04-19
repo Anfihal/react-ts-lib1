@@ -1,10 +1,12 @@
 // src/components/admin/chat/AdminChatLayout.tsx
 
+// src/components/admin/chat/AdminChatLayout.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useChat } from '../../../context/ChatContext';
 import AdminChat from './AdminChat';
 import ChatSidebar from './ChatSidebar';
-import type { Chat, ChatListItem, User } from '../../../types/chat';
+import type { Chat, ChatListItem, User } from '../../../types/chat.types';
 import './AdminChatLayout.css';
 
 interface AdminChatLayoutProps {
@@ -20,7 +22,7 @@ const AdminChatLayout: React.FC<AdminChatLayoutProps> = ({
     const [selectedUserId, setSelectedUserId] = useState<string>();
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // ← новое состояние
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 100);
@@ -37,13 +39,13 @@ const AdminChatLayout: React.FC<AdminChatLayoutProps> = ({
     const safeChats = Array.isArray(chatState?.chats) ? chatState.chats : [];
 
     const chatRooms: ChatListItem[] = safeChats.map((chat: Chat) => {
-        const userParticipant = chat.participants.find((id: string) => id !== 'admin-1') || 'unknown';
+        const userParticipant = chat.participants?.find((id: string) => id !== 'admin-1') || 'unknown';
 
         const lastMessage = chat.lastMessage
             ? {
                 id: chat.lastMessage.id,
                 text: chat.lastMessage.content,
-                sender: chat.lastMessage.senderId === 'admin-1' ? 'consultant' : 'user',
+                sender: (chat.lastMessage.senderId === 'admin-1' ? 'consultant' : 'user') as 'consultant' | 'user',
                 timestamp: chat.lastMessage.timestamp,
                 isRead: chat.lastMessage.read,
                 attachments: []
@@ -53,12 +55,12 @@ const AdminChatLayout: React.FC<AdminChatLayoutProps> = ({
         return {
             id: chat.id,
             userId: userParticipant,
-            userName: chat.name,
-            userType: 'customer',
-            status: chat.unreadCount > 0 ? 'active' : 'closed',
-            unreadCount: chat.unreadCount,
+            userName: chat.name || 'Чат',
+            userType: 'customer' as const,
+            status: (chat.unreadCount ?? 0) > 0 ? 'active' as const : 'closed' as const,
+            unreadCount: chat.unreadCount ?? 0,
             lastMessage,
-            createdAt: chat.createdAt,
+            createdAt: chat.createdAt ?? new Date(),
             tags: [],
             orderId: undefined
         };
@@ -110,20 +112,18 @@ const AdminChatLayout: React.FC<AdminChatLayoutProps> = ({
 
             <div className="layout-content">
                 <div className="admin-chat-wrapper">
-                    {/* Боковая панель */}
                     <div className={`chat-sidebar-container ${isSidebarOpen ? 'open' : ''}`}>
                         <ChatSidebar
                             chats={filteredChats}
                             selectedChatId={selectedUserId || null}
                             onSelectChat={(chat) => {
                                 setSelectedUserId(chat.userId);
-                                setIsSidebarOpen(false); // Закрываем меню после выбора
+                                setIsSidebarOpen(false);
                             }}
                             theme={theme}
                         />
                     </div>
 
-                    {/* Основной чат */}
                     <div className="main-chat-area">
                         <AdminChat
                             currentUser={currentUser}
@@ -140,7 +140,7 @@ const AdminChatLayout: React.FC<AdminChatLayoutProps> = ({
                 <div className="stats">
                     <span>Пользователей: {safeUsers.length}</span>
                     <span>Сообщений: {safeMessages.length}</span>
-                    <span>Активных чатов: {safeChats.filter((c: Chat) => c.unreadCount > 0).length}</span>
+                    <span>Активных чатов: {safeChats.filter((c: Chat) => (c.unreadCount ?? 0) > 0).length}</span>
                 </div>
             </div>
         </div>

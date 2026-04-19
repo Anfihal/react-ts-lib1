@@ -23,29 +23,59 @@ const About: React.FC = () => {
     }
 
     const {
-        companyName,
-        title,
-        subtitle,
-        description,
+        // Старые поля оставляем для остальных секций (миссия, видение, ценности и т.д.)
         mission,
         vision,
         values,
         stats,
         teamMembers,
         achievements,
+        // Новые поля для Hero-секции
+        heroWeb,
+        heroThreeD,
     } = state.aboutContent;
+
+    // Пути к изображениям персонажей (можно задать через контекст или использовать статические)
+    const webCharacterImage = heroWeb?.characterImage || '/images/about/web-character.svg';
+    const threeDCharacterImage = heroThreeD?.characterImage || '/images/about/3d-character.svg';
 
     return (
         <div className="about-page">
-            {/* Герой секция - стеклянная */}
+            {/* Герой секция - два направления */}
             <section className="about-hero">
                 <div className="about-hero__overlay"></div>
                 <div className="about-container">
-                    <div className="about-hero__content glass-card">
-                        <h1 className="about-hero__title">{companyName}</h1>
-                        <h2 className="about-hero__subtitle">{title}</h2>
-                        <p className="about-hero__description">{subtitle}</p>
-                        <p className="about-hero__text">{description}</p>
+                    <div className="about-hero__dual">
+                        {/* Блок Веб-разработки */}
+                        <div className="hero-dual-item hero-dual-item--web glass-card">
+                            <div className="hero-dual-content">
+                                <h2 className="hero-dual-company">{heroWeb.companyName}</h2>
+                                <h1 className="hero-dual-title">{heroWeb.title}</h1>
+                                <p className="hero-dual-subtitle">{heroWeb.subtitle}</p>
+                                <p className="hero-dual-description">{heroWeb.description}</p>
+                            </div>
+                            <div className="hero-dual-character hero-dual-character--web">
+                                <img src={webCharacterImage} alt="Веб-разработка" />
+                            </div>
+                        </div>
+
+                        {/* Разделитель (знак между блоками) */}
+                        <div className="hero-dual-divider">
+                            <span className="hero-dual-divider-icon">⚡</span>
+                        </div>
+
+                        {/* Блок 3D-разработки */}
+                        <div className="hero-dual-item hero-dual-item--threeD glass-card">
+                            <div className="hero-dual-character hero-dual-character--threeD">
+                                <img src={threeDCharacterImage} alt="3D-разработка" />
+                            </div>
+                            <div className="hero-dual-content">
+                                <h2 className="hero-dual-company">{heroThreeD.companyName}</h2>
+                                <h1 className="hero-dual-title">{heroThreeD.title}</h1>
+                                <p className="hero-dual-subtitle">{heroThreeD.subtitle}</p>
+                                <p className="hero-dual-description">{heroThreeD.description}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -121,64 +151,73 @@ const About: React.FC = () => {
                             navigation={true}
                             className="about-team__swiper"
                         >
-                            {teamMembers.map((member) => (
-                                <SwiperSlide key={member.id}>
-                                    <div className="about-team-card glass-card">
-                                        <div className="about-team-card__photo">
-                                            {member.imageUrl ? (
-                                                <img
-                                                    src={member.imageUrl}
-                                                    alt={member.name}
-                                                    loading="lazy"
-                                                />
-                                            ) : (
-                                                <div className="about-team-card__avatar">
-                                                    {member.name
-                                                        .split(' ')
-                                                        .map((part: string) => part[0].toUpperCase())
-                                                        .join('')}
-                                                </div>
-                                            )}
+                            {teamMembers.map((member) => {
+                                const imageStyles = {
+                                    objectFit: member.imageSize || 'cover',
+                                    objectPosition: member.imagePosition || 'center',
+                                    transform: member.imageScale ? `scale(${member.imageScale})` : 'none',
+                                };
+
+                                return (
+                                    <SwiperSlide key={member.id}>
+                                        <div className="about-team-card glass-card">
+                                            <div className="about-team-card__photo">
+                                                {member.imageUrl ? (
+                                                    <img
+                                                        src={member.imageUrl}
+                                                        alt={member.name}
+                                                        loading="lazy"
+                                                        style={imageStyles}
+                                                    />
+                                                ) : (
+                                                    <div className="about-team-card__avatar">
+                                                        {member.name
+                                                            .split(' ')
+                                                            .map((part: string) => part[0].toUpperCase())
+                                                            .join('')}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="about-team-card__info">
+                                                <h3 className="about-team-card__name">{member.name}</h3>
+                                                <p className="about-team-card__position">{member.position}</p>
+                                                <p className="about-team-card__description">{member.description}</p>
+                                                {member.socialLinks && (
+                                                    <div className="about-team-card__social">
+                                                        {member.socialLinks.linkedin && (
+                                                            <a
+                                                                href={member.socialLinks.linkedin}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="about-social-link about-social-link--linkedin"
+                                                                aria-label="LinkedIn"
+                                                            ></a>
+                                                        )}
+                                                        {member.socialLinks.github && (
+                                                            <a
+                                                                href={member.socialLinks.github}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="about-social-link about-social-link--github"
+                                                                aria-label="GitHub"
+                                                            ></a>
+                                                        )}
+                                                        {member.socialLinks.telegram && (
+                                                            <a
+                                                                href={member.socialLinks.telegram}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="about-social-link about-social-link--telegram"
+                                                                aria-label="Telegram"
+                                                            ></a>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div className="about-team-card__info">
-                                            <h3 className="about-team-card__name">{member.name}</h3>
-                                            <p className="about-team-card__position">{member.position}</p>
-                                            <p className="about-team-card__description">{member.description}</p>
-                                            {member.socialLinks && (
-                                                <div className="about-team-card__social">
-                                                    {member.socialLinks.linkedin && (
-                                                        <a
-                                                            href={member.socialLinks.linkedin}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="about-social-link about-social-link--linkedin"
-                                                            aria-label="LinkedIn"
-                                                        ></a>
-                                                    )}
-                                                    {member.socialLinks.github && (
-                                                        <a
-                                                            href={member.socialLinks.github}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="about-social-link about-social-link--github"
-                                                            aria-label="GitHub"
-                                                        ></a>
-                                                    )}
-                                                    {member.socialLinks.telegram && (
-                                                        <a
-                                                            href={member.socialLinks.telegram}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="about-social-link about-social-link--telegram"
-                                                            aria-label="Telegram"
-                                                        ></a>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
+                                    </SwiperSlide>
+                                );
+                            })}
                         </Swiper>
                     </div>
                 </section>

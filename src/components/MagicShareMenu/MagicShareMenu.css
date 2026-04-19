@@ -1,0 +1,130 @@
+/* src/components/common/MagicShareMenu/MagicShareMenu.css */
+
+.magic-share-menu {
+    position: fixed;
+    z-index: 9999;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.magic-share-menu:active {
+    cursor: grabbing;
+}
+
+/* Кнопка-триггер */
+.magic-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background: var(--about-card-bg, rgba(255, 255, 255, 0.15));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--about-card-border, rgba(255, 255, 255, 0.3));
+    box-shadow: var(--about-shadow, 0 8px 32px rgba(0, 0, 0, 0.1));
+    color: var(--about-text-primary, #1e1b4b);
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.magic-toggle:hover {
+    transform: scale(1.05);
+    background: var(--about-card-bg-hover, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+}
+
+.magic-toggle.active .magic-toggle-icon {
+    transform: rotate(45deg);
+}
+
+.magic-toggle-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Меню с иконками */
+.magic-menu {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.magic-menu.open {
+    pointer-events: auto;
+}
+
+.magic-menu-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--about-card-bg, rgba(255, 255, 255, 0.15));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--about-card-border, rgba(255, 255, 255, 0.3));
+    box-shadow: var(--about-shadow, 0 8px 32px rgba(0, 0, 0, 0.1));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: calc(0.05s * var(--i));
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.magic-menu.open .magic-menu-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.magic-menu-item:hover {
+    transform: scale(1.1) !important;
+    background: var(--about-card-bg-hover, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+/* Иконки соцсетей */
+.magic-icon--linkedin {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C0.792 0 0 0.774 0 1.729v20.542C0 23.227 0.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 0.774 23.2 0 22.222 0h.003z'/%3E%3C/svg%3E");
+}
+
+.magic-icon--github {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.26.82-.58 0-.287-.01-1.05-.015-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.39-1.335-1.76-1.335-1.76-1.09-.746.082-.73.082-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.306.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.468-2.38 1.235-3.22-.123-.3-.535-1.52.117-3.16 0 0 1.008-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.29-1.552 3.297-1.23 3.297-1.23.653 1.64.24 2.86.118 3.16.768.84 1.233 1.91 1.233 3.22 0 4.61-2.804 5.62-5.476 5.92.43.37.824 1.1.824 2.22 0 1.602-.015 2.894-.015 3.287 0 .322.216.698.83.578C20.565 21.795 24 17.3 24 12c0-6.627-5.373-12-12-12z'/%3E%3C/svg%3E");
+}
+
+.magic-icon--telegram {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.269c-.146.658-.537.818-1.084.51l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.96-.924c-.643-.2-.658-.643.136-.953l11.57-4.458c.537-.196 1.006.13.831.94z'/%3E%3C/svg%3E");
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .magic-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .magic-menu-item {
+        width: 42px;
+        height: 42px;
+    }
+}

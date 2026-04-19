@@ -1,10 +1,9 @@
 // src/pages/Guest/GuestShop/GuestShop.tsx
-// src/pages/Guest/GuestShop/GuestShop.tsx
 import React, { useState } from 'react';
 import { useProduct } from '../../../context/ProductContext';
 import { useCart } from '../../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import './GuestShop.css';
+import '../../Shop/Shop.css'; // Import glass styles from main Shop folder
 
 const GuestShop: React.FC = () => {
     const { state } = useProduct();

@@ -284,13 +284,46 @@ const Header: React.FC = () => {
                                 {!isLoginPage && !isRegisterPage && (
                                     <>
                                         <button
-                                            className="theme-toggle"
+                                            className={`theme-toggle ${state.theme === 'dark' ? 'dark' : ''}`}
                                             onClick={toggleTheme}
                                             aria-label="Переключить тему"
                                             type="button"
                                         >
-                                            {state.theme === 'light' ? '🌙' : '☀️'}
+                                            <div className="theme-toggle__thumb">
+                                                <div className="theme-toggle__glass" />
+                                                <div className="theme-toggle__icons">
+                                                    {/* Sun */}
+                                                    <div className="theme-toggle__sun">
+                                                        <svg viewBox="0 0 132 132" fill="none">
+                                                            <circle cx="66.3215" cy="27.8735" r="2.95332" fill="white" />
+                                                            <circle cx="103.351" cy="64.9034" r="2.95332" transform="rotate(90 103.351 64.9034)" fill="white" />
+                                                            <circle cx="40.137" cy="91.0878" r="2.95332" transform="rotate(-135 40.137 91.0878)" fill="white" />
+                                                            <circle cx="32.3098" cy="79.5476" r="2.95332" transform="rotate(-113.295 32.3098 79.5476)" fill="white" />
+                                                            <circle cx="52.4207" cy="99.2253" r="2.95332" transform="rotate(-157.951 52.4207 99.2253)" fill="white" />
+                                                            <circle cx="92.5054" cy="91.088" r="2.95332" transform="rotate(135 92.5054 91.088)" fill="white" />
+                                                            <circle cx="100.358" cy="79.4883" r="2.95332" transform="rotate(113.196 100.358 79.4883)" fill="white" />
+                                                            <circle cx="80.5454" cy="99.0929" r="2.95332" transform="rotate(157.41 80.5454 99.0929)" fill="white" />
+                                                            <circle cx="66.3215" cy="101.934" r="2.95332" fill="white" />
+                                                            <circle cx="29.2917" cy="64.9034" r="2.95332" transform="rotate(90 29.2917 64.9034)" fill="white" />
+                                                            <circle cx="92.5056" cy="38.7192" r="2.95332" transform="rotate(-135 92.5056 38.7192)" fill="white" />
+                                                            <circle cx="100.333" cy="50.2598" r="2.95332" transform="rotate(-113.295 100.333 50.2598)" fill="white" />
+                                                            <circle cx="80.2221" cy="30.5817" r="2.95332" transform="rotate(-157.951 80.2221 30.5817)" fill="white" />
+                                                            <circle cx="40.1368" cy="38.72" r="2.95332" transform="rotate(135 40.1368 38.72)" fill="white" />
+                                                            <circle cx="32.2836" cy="50.3188" r="2.95332" transform="rotate(113.196 32.2836 50.3188)" fill="white" />
+                                                            <circle cx="52.0964" cy="30.7145" r="2.95332" transform="rotate(157.41 52.0964 30.7145)" fill="white" />
+                                                            <path d="M40.9069 58.162C44.682 44.0736 59.1638 35.7131 73.2523 39.4881C87.3408 43.2632 95.7013 57.7442 91.9265 71.8326C88.1514 85.9212 73.6703 94.2826 59.5817 90.5077C45.4931 86.7327 37.1319 72.2506 40.9069 58.162Z" fill="white" />
+                                                        </svg>
+                                                    </div>
+                                                    {/* Moon */}
+                                                    <div className="theme-toggle__moon">
+                                                        <svg viewBox="0 0 136 132" fill="none">
+                                                            <path d="M54.6181 35.6234C53.5989 38.719 53.0449 42.0264 53.0449 45.4633C53.045 62.827 67.1216 76.9027 84.4853 76.9027C88.5426 76.9027 92.4198 76.1332 95.9804 74.7338C91.8502 87.2777 80.041 96.3342 66.1142 96.3344C48.7504 96.3344 34.6738 82.2577 34.6738 64.8939C34.6739 51.5876 42.9407 40.2132 54.6181 35.6234Z" fill="white" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </button>
+
                                         <Link
                                             to={getCorrectPath("/login")}
                                             className="login-link"

@@ -1,10 +1,23 @@
-// src/types/AboutTypes.ts
-export interface AboutContent {
-    id: string;
+// Тип для содержимого герой-секции одного направления
+export interface HeroContent {
     companyName: string;
     title: string;
     subtitle: string;
     description: string;
+    characterImage?: string; // путь к изображению персонажа (опционально)
+}
+
+// Основной контент страницы "О нас"
+export interface AboutContent {
+    id: string;
+    // Устаревшие общие поля герой-секции (можно оставить для обратной совместимости, но они не используются)
+    companyName: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    // Новые поля для раздельного отображения направлений
+    heroWeb: HeroContent;
+    heroThreeD: HeroContent;
     mission: string;
     vision: string;
     values: string[];
@@ -27,6 +40,9 @@ export interface TeamMember {
     position: string;
     description: string;
     imageUrl: string;
+    imagePosition?: 'top' | 'center' | 'bottom'; // позиция фокуса изображения
+    imageSize?: 'cover' | 'contain' | 'fill';    // режим масштабирования
+    imageScale?: number;                          // дополнительный масштаб (0.5–3)
     socialLinks?: {
         linkedin?: string;
         telegram?: string;
@@ -41,30 +57,18 @@ export interface Achievement {
     description: string;
 }
 
+// Запрос на обновление содержимого (может быть частичным)
 export interface AboutUpdateRequest {
-    companyName: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    mission: string;
-    vision: string;
-    values: string[];
-    stats: CompanyStat[];
-    teamMembers: TeamMember[];
-    achievements: Achievement[];
-}
-export interface TeamMember {
-    id: number;
-    name: string;
-    position: string;
-    description: string;
-    imageUrl: string;
-    imagePosition?: string;      // 'center', 'top', 'bottom' или координаты
-    imageSize?: 'cover' | 'contain' | 'fill';
-    imageScale?: number;          // масштаб от 0.5 до 3
-    socialLinks?: {
-        linkedin?: string;
-        telegram?: string;
-        github?: string;
-    };
+    companyName?: string;
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    heroWeb?: Partial<HeroContent>;
+    heroThreeD?: Partial<HeroContent>;
+    mission?: string;
+    vision?: string;
+    values?: string[];
+    stats?: CompanyStat[];
+    teamMembers?: TeamMember[];
+    achievements?: Achievement[];
 }

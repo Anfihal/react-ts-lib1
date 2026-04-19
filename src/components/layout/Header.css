@@ -74,7 +74,6 @@
     justify-content: center;
     flex: 1 1 auto;
     min-width: 0;
-    /*  УДАЛЕНО: overflow: hidden; */
     margin: 0 auto;
     max-width: 100%;
 }
@@ -240,26 +239,154 @@
     justify-content: flex-end;
 }
 
-/* Кнопка смены темы */
+/* ===== СТЕКЛЯННЫЙ TOGGLE (64×28, бегунок 22px, стекло 60px) ===== */
 .theme-toggle {
-    background: rgba(var(--surface-rgb), 0.9);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.5rem;
+    position: relative;
+    width: 64px;
+    height: 28px;
+    border-radius: 28px;
+    box-shadow: 0px 5px 10px -5px rgba(65, 100, 130, 0.4),
+        inset 0px 1px 2px rgba(255, 255, 255, 0.5),
+        inset 0px -1px 2px rgba(101, 137, 168, 0.5);
+    border: none;
     cursor: pointer;
+    padding: 0;
     transition: all 0.3s ease;
-    font-size: 1.2rem;
-    width: 44px;
-    height: 44px;
+    flex-shrink: 0;
+    outline: none;
+}
+
+.theme-toggle.dark {
+    background: linear-gradient(139.22deg, #233E55 -51.48%, #13222F 95.75%);
+    box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.5),
+        inset 0px 1px 2px rgba(255, 255, 255, 0.15),
+        inset 0px -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle__thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #28385B;
+    border-radius: 50%;
+    transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1), background 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    z-index: 2;
+}
+
+.theme-toggle.dark .theme-toggle__thumb {
+    transform: translateX(36px);
+    /* 64 - 22 - 6 = 36 */
+    background: #1a2a45;
+}
+
+/* Стеклянный круг — 60×60, центрирован относительно бегунка 22px */
+.theme-toggle__glass {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: -19px;
+    top: -19px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 4px rgba(0, 0, 0, 0.1),
+        0 2px 10px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle.dark .theme-toggle__glass {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -1px 4px rgba(0, 0, 0, 0.2),
+        0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle__icons {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.theme-toggle__sun,
+.theme-toggle__moon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.theme-toggle__sun svg,
+.theme-toggle__moon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.theme-toggle:not(.dark) .theme-toggle__sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.theme-toggle:not(.dark) .theme-toggle__moon {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.theme-toggle.dark .theme-toggle__sun {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.theme-toggle.dark .theme-toggle__moon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .theme-toggle:hover {
-    background: var(--surface);
-    transform: scale(1.1);
+    transform: scale(1.02);
+}
+
+.theme-toggle:active {
+    transform: scale(0.97);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+    border-radius: 28px;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ TOGGLE (только сдвиг влево, размеры не меняем) ===== */
+@media (max-width: 768px) {
+    .theme-toggle {
+        width: 64px !important;
+        height: 28px !important;
+        transform: none !important;
+        margin-right: 0 !important;
+        margin-left: -10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-toggle {
+        width: 64px !important;
+        height: 28px !important;
+        transform: none !important;
+        margin-right: 0 !important;
+        margin-left: -15px;
+    }
 }
 
 /* Кнопка входа */
@@ -356,6 +483,7 @@
 
 .dropdown-arrow.open {
     transform: rotate(180deg);
+    color: var(--primary);
 }
 
 /* Выпадающее меню пользователя */
@@ -487,9 +615,6 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 18L19 8' stroke='%23cccccc' stroke-linecap='round'/%3E%3Cpath d='M5 8L19 18' stroke='%23cccccc' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
-
-
-
 /* Анимация бургер-меню */
 .menu-toggle.menu-open span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
@@ -507,9 +632,7 @@
 @media (min-width: 1024px) and (max-width: 1450px) {
     .nav {
         overflow-x: auto;
-        /* УДАЛЕНО: overflow-y: hidden; */
         padding-bottom: 6px;
-        /* чуть больше, чтобы скролл не прыгал */
         scrollbar-width: thin;
         scrollbar-color: var(--border) transparent;
         -webkit-overflow-scrolling: touch;
@@ -533,7 +656,6 @@
         background: var(--primary);
     }
 
-    /* Отключаем скролл если элементов мало */
     .nav:not(:has(.nav-link:nth-child(7))) {
         overflow-x: hidden;
         justify-content: center;
@@ -561,6 +683,8 @@
         visibility: hidden;
         transition: all 0.3s ease;
         z-index: 999;
+        overflow-y: auto;
+        max-height: calc(100vh - 70px);
     }
 
     .header:has(.user-menu) .nav.nav-open {
@@ -697,7 +821,7 @@
         gap: 0.5rem;
     }
 
-    .theme-toggle,
+    /* Убираем .theme-toggle из этого правила */
     .menu-toggle {
         width: 40px;
         height: 40px;
@@ -728,7 +852,7 @@
         height: 32px;
     }
 
-    .theme-toggle,
+    /* Убираем .theme-toggle из этого правила */
     .menu-toggle {
         width: 36px;
         height: 36px;
@@ -788,28 +912,22 @@
 }
 
 /* === ФИКС ДЛЯ ОТСТУПОВ МЕЖДУ КНОПКАМИ === */
-
-/* Основной отступ для всех кнопок в header-actions */
 .header-actions {
     gap: 1rem !important;
 }
 
-/* Специально для кнопки темы и кнопки входа */
 .header-actions:has(.theme-toggle + .login-link) {
     gap: 0.75rem !important;
 }
 
-/* Убедимся, что кнопки не имеют лишних марджинов */
 .header-actions>* {
     margin: 0 !important;
 }
 
-/* Более специфичный селектор для неавторизованных пользователей */
 .header:not(:has(.user-menu)) .header-actions {
     gap: 0.75rem !important;
 }
 
-/* На маленьких экранах */
 @media (max-width: 768px) {
     .header:not(:has(.user-menu)) .header-actions {
         gap: 0.5rem !important;
@@ -842,11 +960,6 @@
 }
 
 /* === СТИЛИ ДЛЯ ВЫПАДАЮЩЕГО МЕНЮ === */
-
-/* Разделитель в выпадающем меню */
-
-
-/* Стили для dropdown-item (улучшенные) */
 .dropdown-item {
     display: flex;
     align-items: center;
@@ -874,7 +987,7 @@
     transform: scale(0.98);
 }
 
-/* Иконки для dropdown-item (опционально) */
+/* Иконки для dropdown-item */
 .dropdown-item[data-icon]::before {
     content: attr(data-icon);
     font-size: 1.1rem;
@@ -882,7 +995,6 @@
     text-align: center;
 }
 
-/* Специфичные стили для пунктов меню */
 /* Иконка для Admin/Дашборд и Гостевой */
 .dropdown-item[href*="admin"]::before,
 .dropdown-item[href*="guest"]::before {
@@ -909,7 +1021,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7.48237 10.2609V16.9546' stroke='%230A8CB0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12.0371 7.05734V16.9552' stroke='%23F4FFFE' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16.5156 13.7982V16.955' stroke='%23026992' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' fill-rule='evenodd' clip-rule='evenodd' d='M2.2998 12.0368C2.2998 4.73472 4.73454 2.29999 12.0366 2.29999C19.3388 2.29999 21.7735 4.73472 21.7735 12.0368C21.7735 19.3389 19.3388 21.7737 12.0366 21.7737C4.73454 21.7737 2.2998 19.3389 2.2998 12.0368Z' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-/* ТЕМНАЯ ТЕМА через класс */
+/* Темная тема через класс */
 .theme-dark .dropdown-item[href*="admin"]::before,
 .theme-dark .dropdown-item[href*="guest"]::before,
 .dark-theme .dropdown-item[href*="admin"]::before,
@@ -917,7 +1029,6 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7.48237 10.2609V16.9546' stroke='%230A8CB0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12.0371 7.05734V16.9552' stroke='%23F4FFFE' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16.5156 13.7982V16.955' stroke='%23026992' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' fill-rule='evenodd' clip-rule='evenodd' d='M2.2998 12.0368C2.2998 4.73472 4.73454 2.29999 12.0366 2.29999C19.3388 2.29999 21.7735 4.73472 21.7735 12.0368C21.7735 19.3389 19.3388 21.7737 12.0366 21.7737C4.73454 21.7737 2.2998 19.3389 2.2998 12.0368Z' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-/* ТЕМНАЯ ТЕМА через prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
 
     .dropdown-item[href*="admin"]::before,
@@ -926,14 +1037,13 @@
     }
 }
 
-/* Ховер эффект */
 .dropdown-item[href*="admin"]:hover::before,
 .dropdown-item[href*="guest"]:hover::before {
     transform: scale(1.1);
     opacity: 0.9;
 }
 
-/* Иконка для Профиля (новая SVG) */
+/* Иконка для Профиля */
 .dropdown-item[href*="profile"]::before {
     content: '';
     display: inline-block;
@@ -946,30 +1056,25 @@
     flex-shrink: 0;
 }
 
-/* Светлая тема */
 .dropdown-item[href*="profile"]::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19.6515 19.4054C20.2043 19.2902 20.5336 18.7117 20.2589 18.2183C19.6533 17.1307 18.6993 16.1749 17.4788 15.4465C15.907 14.5085 13.9812 14 12 14C10.0188 14 8.09292 14.5085 6.52112 15.4465C5.30069 16.1749 4.34666 17.1307 3.74108 18.2183C3.46638 18.7117 3.79562 19.2902 4.34843 19.4054C9.39524 20.4572 14.6047 20.4572 19.6515 19.4054Z' fill='%23222'/%3E%3Ccircle cx='12' cy='8' r='5' fill='%23222'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через data-theme */
 [data-theme="dark"] .dropdown-item[href*="profile"]::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19.6515 19.4054C20.2043 19.2902 20.5336 18.7117 20.2589 18.2183C19.6533 17.1307 18.6993 16.1749 17.4788 15.4465C15.907 14.5085 13.9812 14 12 14C10.0188 14 8.09292 14.5085 6.52112 15.4465C5.30069 16.1749 4.34666 17.1307 3.74108 18.2183C3.46638 18.7117 3.79562 19.2902 4.34843 19.4054C9.39524 20.4572 14.6047 20.4572 19.6515 19.4054Z' fill='white'/%3E%3Ccircle cx='12' cy='8' r='5' fill='white'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через класс */
 .theme-dark .dropdown-item[href*="profile"]::before,
 .dark-theme .dropdown-item[href*="profile"]::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19.6515 19.4054C20.2043 19.2902 20.5336 18.7117 20.2589 18.2183C19.6533 17.1307 18.6993 16.1749 17.4788 15.4465C15.907 14.5085 13.9812 14 12 14C10.0188 14 8.09292 14.5085 6.52112 15.4465C5.30069 16.1749 4.34666 17.1307 3.74108 18.2183C3.46638 18.7117 3.79562 19.2902 4.34843 19.4054C9.39524 20.4572 14.6047 20.4572 19.6515 19.4054Z' fill='white'/%3E%3Ccircle cx='12' cy='8' r='5' fill='white'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
     .dropdown-item[href*="profile"]::before {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19.6515 19.4054C20.2043 19.2902 20.5336 18.7117 20.2589 18.2183C19.6533 17.1307 18.6993 16.1749 17.4788 15.4465C15.907 14.5085 13.9812 14 12 14C10.0188 14 8.09292 14.5085 6.52112 15.4465C5.30069 16.1749 4.34666 17.1307 3.74108 18.2183C3.46638 18.7117 3.79562 19.2902 4.34843 19.4054C9.39524 20.4572 14.6047 20.4572 19.6515 19.4054Z' fill='white'/%3E%3Ccircle cx='12' cy='8' r='5' fill='white'/%3E%3C/svg%3E");
     }
 }
 
-/* Ховер эффект */
 .dropdown-item[href*="profile"]:hover::before {
     transform: scale(1.1);
     opacity: 0.9;
@@ -988,36 +1093,31 @@
     flex-shrink: 0;
 }
 
-/* СВЕТЛАЯ ТЕМА - показываем иконку ЛУНЫ (для переключения на темную) */
 .dropdown-item:has(+ .dropdown-divider)::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M11.6247 5.00988C11.7489 5.00332 11.874 5 11.9998 5C15.8658 5 18.9998 8.13401 18.9998 12C18.9998 15.866 15.8658 19 11.9998 19C10.6729 19 9.43231 18.6308 8.375 17.9896C12.0666 17.7946 14.9998 14.7396 14.9998 10.9995C14.9998 8.46034 13.6479 6.23697 11.6247 5.00988Z' fill='%23FEBC2F'/%3E%3Cpath d='M5.4 10.2L5.4 10.2C5.50137 10.5041 5.55206 10.6562 5.60276 10.7225C5.80288 10.9843 6.19712 10.9843 6.39724 10.7225C6.44794 10.6562 6.49863 10.5041 6.6 10.2L6.6 10.2C6.68177 9.95468 6.72266 9.83201 6.77555 9.72099C6.97291 9.30672 7.30672 8.97291 7.72099 8.77555C7.83201 8.72266 7.95468 8.68177 8.2 8.6L8.2 8.6C8.50412 8.49863 8.65618 8.44794 8.7225 8.39724C8.98431 8.19712 8.98431 7.80288 8.7225 7.60276C8.65618 7.55206 8.50412 7.50137 8.2 7.4L8.2 7.4C7.95468 7.31822 7.83201 7.27734 7.72099 7.22445C7.30672 7.02709 6.97291 6.69329 6.77555 6.27901C6.72266 6.16799 6.68177 6.04532 6.6 5.8C6.49863 5.49588 6.44794 5.34382 6.39724 5.2775C6.19712 5.01569 5.80288 5.01569 5.60276 5.2775C5.55206 5.34382 5.50137 5.49588 5.4 5.8C5.31823 6.04532 5.27734 6.16799 5.22445 6.27901C5.02709 6.69329 4.69329 7.02709 4.27901 7.22445C4.16799 7.27734 4.04532 7.31823 3.8 7.4C3.49588 7.50137 3.34382 7.55206 3.2775 7.60276C3.01569 7.80288 3.01569 8.19712 3.2775 8.39724C3.34382 8.44794 3.49588 8.49863 3.8 8.6C4.04532 8.68177 4.16799 8.72266 4.27901 8.77555C4.69329 8.97291 5.02709 9.30672 5.22445 9.72099C5.27734 9.83201 5.31822 9.95468 5.4 10.2Z' fill='%23FEBC2F'/%3E%3C/svg%3E");
 }
 
-/* ТЕМНАЯ ТЕМА - показываем иконку СОЛНЦА (для переключения на светлую) */
 [data-theme="dark"] .dropdown-item:has(+ .dropdown-divider)::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 8V4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 20V16' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M9.1712 9.17157L6.34277 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M17.6566 17.6569L14.8281 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M16 12L20 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M4 12L8 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M14.8288 9.17157L17.6572 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M6.34345 17.6569L9.17188 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через класс */
 .theme-dark .dropdown-item:has(+ .dropdown-divider)::before,
 .dark-theme .dropdown-item:has(+ .dropdown-divider)::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 8V4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 20V16' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M9.1712 9.17157L6.34277 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M17.6566 17.6569L14.8281 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M16 12L20 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M4 12L8 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M14.8288 9.17157L17.6572 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M6.34345 17.6569L9.17188 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3C/svg%3E");
 }
 
-/* prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
     .dropdown-item:has(+ .dropdown-divider)::before {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 8V4' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M12 20V16' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M9.1712 9.17157L6.34277 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M17.6566 17.6569L14.8281 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M16 12L20 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M4 12L8 12' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M14.8288 9.17157L17.6572 6.34314' stroke='%23FFCC00' stroke-width='2'/%3E%3Cpath d='M6.34345 17.6569L9.17188 14.8284' stroke='%23FFCC00' stroke-width='2'/%3E%3C/svg%3E");
     }
 }
 
-/* Ховер эффект */
 .dropdown-item:has(+ .dropdown-divider):hover::before {
     transform: scale(1.1);
     opacity: 0.9;
 }
 
-/* Стили для logout-item с новой SVG иконкой */
+/* Стили для logout-item */
 .logout-item::before {
     content: '';
     display: inline-block;
@@ -1030,36 +1130,30 @@
     flex-shrink: 0;
 }
 
-/* Светлая тема */
 .logout-item::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 7.13193V6.61204C7 4.46614 7 3.3932 7.6896 2.79511C8.37919 2.19703 9.44136 2.34877 11.5657 2.65224L15.8485 3.26408C18.3047 3.61495 19.5327 3.79039 20.2664 4.63628C21 5.48217 21 6.72271 21 9.20377V14.7962C21 17.2773 21 18.5178 20.2664 19.3637C19.5327 20.2096 18.3047 20.385 15.8485 20.7359L11.5657 21.3478C9.44136 21.6512 8.37919 21.803 7.6896 21.2049C7 20.6068 7 19.5339 7 17.388V17.066' stroke='%23222'/%3E%3Cpath d='M16 12L16.3904 11.6877L16.6403 12L16.3904 12.3123L16 12ZM4 12.5C3.72386 12.5 3.5 12.2761 3.5 12C3.5 11.7239 3.72386 11.5 4 11.5V12V12.5ZM12 7L12.3904 6.68765L16.3904 11.6877L16 12L15.6096 12.3123L11.6096 7.31235L12 7ZM16 12L16.3904 12.3123L12.3904 17.3123L12 17L11.6096 16.6877L15.6096 11.6877L16 12ZM16 12V12.5H4V12V11.5H16V12Z' fill='%23222'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через data-theme */
 [data-theme="dark"] .logout-item::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 7.13193V6.61204C7 4.46614 7 3.3932 7.6896 2.79511C8.37919 2.19703 9.44136 2.34877 11.5657 2.65224L15.8485 3.26408C18.3047 3.61495 19.5327 3.79039 20.2664 4.63628C21 5.48217 21 6.72271 21 9.20377V14.7962C21 17.2773 21 18.5178 20.2664 19.3637C19.5327 20.2096 18.3047 20.385 15.8485 20.7359L11.5657 21.3478C9.44136 21.6512 8.37919 21.803 7.6896 21.2049C7 20.6068 7 19.5339 7 17.388V17.066' stroke='white'/%3E%3Cpath d='M16 12L16.3904 11.6877L16.6403 12L16.3904 12.3123L16 12ZM4 12.5C3.72386 12.5 3.5 12.2761 3.5 12C3.5 11.7239 3.72386 11.5 4 11.5V12V12.5ZM12 7L12.3904 6.68765L16.3904 11.6877L16 12L15.6096 12.3123L11.6096 7.31235L12 7ZM16 12L16.3904 12.3123L12.3904 17.3123L12 17L11.6096 16.6877L15.6096 11.6877L16 12ZM16 12V12.5H4V12V11.5H16V12Z' fill='white'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через класс */
 .theme-dark .logout-item::before,
 .dark-theme .logout-item::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 7.13193V6.61204C7 4.46614 7 3.3932 7.6896 2.79511C8.37919 2.19703 9.44136 2.34877 11.5657 2.65224L15.8485 3.26408C18.3047 3.61495 19.5327 3.79039 20.2664 4.63628C21 5.48217 21 6.72271 21 9.20377V14.7962C21 17.2773 21 18.5178 20.2664 19.3637C19.5327 20.2096 18.3047 20.385 15.8485 20.7359L11.5657 21.3478C9.44136 21.6512 8.37919 21.803 7.6896 21.2049C7 20.6068 7 19.5339 7 17.388V17.066' stroke='white'/%3E%3Cpath d='M16 12L16.3904 11.6877L16.6403 12L16.3904 12.3123L16 12ZM4 12.5C3.72386 12.5 3.5 12.2761 3.5 12C3.5 11.7239 3.72386 11.5 4 11.5V12V12.5ZM12 7L12.3904 6.68765L16.3904 11.6877L16 12L15.6096 12.3123L11.6096 7.31235L12 7ZM16 12L16.3904 12.3123L12.3904 17.3123L12 17L11.6096 16.6877L15.6096 11.6877L16 12ZM16 12V12.5H4V12V11.5H16V12Z' fill='white'/%3E%3C/svg%3E");
 }
 
-/* Темная тема через prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
     .logout-item::before {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 7.13193V6.61204C7 4.46614 7 3.3932 7.6896 2.79511C8.37919 2.19703 9.44136 2.34877 11.5657 2.65224L15.8485 3.26408C18.3047 3.61495 19.5327 3.79039 20.2664 4.63628C21 5.48217 21 6.72271 21 9.20377V14.7962C21 17.2773 21 18.5178 20.2664 19.3637C19.5327 20.2096 18.3047 20.385 15.8485 20.7359L11.5657 21.3478C9.44136 21.6512 8.37919 21.803 7.6896 21.2049C7 20.6068 7 19.5339 7 17.388V17.066' stroke='white'/%3E%3Cpath d='M16 12L16.3904 11.6877L16.6403 12L16.3904 12.3123L16 12ZM4 12.5C3.72386 12.5 3.5 12.2761 3.5 12C3.5 11.7239 3.72386 11.5 4 11.5V12V12.5ZM12 7L12.3904 6.68765L16.3904 11.6877L16 12L15.6096 12.3123L11.6096 7.31235L12 7ZM16 12L16.3904 12.3123L12.3904 17.3123L12 17L11.6096 16.6877L15.6096 11.6877L16 12ZM16 12V12.5H4V12V11.5H16V12Z' fill='white'/%3E%3C/svg%3E");
     }
 }
 
-/* Ховер эффект */
 .logout-item:hover::before {
     transform: scale(1.1);
     opacity: 0.9;
 }
 
-/* Стили для logout-item */
 .logout-item {
     color: var(--error) !important;
     font-weight: 600;
@@ -1073,7 +1167,7 @@
     background: rgba(var(--error-rgb), 0.15) !important;
 }
 
-/* Стили для user-info (улучшенные) */
+/* Стили для user-info */
 .user-info {
     padding: 1rem 1.25rem;
     border-bottom: 1px solid var(--border);
@@ -1095,7 +1189,6 @@
     margin-bottom: 0.25rem;
 }
 
-/* Стили для user-role */
 .user-role {
     margin-top: 0.5rem;
     color: var(--secondary) !important;
@@ -1162,7 +1255,6 @@
     }
 }
 
-/* Для очень маленьких экранов */
 @media (max-width: 480px) {
     .user-dropdown {
         top: 65px !important;

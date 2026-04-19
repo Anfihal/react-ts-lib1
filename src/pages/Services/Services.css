@@ -43,34 +43,25 @@
 }
 
 /* Светлая тема */
-[data-theme='light'] .services-page::before {
-    --bg-gif: url('/images/servicesbglight.gif');
-    --bg-opacity: 0.6;
+[data-theme='light'] .services-page {
+    background-color: #f4f8f9;
+    background-image: url('/images/servicesbglight.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    ;
 }
 
-[data-theme='light'] .services-page::after {
-    background:
-        radial-gradient(circle at 20% 50%, rgba(62, 133, 165, 0.15) 0%, transparent 30%),
-        radial-gradient(circle at 80% 30%, rgba(92, 156, 182, 0.2) 0%, transparent 35%),
-        radial-gradient(circle at 40% 70%, rgba(15, 52, 78, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(62, 133, 165, 0.15) 0%, transparent 30%);
-    mix-blend-mode: normal;
-}
 
 /* Тёмная тема */
-[data-theme='dark'] .services-page::before {
-    --bg-gif: url('/images/servicesbgdark.gif');
-    --bg-opacity: 0.5;
+[data-theme='dark'] .services-page {
+    background-color: #051321;
+    background-image: url('/images/servicesbgdark.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-[data-theme='dark'] .services-page::after {
-    background:
-        radial-gradient(circle at 20% 50%, rgba(15, 52, 78, 0.3) 0%, transparent 35%),
-        radial-gradient(circle at 80% 30%, rgba(62, 133, 165, 0.25) 0%, transparent 40%),
-        radial-gradient(circle at 40% 70%, rgba(92, 156, 182, 0.2) 0%, transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(15, 52, 78, 0.3) 0%, transparent 35%);
-    mix-blend-mode: soft-light;
-}
 
 /* Fallback если GIF не загрузился */
 @supports not (background-image: var(--bg-gif)) {
@@ -220,8 +211,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12.5px);
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border-radius: var(--glass-radius-lg, 77px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
@@ -231,12 +222,10 @@
 }
 
 [data-theme='light'] .services-page .service-card {
-    background: var(--glass-bg-light, rgba(244, 248, 249, 0.75));
     border-color: var(--glass-border-light, rgba(15, 52, 78, 0.15));
 }
 
 [data-theme='dark'] .services-page .service-card {
-    background: var(--glass-bg-dark, rgba(15, 52, 78, 0.4));
     border-color: var(--glass-border-dark, rgba(215, 229, 234, 0.2));
 }
 
@@ -445,15 +434,14 @@
     margin: 2rem auto 0;
     /* отступ сверху */
     transition: all 0.3s ease;
-    backdrop-filter: blur(12.5px);
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border-radius: var(--glass-radius-lg, 77px);
     box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
-    background: rgba(244, 248, 249, 0.75);
     border: 1px solid rgba(15, 52, 78, 0.15);
 }
 
 [data-theme='dark'] .services-page .services-cta {
-    background: rgba(15, 52, 78, 0.4);
     border-color: rgba(215, 229, 234, 0.2);
 }
 

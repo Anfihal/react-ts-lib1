@@ -1,4 +1,6 @@
 /* src/pages/guest/orders/Orders.css */
+/* src/pages/guest/orders/Orders.css */
+
 .orders-page {
     min-height: 100vh;
     padding: 2rem 0;
@@ -21,8 +23,9 @@
 }
 
 .filter-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: rgba(128, 128, 128, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 2rem;
     padding: 0.5rem 1.25rem;
     font-size: 0.9rem;
@@ -53,17 +56,17 @@
 }
 
 .order-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    background: rgba(var(--surface-rgb), 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .order-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     border-color: var(--primary);
 }
 
@@ -145,8 +148,8 @@
 
 .order-details {
     padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .order-items h4 {
@@ -164,7 +167,7 @@
 .items-table td {
     padding: 0.75rem 0.5rem;
     text-align: left;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
 }
 
@@ -193,7 +196,8 @@
     text-align: center;
     padding: 3rem;
     color: var(--text-secondary);
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     max-width: 600px;
     margin: 0 auto;

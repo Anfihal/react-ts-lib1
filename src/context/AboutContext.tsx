@@ -1,7 +1,6 @@
 // src/context/AboutContext.tsx
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import type { AboutContent, AboutUpdateRequest, CompanyStat, TeamMember, Achievement } from '../types/AboutTypes';
-
 interface AboutState {
     aboutContent: AboutContent | null;
     isLoading: boolean;
@@ -196,7 +195,6 @@ const initialAboutContent: AboutContent = {
             name: 'Кувшинников Никита Владимирович',
             position: 'frontend',
             description: 'Специализируется на React и Node.js разработке',
-
             imageUrl: '/images/team/nikita.jpg'
         },
         {
@@ -204,14 +202,14 @@ const initialAboutContent: AboutContent = {
             name: 'Мытько Сергей Степанович',
             position: 'Lead Developer',
             description: 'Эксперт в области веб-разработки и облачных технологий',
-            imageUrl: '/images/team/srgei.jpg'
+            imageUrl: '/images/team/sergei.jpg'
         },
         {
             id: 4,
             name: 'Кучинский Артем Витальевич',
             position: 'backend',
             description: 'Создает интуитивные и красивые интерфейсы',
-            imageUrl: '/images/team/elena.jpg'
+            imageUrl: '/images/team/artem.jpg'
         },
         {
             id: 5,
@@ -253,6 +251,20 @@ const initialAboutContent: AboutContent = {
             description: 'Запустили собственные SaaS продукты'
         }
     ],
+    heroWeb: {
+        companyName: 'Веб-разработка',
+        title: 'Современные веб-решения',
+        subtitle: 'От лендингов до сложных веб-приложений',
+        description: 'Мы создаём быстрые, отзывчивые и масштабируемые сайты и приложения с использованием передовых технологий.',
+        characterImage: '/images/about/web-character.svg'
+    },
+    heroThreeD: {
+        companyName: '3D-разработка',
+        title: 'Трёхмерное моделирование и визуализация',
+        subtitle: 'Интерактивные 3D-сцены и анимация',
+        description: 'Воплощаем идеи в реалистичные 3D-модели для игр, архитектуры, рекламы и веб-интеграций.',
+        characterImage: '/images/about/3d-character.svg'
+    },
     createdAt: new Date('2020-01-15'),
     updatedAt: new Date()
 };
@@ -272,10 +284,30 @@ export const AboutProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             await new Promise(resolve => setTimeout(resolve, 1000));
 
+            if (!state.aboutContent) {
+                throw new Error('Нет данных для обновления');
+            }
+
             const updatedContent: AboutContent = {
-                ...data,
-                id: '1',
-                createdAt: state.aboutContent?.createdAt || new Date(),
+                ...state.aboutContent,
+                companyName: data.companyName ?? state.aboutContent.companyName,
+                title: data.title ?? state.aboutContent.title,
+                subtitle: data.subtitle ?? state.aboutContent.subtitle,
+                description: data.description ?? state.aboutContent.description,
+                mission: data.mission ?? state.aboutContent.mission,
+                vision: data.vision ?? state.aboutContent.vision,
+                values: data.values ?? state.aboutContent.values,
+                stats: data.stats ?? state.aboutContent.stats,
+                teamMembers: data.teamMembers ?? state.aboutContent.teamMembers,
+                achievements: data.achievements ?? state.aboutContent.achievements,
+                heroWeb: {
+                    ...state.aboutContent.heroWeb,
+                    ...(data.heroWeb || {})
+                },
+                heroThreeD: {
+                    ...state.aboutContent.heroThreeD,
+                    ...(data.heroThreeD || {})
+                },
                 updatedAt: new Date()
             };
 
@@ -293,7 +325,6 @@ export const AboutProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dispatch({ type: 'SET_EDITING', payload: editing });
     };
 
-    // Методы для статистики
     const addStat = (stat: Omit<CompanyStat, 'id'>) => {
         const newId = Math.max(0, ...(state.aboutContent?.stats.map(s => s.id) || [])) + 1;
         dispatch({ type: 'ADD_STAT', payload: { ...stat, id: newId } });
@@ -307,7 +338,6 @@ export const AboutProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dispatch({ type: 'DELETE_STAT', payload: id });
     };
 
-    // Методы для команды
     const addTeamMember = (member: Omit<TeamMember, 'id'>) => {
         const newId = Math.max(0, ...(state.aboutContent?.teamMembers.map(m => m.id) || [])) + 1;
         dispatch({ type: 'ADD_TEAM_MEMBER', payload: { ...member, id: newId } });
@@ -321,7 +351,6 @@ export const AboutProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dispatch({ type: 'DELETE_TEAM_MEMBER', payload: id });
     };
 
-    // Методы для достижений
     const addAchievement = (achievement: Omit<Achievement, 'id'>) => {
         const newId = Math.max(0, ...(state.aboutContent?.achievements.map(a => a.id) || [])) + 1;
         dispatch({ type: 'ADD_ACHIEVEMENT', payload: { ...achievement, id: newId } });

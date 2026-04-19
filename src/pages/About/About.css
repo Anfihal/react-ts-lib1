@@ -1,21 +1,10 @@
-/* =============================================================================
-   ABOUT.CSS - СТЕКЛЯННАЯ ТЕМА ДЛЯ СТРАНИЦЫ "О НАС"
-   Все изображения и видео заданы в CSS
-   ========================================================================== */
-
-/* =============================================================================
-   1. CSS ПЕРЕМЕННЫЕ - СТЕКЛЯННАЯ ТЕМА С ЛЕГКОЙ НАСТРОЙКОЙ ЦВЕТОВ
-   ========================================================================== */
+/* ABOUT.CSS - СТЕКЛЯННАЯ ТЕМА ДЛЯ СТРАНИЦЫ "О НАС" */
 .about-page {
     /* 
     ===============================================
     СВЕТЛАЯ ТЕМА - ОСНОВНЫЕ ЦВЕТА (легко менять)
     ===============================================
     */
-
-    /* Фоновые цвета */
-    --about-light-bg-primary: #e0e7ff;
-    --about-light-bg-secondary: #c7d2fe;
 
     /* Цвета карточек */
     --about-light-card-bg: rgba(255, 255, 255, 0.15);
@@ -24,11 +13,10 @@
 
     /* Цвета текста */
     --about-light-text-primary: #1e1b4b;
-    --about-light-text-secondary: #312e81;
     --about-light-text-white: #ffffff;
 
     /* Акцентные цвета */
-    --about-light-accent-primary: #4f46e5;
+    --about-light-accent-primary: #050505;
     --about-light-accent-secondary: #6366f1;
 
     /* Тени и эффекты */
@@ -56,7 +44,7 @@
     --about-dark-text-white: #ffffff;
 
     /* Акцентные цвета */
-    --about-dark-accent-primary: #818cf8;
+    --about-dark-accent-primary: #ffffff;
     --about-dark-accent-secondary: #a5b4fc;
 
     /* Тени и эффекты */
@@ -79,9 +67,6 @@
     --about-transition-speed: 0.3s;
     --about-hover-lift: -5px;
 
-    /* Фоновые изображения */
-    --about-hero-bg: url('/images/about/hero-bg.jpg.jpg');
-    --about-team-bg: url('/videos/team-bg.mp4');
 
     /* 
     ===============================================
@@ -241,18 +226,6 @@
     background-repeat: no-repeat;
 }
 
-.about-hero__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: var(--about-blur-amount);
-    -webkit-backdrop-filter: var(--about-blur-amount);
-    z-index: 1;
-}
-
 .about-hero__content {
     width: 100%;
     max-width: 900px;
@@ -292,6 +265,194 @@
     font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.8);
     line-height: 1.6;
+}
+
+/* =============================================================================
+   5.1 ДВОЙНАЯ ГЕРОЙ-СЕКЦИЯ (Веб + 3D)
+   ========================================================================== */
+.about-hero__dual {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-dual-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-radius: var(--about-border-radius-lg);
+    padding: 2.5rem 2rem;
+    background: var(--about-card-bg);
+    backdrop-filter: var(--about-blur-amount);
+    -webkit-backdrop-filter: var(--about-blur-amount);
+    border: 1px solid var(--about-card-border);
+    box-shadow: var(--about-shadow);
+    transition: transform var(--about-transition-speed) ease, box-shadow var(--about-transition-speed) ease;
+}
+
+.hero-dual-item:hover {
+    transform: translateY(var(--about-hover-lift));
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+    background: var(--about-card-bg-hover);
+}
+
+.hero-dual-item--web {
+    flex-direction: row;
+}
+
+.hero-dual-item--threeD {
+    flex-direction: row-reverse;
+}
+
+.hero-dual-content {
+    flex: 1;
+}
+
+.hero-dual-company {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--about-accent);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.hero-dual-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--about-text-primary);
+    background: linear-gradient(135deg, var(--about-text-primary) 0%, var(--about-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-dual-subtitle {
+    font-size: 1.1rem;
+    color: var(--about-text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.hero-dual-description {
+    font-size: 0.95rem;
+    color: var(--about-text-secondary);
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.hero-dual-character {
+    flex: 0 0 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-dual-character img {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    transition: transform var(--about-transition-speed) ease;
+}
+
+.hero-dual-item:hover .hero-dual-character img {
+    transform: scale(1.05);
+}
+
+.hero-dual-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--about-accent);
+    text-shadow: 0 0 20px var(--about-glow);
+    width: 60px;
+}
+
+.hero-dual-divider-icon {
+    display: inline-block;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Адаптив для двойной герой-секции */
+@media (max-width: 1024px) {
+    .hero-dual-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-dual-character {
+        flex-basis: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero__dual {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero-dual-item {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .hero-dual-divider {
+        transform: rotate(90deg);
+        margin: 10px 0;
+        width: auto;
+        font-size: 2.5rem;
+    }
+
+    .hero-dual-character {
+        order: -1;
+        /* персонаж сверху */
+        margin-bottom: 1.5rem;
+        flex-basis: auto;
+        max-width: 200px;
+    }
+
+    .hero-dual-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-dual-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-dual-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-dual-character {
+        max-width: 150px;
+    }
+
+    .hero-dual-divider {
+        font-size: 2rem;
+    }
 }
 
 /* =============================================================================

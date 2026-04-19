@@ -1,6 +1,12 @@
 /* =============================================================================
    ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
    ========================================================================== */
+/* =============================================================================
+   ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+   ========================================================================== */
+/* =============================================================================
+   ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+   ========================================================================== */
 :root {
   /* Базовые настройки */
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -22,15 +28,14 @@
   --error: #dc2626;
   --success: #16a34a;
 
-  /* Стеклянные эффекты (светлая тема) */
-  --glass-bg-light: rgba(244, 248, 249, 0.75);
-  --glass-bg-dark: rgba(15, 52, 78, 0.4);
-  --glass-blur: 12.5px;
-  --glass-border-light: rgba(15, 52, 78, 0.15);
-  --glass-border-dark: rgba(215, 229, 234, 0.2);
+  /* ЕДИНЫЙ СТЕКЛЯННЫЙ ЭФФЕКТ – на основе предоставленного стиля */
+  --glass-bg: rgba(0, 0, 0, 0.004);
   --glass-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
-  --glass-radius: 30px;
-  --glass-radius-lg: 77px;
+  --glass-radius: 77px;
+  --glass-blur: none;
+  /* размытие убрано, так как в оригинале его нет */
+  --glass-border: none;
+  /* обводка отсутствует */
 
   /* Анимации и переходы */
   --transition-speed: 0.3s;
@@ -51,9 +56,7 @@
   --border: #334155;
   --error: #ef4444;
   --success: #22c55e;
-
-  --glass-bg-light: var(--glass-bg-dark);
-  --glass-border-light: var(--glass-border-dark);
+  /* стеклянный эффект остаётся тем же (фон и тень не зависят от темы) */
 }
 
 /* =============================================================================
@@ -96,26 +99,20 @@ body {
 }
 
 /* =============================================================================
-   СТЕКЛЯННАЯ КАРТОЧКА (универсальная)
+   СТЕКЛЯННАЯ КАРТОЧКА (единый стиль, как в Rectangle 9)
    ========================================================================== */
 .glass-card {
-  background: var(--glass-bg-light);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border-light);
-  border-radius: var(--glass-radius);
+  background: var(--glass-bg);
   box-shadow: var(--glass-shadow);
+  border-radius: var(--glass-radius);
   transition: all var(--transition-speed) ease;
+  /* убраны backdrop-filter, border, потому что в исходном стиле их нет */
 }
 
 .glass-card:hover {
   transform: translateY(var(--hover-lift));
   box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
-}
-
-[data-theme="dark"] .glass-card {
-  background: var(--glass-bg-dark);
-  border: 1px solid var(--glass-border-dark);
+  /* тень на hover тоже внутренняя */
 }
 
 /* Модификатор для крупных карточек (например, услуги, контакты) */
@@ -130,8 +127,8 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   background: transparent;
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(12.5px);
+  -webkit-backdrop-filter: blur(12.5px);
   border: 2px solid rgba(128, 128, 128, 0.2);
   border-radius: 12px;
   cursor: pointer;
@@ -178,7 +175,7 @@ body {
   background: rgba(128, 128, 128, 0.2);
 }
 
-/* Тёмная тема для кнопок */
+/* Тёмная тема для кнопок (меняются цвета текста/фона) */
 [data-theme="dark"] .btn {
   border-color: rgba(215, 229, 234, 0.4);
   color: #ffffff;
@@ -186,6 +183,7 @@ body {
 
 [data-theme="dark"] .btn-secondary {
   background: rgba(15, 52, 78, 0.4);
+  color: #ffffff;
 }
 
 [data-theme="light"] .btn {
@@ -204,9 +202,9 @@ textarea {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(12.5px);
+  -webkit-backdrop-filter: blur(12.5px);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   color: inherit;
   transition: all var(--transition-speed) ease;
@@ -220,11 +218,12 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
 }
 
+/* Тёмная тема для полей ввода (изменяется только фоновый оттенок) */
 [data-theme="dark"] .input,
 [data-theme="dark"] select,
 [data-theme="dark"] textarea {
   background: rgba(15, 52, 78, 0.4);
-  border-color: var(--glass-border-dark);
+  border-color: var(--glass-border);
 }
 
 /* =============================================================================
@@ -235,22 +234,22 @@ textarea:focus {
 .no-items {
   text-align: center;
   padding: 3rem;
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(12.5px);
+  -webkit-backdrop-filter: blur(12.5px);
   border-radius: var(--glass-radius);
   box-shadow: var(--glass-shadow);
   max-width: 600px;
   margin: 0 auto;
-  background: var(--glass-bg-light);
-  border: 1px solid var(--glass-border-light);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   color: var(--text-primary);
 }
 
+/* Тёмная тема для состояний (только цвет текста) */
 [data-theme="dark"] .loading-section,
 [data-theme="dark"] .error-section,
 [data-theme="dark"] .no-items {
-  background: var(--glass-bg-dark);
-  border: 1px solid var(--glass-border-dark);
+  color: var(--text-primary);
 }
 
 .loading-spinner {
@@ -305,8 +304,7 @@ textarea:focus {
 @media (max-width: 768px) {
   :root {
     --container-padding: 0 1rem;
-    --glass-radius: 25px;
-    --glass-radius-lg: 40px;
+    --glass-radius: 40px;
   }
 
   .btn {
@@ -331,8 +329,7 @@ textarea:focus {
 @media (max-width: 480px) {
   :root {
     --container-padding: 0 0.75rem;
-    --glass-radius: 20px;
-    --glass-radius-lg: 30px;
+    --glass-radius: 30px;
   }
 
   .btn {

@@ -9,7 +9,7 @@ import { HomeProvider } from './context/HomeContext';
 import { ProfileProvider } from './context/ProfileContext';
 import { CartProvider } from './context/CartContext';
 import { ReviewsProvider } from './context/ReviewsContext';
-import { ChatProvider } from './context/ChatContext'; // ИМПОРТ ChatProvider
+import { ChatProvider } from './context/ChatContext';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home/Home';
@@ -37,9 +37,13 @@ import GuestReviews from './pages/Guest/GuestReviews/GuestReviews';
 import AdminReviews from './pages/Admin/AdminReviews/AdminReviews';
 
 // Компоненты чата
-import AdminChatLayout from './components/admin/chat/AdminChatLayout'; // ИЗМЕНИЛИ ИМПОРТ
+import AdminChatLayout from './components/admin/chat/AdminChatLayout';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
+
+// Глобальное меню социальных сетей
+import MagicShareMenu from './components/MagicShareMenu/MagicShareMenu'; // УТОЧНИТЕ ПУТЬ
+
 import './App.css';
 
 const AppRouter: React.FC = () => {
@@ -94,6 +98,7 @@ const AppRouter: React.FC = () => {
         </Routes>
       </main>
       <Footer />
+      <MagicShareMenu /> {/* МЕНЮ СОЦСЕТЕЙ */}
     </div>
   );
 };
@@ -109,7 +114,7 @@ const App: React.FC = () => {
                 <HomeProvider>
                   <CartProvider>
                     <ReviewsProvider>
-                      <ChatProvider> {/* ДОБАВЛЕН ChatProvider */}
+                      <ChatProvider>
                         <AppRouter />
                       </ChatProvider>
                     </ReviewsProvider>

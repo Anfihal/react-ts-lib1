@@ -33,6 +33,10 @@ const Home: React.FC = () => {
                 muted
                 loop
                 playsInline
+                disablePictureInPicture
+                disableRemotePlayback
+                controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                onContextMenu={(e) => e.preventDefault()}
                 className="home-video-background"
                 poster={getAssetPath(content.videoPoster)}
             >
