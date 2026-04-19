@@ -2,18 +2,17 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ master ]
+    branches: ["master"]
+  workflow_dispatch:
 
-# Устанавливаем разрешения для одного job
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Разрешаем только один concurrent deployment
 concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -28,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: '18'
           cache: 'npm'
 
       - name: Install dependencies
@@ -36,12 +35,9 @@ jobs:
 
       - name: Build project
         run: npm run build
-        # Убедись, что сборка запускается в production режиме
-        env:
-          NODE_ENV: production
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
