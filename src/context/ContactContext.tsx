@@ -50,8 +50,10 @@ const initialContactInfo: ContactInfo = {
     socialLinks: {
         telegram: 'https://t.me/InfiniteleadersTech',
         whatsapp: 'https://wa.me/79991234567',
-        vk: 'https://vk.com/itsolutions',
-        instagram: 'https://instagram.com/infiniteleaders'
+        vk: 'https://vk.com/infiniteleaderstech',
+        instagram: 'https://instagram.com/infiniteleaders',
+        odnoklassniki: 'https://ok.ru/group/70000045913479',   // добавлено
+        zen: 'http://dzen.ru/id/6999c102c6963e4a975c30fa?share_to=link'         // добавлено
     },
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=...',
     lastUpdated: new Date()

@@ -1,5 +1,7 @@
 // src/components/admin/contact/ContactManagement.tsx
 
+// src/components/admin/contact/ContactManagement.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useContact } from '../../../context/ContactContext';
 import './ContactManagement.css';
@@ -17,6 +19,8 @@ const ContactManagement: React.FC = () => {
         whatsapp: '',
         vk: '',
         instagram: '',
+        odnoklassniki: '',
+        zen: '',
         mapEmbedUrl: ''
     });
 
@@ -32,6 +36,8 @@ const ContactManagement: React.FC = () => {
                 whatsapp: state.contactInfo.socialLinks.whatsapp || '',
                 vk: state.contactInfo.socialLinks.vk || '',
                 instagram: state.contactInfo.socialLinks.instagram || '',
+                odnoklassniki: state.contactInfo.socialLinks.odnoklassniki || '',
+                zen: state.contactInfo.socialLinks.zen || '',
                 mapEmbedUrl: state.contactInfo.mapEmbedUrl || ''
             });
         }
@@ -58,7 +64,9 @@ const ContactManagement: React.FC = () => {
                 telegram: formData.telegram || undefined,
                 whatsapp: formData.whatsapp || undefined,
                 vk: formData.vk || undefined,
-                instagram: formData.instagram || undefined
+                instagram: formData.instagram || undefined,
+                odnoklassniki: formData.odnoklassniki || undefined,
+                zen: formData.zen || undefined
             },
             mapEmbedUrl: formData.mapEmbedUrl || undefined
         };
@@ -79,6 +87,8 @@ const ContactManagement: React.FC = () => {
                 whatsapp: state.contactInfo.socialLinks.whatsapp || '',
                 vk: state.contactInfo.socialLinks.vk || '',
                 instagram: state.contactInfo.socialLinks.instagram || '',
+                odnoklassniki: state.contactInfo.socialLinks.odnoklassniki || '',
+                zen: state.contactInfo.socialLinks.zen || '',
                 mapEmbedUrl: state.contactInfo.mapEmbedUrl || ''
             });
         }
@@ -171,10 +181,18 @@ const ContactManagement: React.FC = () => {
                                     {state.contactInfo.socialLinks.instagram && (
                                         <span className="social-link">Instagram: {state.contactInfo.socialLinks.instagram}</span>
                                     )}
+                                    {state.contactInfo.socialLinks.odnoklassniki && (
+                                        <span className="social-link">Одноклассники: {state.contactInfo.socialLinks.odnoklassniki}</span>
+                                    )}
+                                    {state.contactInfo.socialLinks.zen && (
+                                        <span className="social-link">Дзен: {state.contactInfo.socialLinks.zen}</span>
+                                    )}
                                     {!state.contactInfo.socialLinks.telegram &&
                                         !state.contactInfo.socialLinks.whatsapp &&
                                         !state.contactInfo.socialLinks.vk &&
-                                        !state.contactInfo.socialLinks.instagram && (
+                                        !state.contactInfo.socialLinks.instagram &&
+                                        !state.contactInfo.socialLinks.odnoklassniki &&
+                                        !state.contactInfo.socialLinks.zen && (
                                             <span className="no-social">Социальные сети не настроены</span>
                                         )}
                                 </div>
@@ -303,7 +321,7 @@ const ContactManagement: React.FC = () => {
                                     name="vk"
                                     value={formData.vk}
                                     onChange={handleInputChange}
-                                    placeholder="https://vk.com/infiniteleaderstech"
+                                    placeholder=""
                                 />
                             </div>
 
@@ -316,6 +334,30 @@ const ContactManagement: React.FC = () => {
                                     value={formData.instagram}
                                     onChange={handleInputChange}
                                     placeholder="https://www.instagram.com/infiniteleaderstech"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="odnoklassniki">Одноклассники</label>
+                                <input
+                                    type="url"
+                                    id="odnoklassniki"
+                                    name="odnoklassniki"
+                                    value={formData.odnoklassniki}
+                                    onChange={handleInputChange}
+                                    placeholder="https://ok.ru/group/123456"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="zen">Дзен</label>
+                                <input
+                                    type="url"
+                                    id="zen"
+                                    name="zen"
+                                    value={formData.zen}
+                                    onChange={handleInputChange}
+                                    placeholder="https://dzen.ru/infiniteleaders"
                                 />
                             </div>
 

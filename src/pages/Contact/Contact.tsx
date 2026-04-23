@@ -107,6 +107,26 @@ const Contact: React.FC = () => {
                                             Instagram
                                         </a>
                                     )}
+                                    {contactInfo.socialLinks.odnoklassniki && (
+                                        <a
+                                            href={contactInfo.socialLinks.odnoklassniki}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="social-btn odnoklassniki"
+                                        >
+                                            Одноклассники
+                                        </a>
+                                    )}
+                                    {contactInfo.socialLinks.zen && (
+                                        <a
+                                            href={contactInfo.socialLinks.zen}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="social-btn zen"
+                                        >
+                                            Дзен
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         )}

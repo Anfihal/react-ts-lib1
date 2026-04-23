@@ -10,7 +10,9 @@ export interface ContactInfo {
         telegram?: string;
         whatsapp?: string;
         vk?: string;
-        instagram?: string; // Добавили instagram
+        instagram?: string;
+        odnoklassniki?: string; // Добавлены Одноклассники
+        zen?: string;           // Добавлен Дзен
     };
     mapEmbedUrl?: string;
     lastUpdated: Date;
@@ -26,7 +28,9 @@ export interface ContactUpdateRequest {
         telegram?: string;
         whatsapp?: string;
         vk?: string;
-        instagram?: string; // Добавили instagram
+        instagram?: string;
+        odnoklassniki?: string;
+        zen?: string;
     };
     mapEmbedUrl?: string;
 }

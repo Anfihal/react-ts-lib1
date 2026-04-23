@@ -374,6 +374,28 @@
     border-radius: 12px;
 }
 
+/* Одноклассники */
+.social-btn.odnoklassniki {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14c-2.76 0-5.2-1.35-6.63-3.41.18-2.23 4.42-3.45 6.63-3.45s6.45 1.22 6.63 3.45C17.2 17.65 14.76 19 12 19zm-1.5-5.5c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5zm3 0c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5z'/%3E%3C/svg%3E");
+    vertical-align: middle;
+    border-radius: 12px;
+}
+
+/* Дзен */
+.social-btn.zen {
+    content: "";
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='https: //www.figma.com/design/BhMtOTzUMVte92mqsO6rA4/Untitled?node-id=190-488&t=lyGqEqvURwQ6tRhR-4");
+    vertical-align: middle;
+    border-radius: 12px;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .contact-page .social-btn::before {
