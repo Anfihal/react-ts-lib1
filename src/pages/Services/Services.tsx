@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useService } from '../../context/ServiceContext';
 import ConsultationModal from '../../components/ConsultationModal/ConsultationModal';
 import './Services.css';
 
 const Services: React.FC = () => {
+    // ==================== MOUSE GRADIENT EFFECT ====================
+    useEffect(() => {
+        const servicesPage = document.querySelector<HTMLElement>(".services-page");
+        if (!servicesPage) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            servicesPage.style.setProperty('--mouse-x', `${e.clientX}px`);
+            servicesPage.style.setProperty('--mouse-y', `${e.clientY}px`);
+        };
+
+        // Начальная позиция — центр
+        servicesPage.style.setProperty('--mouse-x', '50%');
+        servicesPage.style.setProperty('--mouse-y', '50%');
+
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
     const { state } = useService();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedService, setSelectedService] = useState('');

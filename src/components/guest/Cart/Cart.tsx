@@ -1,5 +1,4 @@
 // src/components/guest/Cart/Cart.tsx
-// src/components/guest/Cart/Cart.tsx
 import React from 'react';
 import { useCart } from '../../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
