@@ -1,5 +1,6 @@
 // src/pages/Guest/GuestProfile/Profile.tsx
-import React, { useState, useRef, useEffect } from 'react';
+// src/pages/Guest/GuestProfile/Profile.tsx
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import type { User } from '../../../types';
 import './Profile.css';
@@ -11,10 +12,7 @@ const Profile: React.FC = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [bio, setBio] = useState('');
-    const [avatar, setAvatar] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Загрузка профиля при монтировании
     useEffect(() => {
@@ -23,7 +21,6 @@ const Profile: React.FC = () => {
             setEmail(state.user.email || '');
             setPhone(state.user.phone || '');
             setBio(state.user.bio || '');
-            setAvatar(state.user.avatar || '');
         }
         setIsLoading(false);
     }, [state.user]);
@@ -37,7 +34,6 @@ const Profile: React.FC = () => {
                 email: email.trim() || state.user.email,
                 phone: phone.trim() || state.user.phone,
                 bio: bio.trim() || state.user.bio,
-                avatar: avatar || state.user.avatar
             };
 
             // Обновляем в localStorage
@@ -55,7 +51,6 @@ const Profile: React.FC = () => {
                             email: updatedUser.email,
                             phone: updatedUser.phone,
                             bio: updatedUser.bio,
-                            avatar: updatedUser.avatar
                         } : u
                     );
                     localStorage.setItem('registeredUsers', JSON.stringify(updatedRegisteredUsers));
@@ -80,52 +75,12 @@ const Profile: React.FC = () => {
             setEmail(state.user.email || '');
             setPhone(state.user.phone || '');
             setBio(state.user.bio || '');
-            setAvatar(state.user.avatar || '');
-        }
-    };
-
-    const handleAvatarClick = () => {
-        if (isEditing && fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
-
-    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            // Проверка типа файла
-            if (!file.type.startsWith('image/')) {
-                alert('Пожалуйста, выберите файл изображения');
-                return;
-            }
-
-            // Проверка размера файла (максимум 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('Размер файла не должен превышать 5MB');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setAvatar(e.target?.result as string);
-            };
-            reader.onerror = () => {
-                alert('Ошибка при загрузке изображения');
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const removeAvatar = () => {
-        setAvatar('');
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
         }
     };
 
     // Функция для проверки заполненности профиля
     const isProfileEmpty = () => {
-        return !name && !email && !phone && !bio && !avatar;
+        return !name && !email && !phone && !bio;
     };
 
     if (isLoading) {
@@ -152,46 +107,6 @@ const Profile: React.FC = () => {
 
                 <div className="profile-card">
                     <div className="profile-avatar-section">
-                        <div
-                            className={`avatar-container ${isEditing ? 'editable' : ''}`}
-                            onClick={handleAvatarClick}
-                        >
-                            <div className="avatar-wrapper">
-                                <img
-                                    src={avatar || '/default-avatar.png'}
-                                    alt="Аватар"
-                                    className="avatar"
-                                    onError={(e) => {
-                                        e.currentTarget.src = '/default-avatar.png';
-                                    }}
-                                />
-                                {isEditing && (
-                                    <div className="avatar-overlay">
-                                        <span className="avatar-upload-text">
-                                            {avatar ? 'Сменить фото' : 'Добавить фото'}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                onChange={handleAvatarChange}
-                                style={{ display: 'none' }}
-                            />
-                        </div>
-
-                        {isEditing && avatar && (
-                            <button
-                                className="remove-avatar-btn"
-                                onClick={removeAvatar}
-                                type="button"
-                            >
-                                Удалить фото
-                            </button>
-                        )}
-
                         {!isEditing && (
                             <button
                                 className="edit-btn primary"

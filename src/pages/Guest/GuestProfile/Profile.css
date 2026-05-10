@@ -1,5 +1,4 @@
 /* src/pages/guest/profile/Profile.css */
-
 /* ========== ИЗОЛИРОВАННЫЕ CSS ПЕРЕМЕННЫЕ ДЛЯ ПРОФИЛЯ ========== */
 .profile-page {
     /* Светлая тема (по умолчанию) */
@@ -153,7 +152,7 @@
     }
 }
 
-/* ========== СЕКЦИЯ АВАТАРА ========== */
+/* ========== СЕКЦИЯ УПРАВЛЕНИЯ ПРОФИЛЕМ (ТОЛЬКО КНОПКА) ========== */
 .profile-page .profile-avatar-section {
     display: flex;
     flex-direction: column;
@@ -161,81 +160,7 @@
     gap: 1.5rem;
 }
 
-.profile-page .avatar-container {
-    position: relative;
-    cursor: pointer;
-    transition: transform var(--profile-transition-normal);
-}
-
-.profile-page .avatar-container.editable:hover {
-    transform: scale(1.02);
-}
-
-.profile-page .avatar-wrapper {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid var(--profile-border);
-    box-shadow: var(--profile-shadow-md);
-}
-
-.profile-page .avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--profile-transition-normal);
-}
-
-.profile-page .avatar-container.editable:hover .avatar {
-    transform: scale(1.05);
-}
-
-.profile-page .avatar-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity var(--profile-transition-normal);
-}
-
-.profile-page .avatar-container.editable:hover .avatar-overlay {
-    opacity: 1;
-}
-
-.profile-page .avatar-upload-text {
-    color: white;
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-/* Кнопки аватара */
-.profile-page .remove-avatar-btn {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--profile-error);
-    border: 1px solid var(--profile-error);
-    padding: 0.5rem 1rem;
-    border-radius: var(--profile-radius-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--profile-transition-fast);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.profile-page .remove-avatar-btn:hover {
-    background: rgba(239, 68, 68, 0.2);
-    transform: translateY(-1px);
-}
-
+/* Кнопка "Редактировать"/"Создать профиль" */
 .profile-page .edit-btn.primary {
     background: var(--profile-gradient-primary);
     color: white;
@@ -584,11 +509,6 @@
         gap: 2rem;
     }
 
-    .profile-page .avatar-wrapper {
-        width: 160px;
-        height: 160px;
-    }
-
     .profile-page .form-actions {
         flex-direction: column;
     }
@@ -607,11 +527,6 @@
 
     .profile-page .profile-card {
         padding: 1.25rem;
-    }
-
-    .profile-page .avatar-wrapper {
-        width: 140px;
-        height: 140px;
     }
 
     .profile-page .info-item {

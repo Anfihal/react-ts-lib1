@@ -1,4 +1,5 @@
 // src/components/guest/Cart/Cart.tsx
+// src/components/guest/Cart/Cart.tsx
 import React from 'react';
 import { useCart } from '../../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
@@ -26,14 +27,14 @@ const Cart: React.FC = () => {
     };
 
     const handleCheckout = () => {
-        // Переход на страницу оформления заказа
-        navigate('/guest/checkout'); // или другой маршрут
+        navigate('/guest/checkout');
     };
 
     if (state.items.length === 0) {
         return (
             <div className="cart-empty">
-                <div className="empty-icon">🛒</div>
+                {/* Иконка теперь только в CSS */}
+                <div className="empty-icon" aria-hidden="true"></div>
                 <h3>Корзина пуста</h3>
                 <p>Добавьте товары или услуги из магазина</p>
                 <button
@@ -49,7 +50,7 @@ const Cart: React.FC = () => {
     return (
         <div className="cart">
             <div className="cart-header">
-                <h2>🛒 Корзина ({state.itemCount})</h2>
+                <h2>Корзина ({state.itemCount})</h2>
                 <button className="clear-cart-btn" onClick={handleClearCart}>
                     Очистить корзину
                 </button>

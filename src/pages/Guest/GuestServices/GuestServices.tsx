@@ -17,9 +17,6 @@ const Services: React.FC = () => {
         <div className="services-page">
             <div className="glass-overlay"></div>
             <div className="services-container">
-                <div className="services-header">
-                    <h1 className="services-title">Наши услуги</h1>
-                </div>
 
                 {state.isLoading ? (
                     <div className="loading-section">

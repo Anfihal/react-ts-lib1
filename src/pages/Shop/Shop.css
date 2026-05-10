@@ -20,20 +20,82 @@
 }
 
 /* ========== ФОН ========== */
+/* ===== RADIAL GRADIENT: BLUE BASE + PINK GLOW ===== */
 [data-theme='light'] .shop-page {
-    background-color: #f4f8f9;
-    background-image: url('/images/bg.gif');
+    /* CSS-переменные для позиции подсветки */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+
+    /* Голубой — основа, розовый — свечение под курсором */
+    background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+            rgba(255, 228, 236, 0.85) 0%,
+            /* Розовая подсветка в центре */
+            rgba(255, 214, 224, 0.4) 25%,
+            /* Мягкий розовый переход */
+            rgba(232, 244, 248, 0.15) 50%,
+            /* Полупрозрачный голубой */
+            #E8F4F8 70%,
+            /* Голубой фон */
+            #D4E5F0 100%
+            /* Насыщенный голубой по краям */
+        ),
+        #D4E5F0;
+    /* Фоллбэк — голубой */
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    /* Плавное затухание подсветки */
+    transition: background 0.05s ease-out;
 }
 
+/* На мобильных — статичный градиент (экономия батареи) */
+@media (hover: none) {
+    [data-theme='light'] .shop-page {
+        background: linear-gradient(135deg, #D4E5F0 0%, #E8F4F8 50%, #FFE4EC 100%);
+        transition: none;
+    }
+}
+
+/* ===== DARK THEME: RADIAL GRADIENT WITH GLOW ===== */
 [data-theme='dark'] .shop-page {
-    background-color: #051321;
-    background-image: url('/images/servicesbgdark.gif');
+    /* CSS-переменные для позиции подсветки */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+
+    /* Тёмная основа + неоновая подсветка под курсором */
+    background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+            rgba(23, 209, 200, 0.25) 0%,
+            /* Фиолетовое свечение в центре */
+            rgba(2, 196, 255, 0.12) 25%,
+            /* Розовый переход */
+            rgba(30, 41, 59, 0.08) 50%,
+            /* Полупрозрачный тёмный */
+            #0f172a 70%,
+            /* Глубокий синий-основа */
+            #0a0f1d 100%
+            /* Почти чёрный по краям */
+        ),
+        #000a16;
+    /* Фоллбэк — тёмный фон */
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    /* Плавность для подсветки */
+    transition: background 0.05s ease-out;
+}
+
+/* На мобильных — статичный градиент */
+@media (hover: none) {
+    [data-theme='dark'] .shop-page {
+        background: linear-gradient(135deg, #0a0f1d 0%, #0f172a 50%, #1e1b4b 100%);
+        transition: none;
+    }
 }
 
 /* ========== КОНТЕЙНЕР ========== */

@@ -380,6 +380,28 @@ const GuestCheckoutForm: React.FC<GuestCheckoutFormProps> = ({
 // ==================== MAIN SHOP COMPONENT ====================
 
 const Shop: React.FC = () => {
+    // ==================== MOUSE GRADIENT EFFECT ====================
+    useEffect(() => {
+        const shopPage = document.querySelector<HTMLElement>("[data-theme='light'] .shop-page");
+
+        if (!shopPage) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            // Обновляем CSS-переменные с координатами мыши
+            shopPage.style.setProperty('--mouse-x', `${e.clientX}px`);
+            shopPage.style.setProperty('--mouse-y', `${e.clientY}px`);
+        };
+
+        // Устанавливаем начальную позицию (центр)
+        shopPage.style.setProperty('--mouse-x', '50%');
+        shopPage.style.setProperty('--mouse-y', '50%');
+
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, []);
     const { state } = useProduct();
     const navigate = useNavigate();
 

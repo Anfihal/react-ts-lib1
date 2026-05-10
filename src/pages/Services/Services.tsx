@@ -25,9 +25,6 @@ const Services: React.FC = () => {
     return (
         <div className="services-page">
             <div className="services-container">
-                <div className="services-header">
-                    <h1 className="services-title">Наши услуги</h1>
-                </div>
 
                 {state.isLoading ? (
                     <div className="loading-section">

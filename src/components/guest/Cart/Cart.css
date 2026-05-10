@@ -414,3 +414,63 @@
     z-index: 1000;
     animation: cart-slideIn 0.3s ease-out;
 }
+
+/* ========== ИКОНКИ (вынесены в CSS) ========== */
+
+/* --- Иконка пустой корзины --- */
+.cart-page .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    /* Цвет будет наследоваться от текста родителя, но можно задать явно */
+    color: var(--color-icon-muted, #6c757d);
+    position: relative;
+}
+
+.cart-page .empty-icon::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    /* SVG-иконка корзины */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-7.13-4.37l-1.42-2.58L2.13 3l-.7-.68L-.02 1.9 1.38.5l1.4 1.4L3.8 3h16.34l-6.22 11.63L12 17H3v2h11v-2h.34l1.57-2.96 4.29-7.96H5.08l1.13 2h7.94l-1.13 2.09-4.15 7.5H3.59L7.87 13z'/%3E%3C/svg%3E") no-repeat center / contain;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-7.13-4.37l-1.42-2.58L2.13 3l-.7-.68L-.02 1.9 1.38.5l1.4 1.4L3.8 3h16.34l-6.22 11.63L12 17H3v2h11v-2h.34l1.57-2.96 4.29-7.96H5.08l1.13 2h7.94l-1.13 2.09-4.15 7.5H3.59L7.87 13z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* --- Иконка удаления (корзина/мусор) --- */
+.cart-page .remove-btn {
+    /* Сохраняем существующие размеры и фон */
+    position: relative;
+    background: #ff4757;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0;
+    /* скрываем любой текст, если остался */
+    transition: all 0.3s ease;
+}
+
+.cart-page .remove-btn::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    background-color: currentColor;
+    /* SVG-иконка мусорного бака */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'/%3E%3C/svg%3E") no-repeat center / contain;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* --- Тема: кастомные переменные для иконок (пример) --- */
+:root {
+    --color-icon-muted: #6c757d;
+}
+
+[data-theme="dark"] {
+    --color-icon-muted: #adb5bd;
+}
