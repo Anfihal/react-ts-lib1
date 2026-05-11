@@ -1,5 +1,4 @@
 // src/pages/Guest/GuestProfile/Profile.tsx
-// src/pages/Guest/GuestProfile/Profile.tsx
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import type { User } from '../../../types';

@@ -1,5 +1,4 @@
 // src/pages/Shop/Shop.tsx
-// src/pages/Shop/Shop.tsx
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import type { FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';

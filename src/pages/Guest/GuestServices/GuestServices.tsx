@@ -1,10 +1,26 @@
 // src/pages/Services/Services.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useService } from '../../../context/ServiceContext';
 
 const Services: React.FC = () => {
     const { state } = useService();
+    // ==================== MOUSE GRADIENT EFFECT ====================
+    useEffect(() => {
+        const servicesPage = document.querySelector<HTMLElement>(".services-page");
+        if (!servicesPage) return;
 
+        const handleMouseMove = (e: MouseEvent) => {
+            servicesPage.style.setProperty('--mouse-x', `${e.clientX}px`);
+            servicesPage.style.setProperty('--mouse-y', `${e.clientY}px`);
+        };
+
+        // Начальная позиция — центр
+        servicesPage.style.setProperty('--mouse-x', '50%');
+        servicesPage.style.setProperty('--mouse-y', '50%');
+
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
     const handleConsultation = (serviceName: string) => {
         alert(`Запрос на консультацию по услуге: ${serviceName}`);
     };
