@@ -25,25 +25,6 @@
     animation: cart-fadeInUp 0.6s ease-out;
 }
 
-/* Дополнительные стили можно добавлять по мере необходимости */
-
-/* Например: */
-/*
-.cart-page .cart-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.cart-page .cart-items {
-  margin-bottom: 2rem;
-}
-
-.cart-page .cart-summary {
-  background: var(--surface);
-  padding: 1.5rem;
-  border-radius: 16px;
-}
-*/
 
 /* Анимация — УНИКАЛИЗИРУЕМ имя! */
 @keyframes cart-fadeInUp {

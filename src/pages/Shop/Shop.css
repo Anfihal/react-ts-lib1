@@ -2233,3 +2233,39 @@
 [data-theme='dark'] .shop-page .form-btn:focus-visible {
     outline-color: #d7e5ea;
 }
+
+/* По умолчанию скрываем кастомную кнопку */
+.search-clear-btn {
+    display: none;
+}
+
+/* В Firefox показываем кастомную кнопку */
+@-moz-document url-prefix() {
+    .search-clear-btn {
+        display: inline-flex;
+    }
+
+    /* Скрываем нативный крестик (его и так нет, но для гарантии) */
+    input[type="search"]::-webkit-search-cancel-button {
+        display: none;
+    }
+}
+
+/* Показываем кастомную кнопку для всех браузеров */
+.search-clear-btn {
+    display: inline-flex;
+    /* Было: none */
+}
+
+/* Скрываем нативный крестик в WebKit-браузерах */
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+    -webkit-appearance: none;
+}
+
+/* В Firefox показываем кастомную кнопку (уже показано выше, но оставляем для ясности) */
+@-moz-document url-prefix() {
+    .search-clear-btn {
+        display: inline-flex;
+    }
+}

@@ -1,4 +1,5 @@
 // src/components/guest/Cart/CartItem.tsx
+// src/components/guest/Cart/CartItem.tsx
 import React from 'react';
 import type { CartItem as CartItemType } from '../../../context/CartContext';
 import './Cart.css';
@@ -18,9 +19,13 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove })
                 ) : item.image ? (
                     <img src={item.image} alt={item.name} />
                 ) : (
-                    <div className="cart-item-placeholder">
-                        {item.type === 'product' ? '🛒' : '🛍️'}
-                    </div>
+                    <div
+                        className={`cart-item-placeholder ${item.type === 'product'
+                            ? 'cart-item-placeholder--product'
+                            : 'cart-item-placeholder--service'
+                            }`}
+                        aria-hidden="true"
+                    />
                 )}
             </div>
 
@@ -57,9 +62,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove })
                 <button
                     className="remove-btn"
                     onClick={() => onRemove(item.id)}
-                >
-                    🗑️
-                </button>
+                    aria-label="Удалить"
+                />
             </div>
         </div>
     );

@@ -5,10 +5,7 @@
     z-index: 9999;
     cursor: grab;
     user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.3s ease;
+    display: block;
 }
 
 .magic-share-menu:active {
@@ -17,9 +14,9 @@
 
 /* Кнопка-триггер */
 .magic-toggle {
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    width: var(--btn-size, 60px);
+    height: var(--btn-size, 60px);
+    border-radius: 50%;
     background: var(--about-card-bg, rgba(255, 255, 255, 0.15));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -33,7 +30,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    z-index: 2;
+    z-index: 10;
 }
 
 .magic-toggle:hover {
@@ -60,50 +57,61 @@
 /* Меню с иконками */
 .magic-menu {
     position: absolute;
-    bottom: 70px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
     pointer-events: none;
+    display: block;
 }
 
 .magic-menu.open {
     pointer-events: auto;
 }
 
-/* Общие стили для пунктов меню – чистая иконка */
+/* Общие стили для пунктов меню */
 .magic-menu-item {
-    width: 100px;
-    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    /* Используем переменную для размера иконки */
+    width: var(--item-size, 100px);
+    height: var(--item-size, 100px);
+
+    /* Центрируем относительно центра кнопки */
+    margin-left: calc(var(--item-size, 100px) / -2);
+    margin-top: calc(var(--item-size, 100px) / -2);
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
     opacity: 0;
-    transform: translateY(20px) scale(0.8);
+    transform: scale(0);
     transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition-delay: calc(0.05s * var(--i));
+
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     border: none;
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
 }
 
+/* Анимация появления по кругу */
 .magic-menu.open .magic-menu-item {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    /* Используем переменную --radius для расстояния от центра */
+    transform: rotate(calc(360deg / var(--total) * var(--i))) translate(var(--radius, 110px)) rotate(calc(-360deg / var(--total) * var(--i))) scale(1);
 }
 
 .magic-menu-item:hover {
-    transform: scale(1.1) !important;
-    opacity: 0.8;
+    transform: rotate(calc(360deg / var(--total) * var(--i))) translate(var(--radius, 110px)) rotate(calc(-360deg / var(--total) * var(--i))) scale(1.15) !important;
+    opacity: 0.9;
+    z-index: 11;
 }
 
 /* Иконки соцсетей (маски) */
@@ -186,36 +194,25 @@
 
 /* Адаптивность */
 @media (max-width: 768px) {
-    .magic-toggle {
-        width: 50px;
-        height: 50px;
+    :root {
+        --btn-size: 50px;
+        --item-size: 45px;
+        --radius: 75px;
+        /* Уменьшаем радиус круга для планшетов */
     }
 
     .magic-toggle-icon {
         width: 20px;
         height: 20px;
     }
-
-    .magic-menu-item {
-        width: 42px;
-        height: 42px;
-    }
-
-    .magic-menu {
-        bottom: 60px;
-        gap: 10px;
-    }
 }
 
 /* Для очень маленьких экранов */
 @media (max-width: 480px) {
-    .magic-toggle {
-        width: 44px;
-        height: 44px;
-    }
-
-    .magic-menu-item {
-        width: 38px;
-        height: 38px;
+    :root {
+        --btn-size: 44px;
+        --item-size: 40px;
+        --radius: 65px;
+        /* Еще меньше радиус для телефонов */
     }
 }
