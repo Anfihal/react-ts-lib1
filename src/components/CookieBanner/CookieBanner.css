@@ -1,0 +1,122 @@
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.004);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Inter', sans-serif;
+    animation: cookieSlideUp 0.5s ease;
+}
+
+[data-theme='light'] .cookie-banner {
+    background: rgba(244, 248, 249, 0.85);
+    border-top: 1px solid rgba(15, 52, 78, 0.2);
+    color: #051321;
+}
+
+[data-theme='dark'] .cookie-banner {
+    background: rgba(15, 52, 78, 0.85);
+    border-top: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.cookie-banner__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.cookie-banner__text {
+    flex: 1;
+    min-width: 250px;
+}
+
+.cookie-banner__text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.cookie-banner__text p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.cookie-banner__text a {
+    color: #3e85a5;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Иконка печенья через CSS (псевдоэлемент) */
+.cookie-banner__text strong::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='32' height='33' viewBox='0 0 32 33' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M11.0308 16.3896C12.9083 14.373 14.6931 12.2868 16.1998 9.96887C17.2661 8.29994 18.2164 6.42239 19.3522 5.26341C20.3721 4.19715 21.0212 3.06135 21.3457 1.90237C23.6173 2.5514 25.1935 3.10771 27.2333 5.24024C41.4424 19.8897 20.8589 42.513 5.05044 27.6317C3.89146 26.5423 4.30869 25.221 3.6133 24.0389C5.81536 21.4891 8.71281 18.8698 11.0308 16.3896Z' fill='%23DA8D60'/%3e%3cpath d='M5.04899 27.6316C19.6985 39.5227 40.0965 20.6314 27.2318 5.21693C27.0232 4.98514 26.7914 4.73016 26.5596 4.49837C23.6158 1.57774 20.3475 0.210143 17.1487 0.00152698C16.8242 -0.0216526 16.5692 0.233324 16.5461 0.534658C16.4997 2.43538 15.2712 3.71026 13.4632 3.96524C13.185 4.01159 13.0228 4.26657 13.0923 4.54473C13.2777 5.14739 13.3473 5.79642 13.3473 6.46863C13.2777 9.87603 10.4498 12.6808 7.04243 12.7039C6.34704 12.7039 5.67483 12.6112 5.02581 12.4026C4.77083 12.3099 4.49268 12.4721 4.44632 12.7503C4.02908 15.0219 1.9661 14.6047 0.99256 14.2802C0.714405 14.1874 0.413069 14.3497 0.34353 14.6278C-1.5572 21.5585 5.04899 27.6316 5.04899 27.6316Z' fill='%23F5B86C'/%3e%3cpath d='M14.9939 12.9823C14.9939 14.6976 16.3847 15.8566 18.1 15.8566C19.8153 15.8566 21.2061 14.6976 21.2061 12.9823C21.2061 11.267 19.8153 9.87622 18.1 9.87622C16.3847 9.87622 14.9939 11.2438 14.9939 12.9823Z' fill='%236D420D'/%3e%3cpath d='M5.2359 20.4692C5.2359 21.7904 6.30216 22.8567 7.62339 22.8567C8.94463 22.8567 9.84863 22.0686 9.84863 20.7473C9.84863 19.4261 8.94463 18.0585 7.62339 18.0585C6.30216 18.0585 5.2359 19.1479 5.2359 20.4692Z' fill='%236D420D'/%3e%3cpath d='M23.0827 17.5487C23.0827 18.5686 23.8245 19.1481 24.8444 19.1481C25.8643 19.1481 26.7451 18.5686 26.7451 17.5487C26.7451 16.5288 25.9338 15.7176 24.9139 15.7176C23.894 15.7176 23.0827 16.5288 23.0827 17.5487Z' fill='%236D420D'/%3e%3cpath d='M17.4756 23.7602C17.4756 24.2238 17.8465 24.5947 18.3101 24.5947C18.7737 24.5947 19.1445 24.2238 19.1445 23.7602C19.1445 23.2967 18.7737 22.9258 18.3101 22.9258C17.8465 22.9258 17.4756 23.2967 17.4756 23.7602Z' fill='%236D420D'/%3e%3cpath d='M23.1304 7.74365C22.6184 7.74365 22.2033 7.32853 22.2033 6.81647C22.2033 6.3044 22.6184 5.88928 23.1304 5.88928C23.6425 5.88928 24.0576 6.3044 24.0576 6.81647C24.0576 7.32853 23.6425 7.74365 23.1304 7.74365Z' fill='%236D420D'/%3e%3c/svg%3e ");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cookie-banner__button {
+    flex-shrink: 0;
+    padding: 0.7rem 2rem;
+    background: linear-gradient(135deg, #3e85a5, #2c5f7a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(62, 133, 165, 0.3);
+}
+
+.cookie-banner__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(62, 133, 165, 0.5);
+}
+
+.cookie-banner__button:active {
+    transform: translateY(0);
+}
+
+@keyframes cookieSlideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .cookie-banner__content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cookie-banner__button {
+        width: 100%;
+    }
+}

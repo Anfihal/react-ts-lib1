@@ -42,7 +42,10 @@ import AdminChatLayout from './components/admin/chat/AdminChatLayout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 // Глобальное меню социальных сетей
-import MagicShareMenu from './components/MagicShareMenu/MagicShareMenu'; // УТОЧНИТЕ ПУТЬ
+import MagicShareMenu from './components/MagicShareMenu/MagicShareMenu';
+
+// Баннер cookie
+import CookieBanner from './components/CookieBanner/CookieBanner';
 
 import './App.css';
 
@@ -98,7 +101,9 @@ const AppRouter: React.FC = () => {
         </Routes>
       </main>
       <Footer />
-      <MagicShareMenu /> {/* МЕНЮ СОЦСЕТЕЙ */}
+      <MagicShareMenu />
+      {/* Баннер cookie – появляется снизу */}
+      <CookieBanner />
     </div>
   );
 };
