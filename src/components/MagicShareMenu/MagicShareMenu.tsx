@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useContact } from '../../context/ContactContext';
 import './MagicShareMenu.css';
 
@@ -13,16 +13,34 @@ const MagicShareMenu: React.FC = () => {
     const { state } = useContact();
     const [isOpen, setIsOpen] = useState(false);
 
-    // Начальная позиция: правый нижний угол с отступом
-    const [position, setPosition] = useState({ x: window.innerWidth - 80, y: window.innerHeight - 100 });
+    // Начальная позиция с проверкой на SSR
+    const [position, setPosition] = useState(() => {
+        if (typeof window === 'undefined') return { x: 0, y: 0 };
+        return { x: window.innerWidth - 80, y: window.innerHeight - 100 };
+    });
 
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    // Флаг, указывающий, что нужно вернуть исходную позицию после закрытия
+    const [shouldRestorePosition, setShouldRestorePosition] = useState(false);
+
+    // Флаги для перетаскивания (используем ref для синхронности)
+    const isPointerDownRef = useRef(false);
+    const hasMovedRef = useRef(false);
+    const dragOffsetRef = useRef({ x: 0, y: 0 });
+
+    // Сохраняем исходную позицию перед сдвигом
+    const originalPositionRef = useRef<{ x: number; y: number } | null>(null);
+
+    // ---- ФИКСИРОВАННЫЙ РАДИУС ----
+    const FIXED_RADIUS = 110;
+
     const menuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    // Формируем список соцсетей
-    const socialLinks: SocialLink[] = React.useMemo(() => {
+    // Дебаунс для localStorage
+    const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Список соцсетей
+    const socialLinks: SocialLink[] = useMemo(() => {
         const contacts = state.contactInfo;
         if (!contacts?.socialLinks) return [];
 
@@ -40,76 +58,186 @@ const MagicShareMenu: React.FC = () => {
         return links.sort((a, b) => (a.order || 0) - (b.order || 0));
     }, [state.contactInfo]);
 
-    // Загрузка сохранённой позиции
+    // Автоматический сдвиг при открытии, чтобы все иконки были видны,
+    // при этом центральная кнопка всегда остаётся на экране.
+    const applyAutoShift = useCallback(() => {
+        if (!buttonRef.current || !menuRef.current) return;
+
+        const btnRect = buttonRef.current.getBoundingClientRect();
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
+
+        const itemSizeStr = getComputedStyle(document.documentElement).getPropertyValue('--item-size').trim();
+        const itemSize = parseFloat(itemSizeStr) || 100;
+        const halfItem = itemSize / 2;
+        const padding = 15;
+
+        const maxLeft = btnCenterX - FIXED_RADIUS - halfItem;
+        const maxRight = btnCenterX + FIXED_RADIUS + halfItem;
+        const maxTop = btnCenterY - FIXED_RADIUS - halfItem;
+        const maxBottom = btnCenterY + FIXED_RADIUS + halfItem;
+
+        let shiftX = 0;
+        let shiftY = 0;
+
+        if (maxLeft < padding) {
+            shiftX = padding - maxLeft;
+        } else if (maxRight > window.innerWidth - padding) {
+            shiftX = (window.innerWidth - padding) - maxRight;
+        }
+
+        if (maxTop < padding) {
+            shiftY = padding - maxTop;
+        } else if (maxBottom > window.innerHeight - padding) {
+            shiftY = (window.innerHeight - padding) - maxBottom;
+        }
+
+        // Ограничиваем, чтобы кнопка не ушла за экран
+        const btnSize = 60;
+        let newX = position.x + shiftX;
+        let newY = position.y + shiftY;
+        newX = Math.max(0, Math.min(newX, window.innerWidth - btnSize));
+        newY = Math.max(0, Math.min(newY, window.innerHeight - btnSize));
+        shiftX = newX - position.x;
+        shiftY = newY - position.y;
+
+        if (shiftX !== 0 || shiftY !== 0) {
+            if (!originalPositionRef.current) {
+                originalPositionRef.current = { ...position };
+            }
+            setPosition({
+                x: newX,
+                y: newY,
+            });
+            setShouldRestorePosition(true);
+        } else {
+            originalPositionRef.current = null;
+            setShouldRestorePosition(false);
+        }
+    }, [position]);
+
+    // Восстановление исходной позиции после закрытия меню
+    const restorePosition = useCallback(() => {
+        if (shouldRestorePosition && originalPositionRef.current) {
+            setPosition(originalPositionRef.current);
+            originalPositionRef.current = null;
+            setShouldRestorePosition(false);
+        }
+    }, [shouldRestorePosition]);
+
+    // Загрузка позиции из localStorage
     useEffect(() => {
-        const savedPos = localStorage.getItem('magicShareMenuPos');
-        if (savedPos) {
+        const saved = localStorage.getItem('magicShareMenuPos');
+        if (saved) {
             try {
-                const { x, y } = JSON.parse(savedPos);
-                // Проверка, чтобы загруженная позиция была в пределах экрана
+                const { x, y } = JSON.parse(saved);
                 const maxX = window.innerWidth - 60;
                 const maxY = window.innerHeight - 60;
                 setPosition({
                     x: Math.min(Math.max(0, x), maxX),
-                    y: Math.min(Math.max(0, y), maxY)
+                    y: Math.min(Math.max(0, y), maxY),
                 });
-            } catch (e) { }
+            } catch { }
         }
     }, []);
 
-    // Сохранение позиции
+    // Сохранение позиции с дебаунсом
     useEffect(() => {
-        localStorage.setItem('magicShareMenuPos', JSON.stringify(position));
+        if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+        saveTimerRef.current = setTimeout(() => {
+            localStorage.setItem('magicShareMenuPos', JSON.stringify(position));
+        }, 200);
+        return () => {
+            if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+        };
     }, [position]);
 
-    // Перетаскивание
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if (buttonRef.current && buttonRef.current.contains(e.target as Node)) {
-            e.preventDefault();
-            const rect = buttonRef.current.getBoundingClientRect();
-            setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-            setIsDragging(true);
-        }
+    // При ресайзе, если меню открыто, пересчитываем автосдвиг
+    useEffect(() => {
+        const handleResize = () => {
+            if (isOpen) applyAutoShift();
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isOpen, applyAutoShift]);
+
+    // Закрытие по клику вне меню
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+                restorePosition();
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isOpen, restorePosition]);
+
+    // --- Перетаскивание (Pointer Events) ---
+    const handlePointerDown = useCallback((e: React.PointerEvent) => {
+        if (!buttonRef.current?.contains(e.target as Node)) return;
+        e.preventDefault();
+        (e.target as HTMLElement).setPointerCapture(e.pointerId);
+
+        const rect = buttonRef.current.getBoundingClientRect();
+        dragOffsetRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        isPointerDownRef.current = true;
+        hasMovedRef.current = false;
     }, []);
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!isDragging) return;
-        e.preventDefault();
+    const handlePointerMove = useCallback((e: React.PointerEvent) => {
+        if (!isPointerDownRef.current) return;
+        const btnRect = buttonRef.current?.getBoundingClientRect();
+        if (!btnRect) return;
 
-        const btnSize = 60; // Примерный размер кнопки для расчета границ
-        const newX = e.clientX - dragOffset.x;
-        const newY = e.clientY - dragOffset.y;
+        const dx = Math.abs(e.clientX - btnRect.left - dragOffsetRef.current.x);
+        const dy = Math.abs(e.clientY - btnRect.top - dragOffsetRef.current.y);
+        if (dx > 3 || dy > 3) {
+            hasMovedRef.current = true;
+        }
 
-        // Ограничиваем позицию, чтобы кнопка не улетала за экран
+        const btnSize = 60;
+        const newX = e.clientX - dragOffsetRef.current.x;
+        const newY = e.clientY - dragOffsetRef.current.y;
         const maxX = window.innerWidth - btnSize;
         const maxY = window.innerHeight - btnSize;
 
         setPosition({
             x: Math.max(0, Math.min(newX, maxX)),
-            y: Math.max(0, Math.min(newY, maxY))
+            y: Math.max(0, Math.min(newY, maxY)),
         });
-    }, [isDragging, dragOffset]);
+    }, []);
 
-    const handleMouseUp = useCallback(() => setIsDragging(false), []);
+    const handlePointerUp = useCallback(() => {
+        isPointerDownRef.current = false;
+    }, []);
 
-    useEffect(() => {
-        if (isDragging) {
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
+    // Переключение меню с автосдвигом
+    const toggleMenu = useCallback(() => {
+        if (hasMovedRef.current) {
+            hasMovedRef.current = false;
+            return;
         }
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDragging, handleMouseMove, handleMouseUp]);
 
-    const toggleMenu = () => {
-        if (!isDragging) setIsOpen(!isOpen);
-    };
+        const newState = !isOpen;
 
-    const handleLinkClick = (url: string) => {
+        if (newState) {
+            setIsOpen(true);
+            setTimeout(() => {
+                applyAutoShift();
+            }, 0);
+        } else {
+            setIsOpen(false);
+            restorePosition();
+        }
+    }, [isOpen, applyAutoShift, restorePosition]);
+
+    const handleLinkClick = useCallback((url: string) => {
         window.open(url, '_blank', 'noopener,noreferrer');
-    };
+        setIsOpen(false);
+        restorePosition();
+    }, [restorePosition]);
 
     if (socialLinks.length === 0) return null;
 
@@ -119,30 +247,33 @@ const MagicShareMenu: React.FC = () => {
             style={{
                 left: position.x,
                 top: position.y,
-                // Передаем переменные для адаптивности, если нужно контролировать их из JS
-                '--total': socialLinks.length
+                '--total': socialLinks.length,
             } as React.CSSProperties}
             ref={menuRef}
         >
-            <div className={`magic-menu ${isOpen ? 'open' : ''}`}>
+            <div
+                className={`magic-menu ${isOpen ? 'open' : ''}`}
+                style={{ '--radius': `${FIXED_RADIUS}px` } as React.CSSProperties}
+            >
                 {socialLinks.map((link, index) => (
                     <button
                         key={link.name}
                         className={`magic-menu-item ${link.icon}`}
-                        style={{
-                            '--i': index,
-                            '--total': socialLinks.length
-                        } as React.CSSProperties}
+                        style={{ '--i': index, '--total': socialLinks.length } as React.CSSProperties}
                         onClick={() => handleLinkClick(link.url)}
                         aria-label={link.name}
-                        title={link.name}
-                    />
+                    >
+                        <span className="sr-only">{link.name}</span>
+                    </button>
                 ))}
             </div>
+
             <button
                 ref={buttonRef}
                 className={`magic-toggle ${isOpen ? 'active' : ''}`}
-                onMouseDown={handleMouseDown}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
                 onClick={toggleMenu}
                 aria-label="Меню социальных сетей"
             >
