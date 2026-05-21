@@ -252,6 +252,189 @@
         0 2px 1.6px rgba(0, 0, 0, 0.086);
 }
 
+/* ========== ПАНЕЛЬ УПРАВЛЕНИЯ (ПОИСК + ФИЛЬТР КАТЕГОРИЙ) ========== */
+.services-page .services-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+/* Обёртка поля поиска */
+.services-page .search-box {
+    position: relative;
+    max-width: 500px;
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Инпут поиска */
+.services-page .search-box input {
+    width: 100%;
+    height: 50px;
+    padding: 0 45px 0 45px;
+    /* слева для иконки, справа для кнопки очистки */
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+[data-theme='light'] .services-page .search-box input {
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .search-box input {
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.services-page .search-box input::placeholder {
+    color: rgba(128, 128, 128, 0.7);
+}
+
+/* Иконка поиска */
+.services-page .search-box::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme='light'] .services-page .search-box::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23051321" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
+}
+
+[data-theme='dark'] .services-page .search-box::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23f8f9fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
+}
+
+/* Кнопка очистки поиска */
+.services-page .search-box .clear-search {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(128, 128, 128, 0.2);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    font-size: 0;
+    /* скрываем текст "✕", используем псевдоэлементы */
+    padding: 0;
+    line-height: 0;
+}
+
+.services-page .search-box .clear-search::before,
+.services-page .search-box .clear-search::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+}
+
+.services-page .search-box .clear-search::before {
+    transform: rotate(45deg);
+}
+
+.services-page .search-box .clear-search::after {
+    transform: rotate(-45deg);
+}
+
+[data-theme='light'] .services-page .search-box .clear-search {
+    color: #666;
+}
+
+[data-theme='dark'] .services-page .search-box .clear-search {
+    color: #aaa;
+}
+
+.services-page .search-box .clear-search:hover {
+    background: rgba(128, 128, 128, 0.3);
+}
+
+/* Выпадающий список фильтра категорий */
+.services-page .filter-category select {
+    height: 50px;
+    padding: 0 40px 0 16px;
+    /* справа место для иконки стрелки */
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+[data-theme='light'] .services-page .filter-category select {
+    background-color: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .filter-category select {
+    background-color: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.services-page .filter-category select:focus {
+    outline: none;
+    border-color: #3e85a5;
+    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .services-page .services-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .services-page .search-box {
+        max-width: 100%;
+    }
+
+    .services-page .filter-category select {
+        width: 100%;
+    }
+}
+
 /* ----- СЕТКА УСЛУГ ----- */
 .services-page .services-grid {
     display: grid;
