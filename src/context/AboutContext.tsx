@@ -263,7 +263,7 @@ const initialAboutContent: AboutContent = {
         title: 'Трёхмерное моделирование и визуализация',
         subtitle: 'Интерактивные 3D-сцены и анимация',
         description: 'Воплощаем идеи в реалистичные 3D-модели для игр, архитектуры, рекламы и веб-интеграций.',
-        characterImage: '/images/about/3d-character.svg'
+        characterImage: '/images/about/3d-character.png'
     },
     createdAt: new Date('2020-01-15'),
     updatedAt: new Date()

@@ -339,10 +339,8 @@
     padding: 25px 30px;
     margin-top: 0.5rem;
     background: rgba(0, 0, 0, 0.004);
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme='light'] .shop-page .filters-content {
@@ -1509,7 +1507,6 @@
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 800px;
     margin: 1rem auto 0;
 }
 
@@ -1622,16 +1619,56 @@
     }
 }
 
+/* ========== АДАПТИВНОСТЬ ========== */
+
+/* ========== АДАПТИВНОСТЬ ========== */
+
 @media (max-width: 992px) {
+
+    /* Размещаем поиск и кнопку фильтров в одну строку */
     .shop-page .shop-controls {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
     }
 
     .shop-page .search-wrapper {
+        flex: 1;
         max-width: none;
+        min-width: 0;
     }
 
+    /* Унифицируем высоту поля поиска и кнопки фильтров */
+    .shop-page .search-input,
+    .shop-page .filters-toggle-btn {
+        height: 44px;
+        /* Единая высота для обоих элементов */
+        font-size: 15px;
+        padding: 0 16px;
+        /* Внутренние отступы для комфорта */
+        border-radius: 22px;
+        /* Полукруглые края под высоту */
+        box-sizing: border-box;
+        /* Чтобы padding не влиял на высоту */
+    }
+
+    /* Дополнительно: уменьшаем иконки внутри, если нужно */
+    .shop-page .search-wrapper::before,
+    .shop-page .filters-toggle-btn .icon-filters {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Кнопка фильтров — сохраняем стиль, но синхронизируем размер */
+    .shop-page .filters-toggle-btn {
+        white-space: nowrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 16px;
+        /* Переопределяем padding, чтобы соответствовать search-input */
+    }
+
+    /* Панель фильтров (когда открыта) — остаётся без изменений */
     .shop-page .filters-content {
         flex-direction: column;
         align-items: stretch;
@@ -1645,6 +1682,29 @@
         align-self: center;
         width: 100%;
         justify-content: center;
+    }
+}
+
+/* Для ещё более мелких экранов — можно чуть уменьшить, но сохранить равенство */
+@media (max-width: 480px) {
+
+    .shop-page .search-input,
+    .shop-page .filters-toggle-btn {
+        height: 40px;
+        font-size: 14px;
+        padding: 0 12px;
+        border-radius: 20px;
+    }
+
+    .shop-page .search-wrapper::before,
+    .shop-page .filters-toggle-btn .icon-filters {
+        width: 16px;
+        height: 16px;
+    }
+
+    .shop-page .filters-toggle-btn {
+        padding: 0 12px;
+        gap: 4px;
     }
 }
 

@@ -25,23 +25,25 @@ const Services: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedService, setSelectedService] = useState('');
 
-    // ==================== ФИЛЬТРАЦИЯ И ПОИСК ====================
+    // ==================== ФИЛЬТРАЦИЯ, ПОИСК И СОРТИРОВКА ====================
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc'>('newest');
 
-    // Уникальные категории из всех услуг (активных и неактивных, чтобы фильтр был полным)
+    // Состояние открытия панели фильтров (как в магазине)
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
+    // Уникальные категории
     const categories = useMemo(() => {
         const cats = state.services.map(s => s.category).filter(Boolean);
         return [...new Set(cats)].sort();
     }, [state.services]);
 
-    // Применяем фильтры к активным услугам
-    const filteredServices = useMemo(() => {
-        return state.services.filter(service => {
-            // Только активные
+    // Применяем фильтры и сортировку
+    const filteredAndSortedServices = useMemo(() => {
+        let result = state.services.filter(service => {
             if (!service.isActive) return false;
 
-            // Поиск по названию и описанию
             if (searchQuery.trim()) {
                 const query = searchQuery.trim().toLowerCase();
                 const nameMatch = service.name.toLowerCase().includes(query);
@@ -49,17 +51,43 @@ const Services: React.FC = () => {
                 if (!nameMatch && !descMatch) return false;
             }
 
-            // Фильтр по категории
             if (selectedCategory !== 'all' && service.category !== selectedCategory) {
                 return false;
             }
 
             return true;
         });
-    }, [state.services, searchQuery, selectedCategory]);
+
+        // Сортировка
+        switch (sortBy) {
+            case 'price-asc':
+                result.sort((a, b) => a.price - b.price);
+                break;
+            case 'price-desc':
+                result.sort((a, b) => b.price - a.price);
+                break;
+            case 'newest':
+            default:
+                result.sort((a, b) => {
+                    if (a.createdAt && b.createdAt) {
+                        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                    }
+                    return (b.id || 0) - (a.id || 0);
+                });
+                break;
+        }
+
+        return result;
+    }, [state.services, searchQuery, selectedCategory, sortBy]);
+
+    // Сброс всех фильтров
+    const resetFilters = () => {
+        setSearchQuery('');
+        setSelectedCategory('all');
+        setSortBy('newest');
+    };
 
     const handleConsultation = (serviceName: string) => {
-        console.log('Кнопка нажата:', serviceName);
         setSelectedService(serviceName);
         setIsModalOpen(true);
     };
@@ -67,9 +95,6 @@ const Services: React.FC = () => {
     const handleDetails = (serviceName: string) => {
         alert(`Подробнее об услуге: ${serviceName}`);
     };
-
-    console.log('Состояние модального окна:', isModalOpen);
-    console.log('Выбранная услуга:', selectedService);
 
     return (
         <div className="services-page">
@@ -86,11 +111,12 @@ const Services: React.FC = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Панель поиска и фильтров */}
-                        <div className="services-toolbar">
-                            <div className="search-box">
+                        {/* Верхняя панель: Поиск + Кнопка Фильтров */}
+                        <div className="services-controls">
+                            <div className="search-wrapper">
                                 <input
                                     type="text"
+                                    className="search-input"
                                     placeholder="Поиск по услугам..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -98,7 +124,7 @@ const Services: React.FC = () => {
                                 />
                                 {searchQuery && (
                                     <button
-                                        className="clear-search"
+                                        className="search-clear-btn"
                                         onClick={() => setSearchQuery('')}
                                         aria-label="Очистить поиск"
                                     >
@@ -107,12 +133,25 @@ const Services: React.FC = () => {
                                 )}
                             </div>
 
-                            {categories.length > 0 && (
-                                <div className="filter-category">
+                            <button
+                                className={`filters-toggle-btn ${isFiltersOpen ? 'active' : ''}`}
+                                onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+                            >
+                                <span className="icon-filters"></span>
+                                Фильтры
+                                {/* Можно добавить бейдж, если есть активные фильтры, опционально */}
+                            </button>
+                        </div>
+
+                        {/* Выпадающая панель фильтров и сортировки */}
+                        <div className={`filters-panel ${isFiltersOpen ? 'filters-panel--open' : ''}`}>
+                            <div className="filters-content">
+                                <div className="filter-group">
+                                    <label>Категория</label>
                                     <select
+                                        className="filter-select"
                                         value={selectedCategory}
                                         onChange={(e) => setSelectedCategory(e.target.value)}
-                                        aria-label="Фильтр по категории"
                                     >
                                         <option value="all">Все категории</option>
                                         {categories.map(cat => (
@@ -120,15 +159,37 @@ const Services: React.FC = () => {
                                         ))}
                                     </select>
                                 </div>
-                            )}
+
+                                <div className="filter-group">
+                                    <label>Сортировка</label>
+                                    <select
+                                        className="filter-select"
+                                        value={sortBy}
+                                        onChange={(e) => setSortBy(e.target.value as any)}
+                                    >
+                                        <option value="newest">Сначала новые</option>
+                                        <option value="price-asc">Цена: по возрастанию</option>
+                                        <option value="price-desc">Цена: по убыванию</option>
+                                    </select>
+                                </div>
+
+                                <button
+                                    className="filters-reset-btn"
+                                    onClick={resetFilters}
+                                    disabled={!searchQuery && selectedCategory === 'all' && sortBy === 'newest'}
+                                >
+                                    <span className="icon-reset"></span>
+                                    Сбросить
+                                </button>
+                            </div>
                         </div>
 
-                        {filteredServices.length === 0 ? (
+                        {filteredAndSortedServices.length === 0 ? (
                             <div className="no-services">
                                 <h3>
                                     {state.services.length === 0
                                         ? 'Услуги временно недоступны'
-                                        : 'По вашему запросу ничего не найдено'}
+                                        : 'Ничего не найдено'}
                                 </h3>
                                 <p>
                                     {state.services.length === 0
@@ -138,7 +199,7 @@ const Services: React.FC = () => {
                             </div>
                         ) : (
                             <div className="services-grid">
-                                {filteredServices.map(service => (
+                                {filteredAndSortedServices.map(service => (
                                     <div key={service.id} className="service-card">
                                         {service.imageUrl && (
                                             <div className="service-image">
@@ -175,12 +236,9 @@ const Services: React.FC = () => {
                                             <div className="service-actions">
                                                 <button
                                                     className="consult-btn"
-                                                    onClick={() => {
-                                                        console.log('Кнопка кликнута для:', service.name);
-                                                        handleConsultation(service.name);
-                                                    }}
+                                                    onClick={() => handleConsultation(service.name)}
                                                 >
-                                                    Получить консультацию
+                                                    Консультация
                                                 </button>
                                                 <button
                                                     className="details-btn"
@@ -212,10 +270,7 @@ const Services: React.FC = () => {
             {isModalOpen && (
                 <ConsultationModal
                     isOpen={isModalOpen}
-                    onClose={() => {
-                        console.log('Закрытие модального окна');
-                        setIsModalOpen(false);
-                    }}
+                    onClose={() => setIsModalOpen(false)}
                     serviceName={selectedService}
                 />
             )}

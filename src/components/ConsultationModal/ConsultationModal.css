@@ -13,7 +13,6 @@
     z-index: 1000;
     padding: 20px;
     backdrop-filter: blur(5px);
-    /* Добавляем легкое размытие фона */
 }
 
 .modal-content {
@@ -21,17 +20,12 @@
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
-
-    /* Стеклянный эффект как на странице */
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(12.5px);
     -webkit-backdrop-filter: blur(12.5px);
     border-radius: 77px;
-    /* Как на странице */
     border: 1px solid rgba(255, 255, 255, 0.1);
-
-    /* Светлая тема по умолчанию */
     color: #051321;
 }
 
@@ -54,7 +48,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 40px 40px 24px 40px;
-    /* Как на странице */
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -69,11 +62,11 @@
     color: inherit;
 }
 
+/* Кнопка закрытия – иконка через псевдоэлемент (mask) */
 .modal-close {
     background: none;
     border: 2px solid rgba(255, 255, 255, 0.4);
-    font-size: 32px;
-    line-height: 1;
+    font-size: 0;
     cursor: pointer;
     padding: 0;
     width: 40px;
@@ -82,7 +75,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    /* Как на странице */
     transition: all 0.3s ease;
     color: inherit;
 }
@@ -90,6 +82,16 @@
 [data-theme='light'] .modal-close {
     border-color: rgba(15, 52, 78, 0.4);
     color: #0f344e;
+}
+
+.modal-close::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") center/contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
 .modal-close:hover {
@@ -145,7 +147,6 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    /* Как на странице */
     font-size: 16px;
     transition: all 0.3s ease;
     box-sizing: border-box;
@@ -200,10 +201,42 @@
     opacity: 0.75;
 }
 
-.social-icon {
-    font-size: 18px;
+/* Общие стили для всех иконок соцсетей (background-image) */
+.social-telegram label::before,
+.social-whatsapp label::before,
+.social-vk label::before,
+.social-instagram label::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
 }
 
+/* Иконка Telegram (ваша SVG) */
+.social-telegram label::before {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23clip0_49_33600)'%3e%3cpath d='M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z' fill='url(%23paint0_linear_49_33600)'/%3e%3cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.8638 23.7466C17.8603 20.6984 22.5257 18.6888 24.8601 17.7179C31.5251 14.9456 32.91 14.4641 33.8127 14.4482C34.0113 14.4447 34.4552 14.4939 34.7427 14.7272C34.9855 14.9242 35.0523 15.1904 35.0843 15.3771C35.1163 15.5639 35.1561 15.9895 35.1244 16.3219C34.7633 20.1169 33.2004 29.3263 32.4053 33.5767C32.0689 35.3752 31.4065 35.9783 30.7652 36.0373C29.3714 36.1655 28.3131 35.1162 26.9632 34.2313C24.8509 32.8467 23.6576 31.9847 21.6072 30.6336C19.2377 29.0721 20.7738 28.2139 22.1242 26.8113C22.4776 26.4442 28.6183 20.8587 28.7372 20.352C28.7521 20.2886 28.7659 20.0524 28.6255 19.9277C28.4852 19.803 28.2781 19.8456 28.1286 19.8795C27.9168 19.9276 24.5423 22.158 18.0053 26.5707C17.0475 27.2284 16.1799 27.5489 15.4026 27.5321C14.5457 27.5135 12.8973 27.0475 11.6719 26.6492C10.1689 26.1606 8.97432 25.9023 9.07834 25.0726C9.13252 24.6404 9.72767 24.1984 10.8638 23.7466Z' fill='white'/%3e%3c/g%3e%3cdefs%3e%3clinearGradient id='paint0_linear_49_33600' x1='24' y1='0' x2='24' y2='47.644' gradientUnits='userSpaceOnUse'%3e%3cstop stop-color='%232AABEE'/%3e%3cstop offset='1' stop-color='%23229ED9'/%3e%3c/linearGradient%3e%3cclipPath id='clip0_49_33600'%3e%3crect width='48' height='48' fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e");
+}
+
+/* Иконка WhatsApp (пример – замените на свою) */
+.social-whatsapp label::before {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M0 48L3.374 35.674C1.292 32.066 0.198 27.976 0.2 23.782C0.206 10.67 10.876 0 23.986 0C30.348 0.002 36.32 2.48 40.812 6.976C45.302 11.472 47.774 17.448 47.772 23.804C47.766 36.918 37.096 47.588 23.986 47.588C20.006 47.586 16.084 46.588 12.61 44.692L0 48ZM13.194 40.386C16.546 42.376 19.746 43.568 23.978 43.57C34.874 43.57 43.75 34.702 43.756 23.8C43.76 12.876 34.926 4.02 23.994 4.016C13.09 4.016 4.22 12.884 4.216 23.784C4.214 28.234 5.518 31.566 7.708 35.052L5.71 42.348L13.194 40.386ZM35.968 29.458C35.82 29.21 35.424 29.062 34.828 28.764C34.234 28.466 31.312 27.028 30.766 26.83C30.222 26.632 29.826 26.532 29.428 27.128C29.032 27.722 27.892 29.062 27.546 29.458C27.2 29.854 26.852 29.904 26.258 29.606C25.664 29.308 23.748 28.682 21.478 26.656C19.712 25.08 18.518 23.134 18.172 22.538C17.826 21.944 18.136 21.622 18.432 21.326C18.7 21.06 19.026 20.632 19.324 20.284C19.626 19.94 19.724 19.692 19.924 19.294C20.122 18.898 20.024 18.55 19.874 18.252C19.724 17.956 18.536 15.03 18.042 13.84C17.558 12.682 17.068 12.838 16.704 12.82L15.564 12.8C15.168 12.8 14.524 12.948 13.98 13.544C13.436 14.14 11.9 15.576 11.9 18.502C11.9 21.428 14.03 24.254 14.326 24.65C14.624 25.046 18.516 31.05 24.478 33.624C25.896 34.236 27.004 34.602 27.866 34.876C29.29 35.328 30.586 35.264 31.61 35.112C32.752 34.942 35.126 33.674 35.622 32.286C36.118 30.896 36.118 29.706 35.968 29.458Z' fill='%2325D366'/%3e%3c/svg%3e ");
+}
+
+/* Иконка VK (пример – замените на свою) */
+.social-vk label::before {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23clip0_49_33593)'%3e%3cpath d='M0 23.04C0 12.1788 0 6.74826 3.37413 3.37413C6.74826 0 12.1788 0 23.04 0H24.96C35.8212 0 41.2517 0 44.6259 3.37413C48 6.74826 48 12.1788 48 23.04V24.96C48 35.8212 48 41.2517 44.6259 44.6259C41.2517 48 35.8212 48 24.96 48H23.04C12.1788 48 6.74826 48 3.37413 44.6259C0 41.2517 0 35.8212 0 24.96V23.04Z' fill='%230077FF'/%3e%3cpath d='M25.54 34.5801C14.6 34.5801 8.3601 27.0801 8.1001 14.6001H13.5801C13.7601 23.7601 17.8 27.6401 21 28.4401V14.6001H26.1602V22.5001C29.3202 22.1601 32.6398 18.5601 33.7598 14.6001H38.9199C38.0599 19.4801 34.4599 23.0801 31.8999 24.5601C34.4599 25.7601 38.5601 28.9001 40.1201 34.5801H34.4399C33.2199 30.7801 30.1802 27.8401 26.1602 27.4401V34.5801H25.54Z' fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='clip0_49_33593'%3e%3crect width='48' height='48' fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e ");
+}
+
+/* Иконка Instagram (пример – замените на свою) */
+.social-instagram label::before {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3crect x='2' y='2' width='28' height='28' rx='6' fill='url(%23paint0_radial_190_56)'/%3e%3crect x='2' y='2' width='28' height='28' rx='6' fill='url(%23paint1_radial_190_56)'/%3e%3crect x='2' y='2' width='28' height='28' rx='6' fill='url(%23paint2_radial_190_56)'/%3e%3cpath d='M23 10.5C23 11.3284 22.3284 12 21.5 12C20.6716 12 20 11.3284 20 10.5C20 9.67157 20.6716 9 21.5 9C22.3284 9 23 9.67157 23 10.5Z' fill='white'/%3e%3cpath fill-rule='evenodd' clip-rule='evenodd' d='M16 21C18.7614 21 21 18.7614 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21ZM16 19C17.6569 19 19 17.6569 19 16C19 14.3431 17.6569 13 16 13C14.3431 13 13 14.3431 13 16C13 17.6569 14.3431 19 16 19Z' fill='white'/%3e%3cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 15.6C6 12.2397 6 10.5595 6.65396 9.27606C7.2292 8.14708 8.14708 7.2292 9.27606 6.65396C10.5595 6 12.2397 6 15.6 6H16.4C19.7603 6 21.4405 6 22.7239 6.65396C23.8529 7.2292 24.7708 8.14708 25.346 9.27606C26 10.5595 26 12.2397 26 15.6V16.4C26 19.7603 26 21.4405 25.346 22.7239C24.7708 23.8529 23.8529 24.7708 22.7239 25.346C21.4405 26 19.7603 26 16.4 26H15.6C12.2397 26 10.5595 26 9.27606 25.346C8.14708 24.7708 7.2292 23.8529 6.65396 22.7239C6 21.4405 6 19.7603 6 16.4V15.6ZM15.6 8H16.4C18.1132 8 19.2777 8.00156 20.1779 8.0751C21.0548 8.14674 21.5032 8.27659 21.816 8.43597C22.5686 8.81947 23.1805 9.43139 23.564 10.184C23.7234 10.4968 23.8533 10.9452 23.9249 11.8221C23.9984 12.7223 24 13.8868 24 15.6V16.4C24 18.1132 23.9984 19.2777 23.9249 20.1779C23.8533 21.0548 23.7234 21.5032 23.564 21.816C23.1805 22.5686 22.5686 23.1805 21.816 23.564C21.5032 23.7234 21.0548 23.8533 20.1779 23.9249C19.2777 23.9984 18.1132 24 16.4 24H15.6C13.8868 24 12.7223 23.9984 11.8221 23.9249C10.9452 23.8533 10.4968 23.7234 10.184 23.564C9.43139 23.1805 8.81947 22.5686 8.43597 21.816C8.27659 21.5032 8.14674 21.0548 8.0751 20.1779C8.00156 19.2777 8 18.1132 8 16.4V15.6C8 13.8868 8.00156 12.7223 8.0751 11.8221C8.14674 10.9452 8.27659 10.4968 8.43597 10.184C8.81947 9.43139 9.43139 8.81947 10.184 8.43597C10.4968 8.27659 10.9452 8.14674 11.8221 8.0751C12.7223 8.00156 13.8868 8 15.6 8Z' fill='white'/%3e%3cdefs%3e%3cradialGradient id='paint0_radial_190_56' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(12 23) rotate(-55.3758) scale(25.5196)'%3e%3cstop stop-color='%23B13589'/%3e%3cstop offset='0.79309' stop-color='%23C62F94'/%3e%3cstop offset='1' stop-color='%238A3AC8'/%3e%3c/radialGradient%3e%3cradialGradient id='paint1_radial_190_56' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(11 31) rotate(-65.1363) scale(22.5942)'%3e%3cstop stop-color='%23E0E8B7'/%3e%3cstop offset='0.444662' stop-color='%23FB8A2E'/%3e%3cstop offset='0.71474' stop-color='%23E2425C'/%3e%3cstop offset='1' stop-color='%23E2425C' stop-opacity='0'/%3e%3c/radialGradient%3e%3cradialGradient id='paint2_radial_190_56' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(0.500002 3) rotate(-8.1301) scale(38.8909 8.31836)'%3e%3cstop offset='0.156701' stop-color='%23406ADC'/%3e%3cstop offset='0.467799' stop-color='%236A45BE'/%3e%3cstop offset='1' stop-color='%236A45BE' stop-opacity='0'/%3e%3c/radialGradient%3e%3c/defs%3e%3c/svg%3e ");
+}
+
+/* Поля ввода социальных сетей */
 .social-input-group input {
     width: 100%;
     padding: 10px 12px;
@@ -233,7 +266,6 @@
     background: transparent;
     border: 2px solid rgba(255, 255, 255, 0.4);
     border-radius: 12px;
-    /* Как на странице */
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -263,6 +295,25 @@
     color: #d7e5ea;
 }
 
+.modal-content {
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    /* Скрываем скроллбар, но оставляем функциональность */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE и старый Edge */
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, новый Edge */
+}
+
+/* Остальные стили .modal-content (фон, тень, border-radius и т.д.) остаются без изменений */
 /* Уведомление */
 .form-notice {
     font-size: 12px;
@@ -278,7 +329,6 @@
     .modal-content {
         max-width: 100%;
         border-radius: 40px;
-        /* Как на странице */
     }
 
     .modal-header {
@@ -297,7 +347,6 @@
 @media (max-width: 480px) {
     .modal-content {
         border-radius: 30px;
-        /* Как на странице */
     }
 
     .modal-header {

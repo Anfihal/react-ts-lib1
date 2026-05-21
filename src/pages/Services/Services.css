@@ -1,15 +1,15 @@
 /* ============================================
-   СТРАНИЦА УСЛУГ (services-page)
-   Использует глобальные переменные из app.css
+   СТРАНИЦА УСЛУГ (services-page) — СТИЛЬ МАГАЗИНА
    ============================================ */
 
 .services-page {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ----- СТЕКЛЯННЫЙ ФОН (GIF + анимированный градиент) ----- */
+/* ----- ФОН (оставляем ваш существующий градиент) ----- */
 .services-page::before,
 .services-page::after {
     content: '';
@@ -19,263 +19,68 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-}
-
-.services-page::before {
-    z-index: -2;
-    background-image: var(--bg-gif, none);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    backdrop-filter: blur(8px);
-    opacity: var(--bg-opacity, 0.7);
-    animation: bgFadeIn 1s ease-in;
-}
-
-.services-page::after {
     z-index: -1;
-    background-size: 200% 200%;
-    background-position: 0% 0%;
-    animation: gradientMove 20s ease-in-out infinite alternate;
-    mix-blend-mode: overlay;
-    opacity: 0.8;
 }
 
-/* ========== ФОН ДЛЯ SERVICES-PAGE ========== */
-
-/* ===== LIGHT THEME: BLUE BASE + PINK GLOW ===== */
+/* LIGHT THEME BACKGROUND */
 [data-theme='light'] .services-page {
-    /* CSS-переменные для позиции подсветки */
     --mouse-x: 50%;
     --mouse-y: 50%;
-
-    /* Голубой — основа, розовый — свечение под курсором */
-    background:
-        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
-            rgba(255, 228, 236, 0.85) 0%,
-            /* Розовая подсветка в центре */
-            rgba(255, 214, 224, 0.4) 25%,
-            /* Мягкий розовый переход */
-            rgba(232, 244, 248, 0.15) 50%,
-            /* Полупрозрачный голубой */
-            #E8F4F8 70%,
-            /* Голубой фон */
-            #D4E5F0 100%
-            /* Насыщенный голубой по краям */
-        ),
-        #D4E5F0;
-    /* Фоллбэк — голубой */
-
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255, 228, 236, 0.85) 0%, rgba(255, 214, 224, 0.4) 25%, rgba(232, 244, 248, 0.15) 50%, #E8F4F8 70%, #D4E5F0 100%), #D4E5F0;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    /* Плавное затухание подсветки */
     transition: background 0.05s ease-out;
 }
 
-/* ===== DARK THEME: DARK BASE + NEON GLOW ===== */
+/* DARK THEME BACKGROUND */
 [data-theme='dark'] .services-page {
-    /* CSS-переменные для позиции подсветки */
     --mouse-x: 50%;
     --mouse-y: 50%;
-
-    /* Тёмная основа + неоновая подсветка под курсором */
-    background:
-        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
-            rgba(23, 209, 200, 0.25) 0%,
-            /* Бирюзовое свечение в центре */
-            rgba(2, 196, 255, 0.12) 25%,
-            /* Голубой переход */
-            rgba(30, 41, 59, 0.08) 50%,
-            /* Полупрозрачный тёмный */
-            #0f172a 70%,
-            /* Глубокий синий-основа */
-            #0a0f1d 100%
-            /* Почти чёрный по краям */
-        ),
-        #000a16;
-    /* Фоллбэк — тёмный фон */
-
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(23, 209, 200, 0.25) 0%, rgba(2, 196, 255, 0.12) 25%, rgba(30, 41, 59, 0.08) 50%, #0f172a 70%, #0a0f1d 100%), #000a16;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    /* Плавность для подсветки */
     transition: background 0.05s ease-out;
 }
 
-/* ===== МОБИЛЬНЫЕ: отключаем анимацию для экономии батареи ===== */
 @media (hover: none) {
     [data-theme='light'] .services-page {
         background: linear-gradient(135deg, #D4E5F0 0%, #E8F4F8 50%, #FFE4EC 100%);
-        transition: none;
     }
 
     [data-theme='dark'] .services-page {
         background: linear-gradient(135deg, #0a0f1d 0%, #0f172a 50%, #1e1b4b 100%);
-        transition: none;
     }
 }
 
-/* ===== ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМ ===== */
-.services-page {
-    transition: background 0.3s ease, color 0.3s ease;
-    will-change: background;
-}
-
-
-/* Fallback если GIF не загрузился */
-@supports not (background-image: var(--bg-gif)) {
-    .services-page::before {
-        background: none;
-        backdrop-filter: none;
-    }
-
-    .services-page::after {
-        background-size: 300% 300%;
-        animation: gradientIntense 15s ease-in-out infinite;
-        opacity: 0.9;
-    }
-
-    [data-theme='light'] .services-page::after {
-        background:
-            radial-gradient(circle at 30% 40%, rgba(62, 133, 165, 0.25) 0%, transparent 35%),
-            radial-gradient(circle at 70% 60%, rgba(92, 156, 182, 0.3) 0%, transparent 40%),
-            radial-gradient(circle at 20% 80%, rgba(15, 52, 78, 0.2) 0%, transparent 45%),
-            radial-gradient(circle at 90% 20%, rgba(62, 133, 165, 0.25) 0%, transparent 35%);
-        mix-blend-mode: normal;
-    }
-
-    [data-theme='dark'] .services-page::after {
-        background:
-            radial-gradient(circle at 20% 30%, rgba(15, 52, 78, 0.4) 0%, transparent 40%),
-            radial-gradient(circle at 80% 70%, rgba(62, 133, 165, 0.35) 0%, transparent 45%),
-            radial-gradient(circle at 50% 50%, rgba(92, 156, 182, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 10% 90%, rgba(15, 52, 78, 0.4) 0%, transparent 40%);
-        mix-blend-mode: soft-light;
-    }
-}
-
-/* Анимации градиентов */
-@keyframes bgFadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: var(--bg-opacity, 0.7);
-    }
-}
-
-@keyframes gradientMove {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    25% {
-        background-position: 20% 30%;
-    }
-
-    50% {
-        background-position: 40% 60%;
-    }
-
-    75% {
-        background-position: 60% 30%;
-    }
-
-    100% {
-        background-position: 100% 100%;
-    }
-}
-
-@keyframes gradientIntense {
-    0% {
-        background-position: 0% 0%;
-        opacity: 0.7;
-    }
-
-    33% {
-        background-position: 50% 50%;
-        opacity: 0.9;
-    }
-
-    66% {
-        background-position: 100% 100%;
-        opacity: 0.8;
-    }
-
-    100% {
-        background-position: 0% 0%;
-        opacity: 0.7;
-    }
-}
-
-/* ----- КОНТЕЙНЕР И ЗАГОЛОВОК ----- */
+/* ========== КОНТЕЙНЕР ========== */
 .services-page .services-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 4rem 2rem;
-    /* вертикальные отступы */
     position: relative;
     z-index: 2;
 }
 
-.services-page .services-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.services-page .services-title {
-    font-weight: 600;
-    font-size: 55px;
-    line-height: 67px;
-    margin-bottom: 1rem;
-}
-
-[data-theme='light'] .services-page .services-title {
-    color: #051321;
-    text-shadow: 0 2px 4px rgba(5, 19, 33, 0.1);
-}
-
-[data-theme='dark'] .services-page .services-title {
-    color: #d7e5ea;
-    text-shadow: 0 100px 80px rgba(0, 0, 0, 0.36),
-        0 50px 40px rgba(0, 0, 0, 0.274),
-        0 30px 24px rgba(0, 0, 0, 0.235),
-        0 19px 15px rgba(0, 0, 0, 0.206),
-        0 12px 10px rgba(0, 0, 0, 0.18),
-        0 7.9px 6.3px rgba(0, 0, 0, 0.154),
-        0 4.5px 3.6px rgba(0, 0, 0, 0.125),
-        0 2px 1.6px rgba(0, 0, 0, 0.086);
-}
-
-/* ========== ПАНЕЛЬ УПРАВЛЕНИЯ (ПОИСК + ФИЛЬТР КАТЕГОРИЙ) ========== */
-.services-page .services-toolbar {
+/* ========== ПАНЕЛЬ УПРАВЛЕНИЯ (ПОИСК + КНОПКА) ========== */
+.services-page .services-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    /* Отступ до панели фильтров */
 }
 
-/* Обёртка поля поиска */
-.services-page .search-box {
+/* Поиск */
+.services-page .search-wrapper {
     position: relative;
     max-width: 500px;
     flex: 1;
-    min-width: 200px;
 }
 
-/* Инпут поиска */
-.services-page .search-box input {
+.services-page .search-input {
     width: 100%;
     height: 50px;
     padding: 0 45px 0 45px;
-    /* слева для иконки, справа для кнопки очистки */
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     background: rgba(0, 0, 0, 0.004);
@@ -287,22 +92,22 @@
     box-sizing: border-box;
 }
 
-[data-theme='light'] .services-page .search-box input {
+[data-theme='light'] .services-page .search-input {
     border: 1px solid rgba(15, 52, 78, 0.15);
     color: #051321;
 }
 
-[data-theme='dark'] .services-page .search-box input {
+[data-theme='dark'] .services-page .search-input {
     border: 1px solid rgba(215, 229, 234, 0.2);
     color: #f8f9fa;
 }
 
-.services-page .search-box input::placeholder {
+.services-page .search-input::placeholder {
     color: rgba(128, 128, 128, 0.7);
 }
 
 /* Иконка поиска */
-.services-page .search-box::before {
+.services-page .search-wrapper::before {
     content: '';
     position: absolute;
     left: 16px;
@@ -317,16 +122,16 @@
     z-index: 1;
 }
 
-[data-theme='light'] .services-page .search-box::before {
+[data-theme='light'] .services-page .search-wrapper::before {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23051321" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
 }
 
-[data-theme='dark'] .services-page .search-box::before {
+[data-theme='dark'] .services-page .search-wrapper::before {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23f8f9fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
 }
 
 /* Кнопка очистки поиска */
-.services-page .search-box .clear-search {
+.services-page .search-clear-btn {
     position: absolute;
     right: 16px;
     top: 50%;
@@ -340,171 +145,245 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s ease;
-    font-size: 0;
-    /* скрываем текст "✕", используем псевдоэлементы */
-    padding: 0;
-    line-height: 0;
+    color: inherit;
 }
 
-.services-page .search-box .clear-search::before,
-.services-page .search-box .clear-search::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 2px;
-    background: currentColor;
-    border-radius: 1px;
-}
-
-.services-page .search-box .clear-search::before {
-    transform: rotate(45deg);
-}
-
-.services-page .search-box .clear-search::after {
-    transform: rotate(-45deg);
-}
-
-[data-theme='light'] .services-page .search-box .clear-search {
+[data-theme='light'] .services-page .search-clear-btn {
     color: #666;
 }
 
-[data-theme='dark'] .services-page .search-box .clear-search {
+[data-theme='dark'] .services-page .search-clear-btn {
     color: #aaa;
 }
 
-.services-page .search-box .clear-search:hover {
-    background: rgba(128, 128, 128, 0.3);
-}
-
-/* Выпадающий список фильтра категорий */
-.services-page .filter-category select {
+/* Кнопка "Фильтры" */
+.services-page .filters-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
     height: 50px;
-    padding: 0 40px 0 16px;
-    /* справа место для иконки стрелки */
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
     background: rgba(0, 0, 0, 0.004);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+[data-theme='light'] .services-page .filters-toggle-btn {
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .filters-toggle-btn {
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.services-page .filters-toggle-btn.active {
+    background: rgba(62, 133, 165, 0.1);
+    border-color: #3e85a5;
+}
+
+.services-page .icon-filters {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+[data-theme='light'] .services-page .icon-filters {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23051321" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 13 10 21 14 18 14 13 22 3"/></svg>');
+}
+
+[data-theme='dark'] .services-page .icon-filters {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 13 10 21 14 18 14 13 22 3"/></svg>');
+}
+
+/* ========== ПАНЕЛЬ ФИЛЬТРОВ (СКРЫТАЯ ЧАСТЬ) ========== */
+.services-page .filters-panel {
+    margin-bottom: 2rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+}
+
+.services-page .filters-panel--open {
+    max-height: 300px;
+    /* Достаточно для контента */
+    opacity: 1;
+}
+
+.services-page .filters-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 2rem;
+    padding: 25px 30px;
+    background: rgba(0, 0, 0, 0.004);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .services-page .filters-content {
+    border: 1px solid rgba(15, 52, 78, 0.15);
+}
+
+[data-theme='dark'] .services-page .filters-content {
+    border: 1px solid rgba(215, 229, 234, 0.2);
+}
+
+.services-page .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 200px;
+    flex: 1 1 auto;
+}
+
+.services-page .filter-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: inherit;
+}
+
+[data-theme='light'] .services-page .filter-group label {
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .filter-group label {
+    color: #f8f9fa;
+}
+
+.services-page .filter-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 40px 0 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    /* Менее скругленные, чем поиск */
     color: inherit;
     cursor: pointer;
     appearance: none;
-    -webkit-appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
     background-repeat: no-repeat;
     background-position: right 16px center;
     background-size: 16px;
-    transition: all 0.3s ease;
-    min-width: 200px;
 }
 
-[data-theme='light'] .services-page .filter-category select {
+[data-theme='light'] .services-page .filter-select {
     background-color: rgba(244, 248, 249, 0.75);
     border: 1px solid rgba(15, 52, 78, 0.15);
     color: #051321;
 }
 
-[data-theme='dark'] .services-page .filter-category select {
+[data-theme='dark'] .services-page .filter-select {
     background-color: rgba(15, 52, 78, 0.4);
     border: 1px solid rgba(215, 229, 234, 0.2);
     color: #f8f9fa;
 }
 
-.services-page .filter-category select:focus {
-    outline: none;
+/* Кнопка сброса */
+.services-page .filters-reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+[data-theme='light'] .services-page .filters-reset-btn {
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .filters-reset-btn {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.services-page .filters-reset-btn:hover:not(:disabled) {
+    background: rgba(62, 133, 165, 0.2);
     border-color: #3e85a5;
-    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
 }
 
-/* Адаптивность */
-@media (max-width: 600px) {
-    .services-page .services-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .services-page .search-box {
-        max-width: 100%;
-    }
-
-    .services-page .filter-category select {
-        width: 100%;
-    }
+.services-page .filters-reset-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* ----- СЕТКА УСЛУГ ----- */
+.services-page .icon-reset {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>');
+}
+
+/* ========== СЕТКА И КАРТОЧКИ (Оставляем ваши стили, немного чистим) ========== */
 .services-page .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(512px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
-    justify-items: center;
-    /* центрируем карточки в ячейках */
-    align-items: start;
 }
 
-/* ----- КАРТОЧКА УСЛУГИ ----- */
 .services-page .service-card {
     position: relative;
     width: 100%;
-    max-width: 512px;
-    height: auto;
-    min-height: 644px;
-    padding: 40px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     background: rgba(0, 0, 0, 0.004);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
-    border-radius: var(--glass-radius-lg, 77px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
-    transition: all var(--transition-speed, 0.3s) ease;
-    margin: 0 auto;
-    /* дополнительное центрирование */
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
 }
 
 [data-theme='light'] .services-page .service-card {
-    border-color: var(--glass-border-light, rgba(15, 52, 78, 0.15));
+    border-color: rgba(15, 52, 78, 0.15);
 }
 
 [data-theme='dark'] .services-page .service-card {
-    border-color: var(--glass-border-dark, rgba(215, 229, 234, 0.2));
+    border-color: rgba(215, 229, 234, 0.2);
 }
 
 .services-page .service-card:hover {
-    transform: translateY(var(--hover-lift, -5px));
+    transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
 }
 
-[data-theme='light'] .services-page .service-card:hover {
-    background: rgba(230, 238, 242, 0.85);
-    border-color: rgba(15, 52, 78, 0.3);
-}
-
-[data-theme='dark'] .services-page .service-card:hover {
-    background: rgba(15, 52, 78, 0.55);
-    border-color: rgba(215, 229, 234, 0.35);
-}
-
-/* Изображение */
 .services-page .service-image {
-    width: calc(100% + 80px);
-    height: 280px;
-    margin: -40px -40px 20px -40px;
-    border-radius: var(--glass-radius-lg, 77px) var(--glass-radius-lg, 77px) 0 0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #e6eef2, #d7e5ea);
-}
-
-[data-theme='dark'] .services-page .service-image {
-    background: linear-gradient(135deg, #071a2a, #0b273c);
+    width: 100%;
+    height: 200px;
+    background: #eee;
 }
 
 .services-page .service-image img {
@@ -513,493 +392,202 @@
     object-fit: cover;
 }
 
-.services-page .service-card:not(.has-image) .service-image {
-    display: none;
-}
-
-.services-page .service-card:not(.has-image) {
-    min-height: 420px;
-    padding-top: 40px;
-}
-
-/* Контент карточки */
 .services-page .service-content {
-    flex: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-/* Заголовок и цена */
 .services-page .service-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.services-page .service-name,
-.services-page .service-price {
-    font-weight: 400;
-    font-size: 38px;
-    line-height: 46px;
+    align-items: flex-start;
+    margin-bottom: 10px;
 }
 
 .services-page .service-name {
-    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    color: inherit;
+    margin: 0;
+}
+
+[data-theme='light'] .services-page .service-name {
     color: #051321;
 }
 
+[data-theme='dark'] .services-page .service-name {
+    color: #f8f9fa;
+}
+
 .services-page .service-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3e85a5;
     white-space: nowrap;
-    color: #0f344e;
 }
 
-[data-theme='dark'] .services-page .service-name,
-[data-theme='dark'] .services-page .service-price {
-    color: #d7e5ea;
-}
-
-/* Описание */
 .services-page .service-description {
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: inherit;
+    opacity: 0.8;
     flex-grow: 1;
-    margin-bottom: 30px;
-    color: #314c5c;
 }
 
-[data-theme='dark'] .services-page .service-description {
-    color: #8494a4;
-}
-
-/* Мета-информация */
 .services-page .service-meta {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
 .services-page .service-category,
 .services-page .service-duration {
-    font-size: 14px;
-    padding: 6px 16px;
-    border-radius: 20px;
-    background: rgba(62, 133, 165, 0.2);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(62, 133, 165, 0.1);
     color: #3e85a5;
 }
 
-[data-theme='light'] .services-page .service-category,
-[data-theme='light'] .services-page .service-duration {
-    background: rgba(15, 52, 78, 0.15);
-    color: #0f344e;
-}
-
-[data-theme='dark'] .services-page .service-category,
-[data-theme='dark'] .services-page .service-duration {
-    background: rgba(215, 229, 234, 0.15);
-    color: #d7e5ea;
-}
-
-/* Кнопки */
 .services-page .service-actions {
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 10px;
     margin-top: auto;
 }
 
 .services-page .consult-btn,
-.services-page .details-btn,
-.services-page .cta-button {
-    font-size: 18px;
-    line-height: 22px;
-    background: transparent;
-    border: 2px solid rgba(15, 52, 78, 0.4);
-    border-radius: 12px;
-    padding: 19px 30px;
-    height: 60px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #0f344e;
-}
-
 .services-page .details-btn {
-    min-width: 136px;
+    flex: 1;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(62, 133, 165, 0.3);
+    background: transparent;
+    color: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.services-page .consult-btn {
-    min-width: 237px;
-}
-
-.services-page .cta-button {
-    padding: 19px 40px;
-}
-
-[data-theme='dark'] .services-page .consult-btn,
-[data-theme='dark'] .services-page .details-btn,
-[data-theme='dark'] .services-page .cta-button {
-    border-color: rgba(215, 229, 234, 0.4);
-    color: #d7e5ea;
-}
-
-.services-page .consult-btn:hover,
-.services-page .details-btn:hover,
-.services-page .cta-button:hover {
-    background: rgba(62, 133, 165, 0.2);
+.services-page .consult-btn:hover {
+    background: #3e85a5;
+    color: white;
     border-color: #3e85a5;
-    transform: translateY(-2px);
 }
 
-[data-theme='light'] .services-page .consult-btn:hover,
-[data-theme='light'] .services-page .details-btn:hover,
-[data-theme='light'] .services-page .cta-button:hover {
-    background: rgba(15, 52, 78, 0.1);
-    color: #051321;
-}
-
-[data-theme='dark'] .services-page .consult-btn:hover,
-[data-theme='dark'] .services-page .details-btn:hover,
-[data-theme='dark'] .services-page .cta-button:hover {
-    background: rgba(215, 229, 234, 0.1);
-    color: #d7e5ea;
-}
-
-/* CTA-секция */
+/* CTA Section */
 .services-page .services-cta {
     text-align: center;
-    padding: 3rem 2rem;
-    max-width: 512px;
-    margin: 2rem auto 0;
-    /* отступ сверху */
-    transition: all 0.3s ease;
+    padding: 3rem;
     background: rgba(0, 0, 0, 0.004);
-    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
-    border-radius: var(--glass-radius-lg, 77px);
-    box-shadow: var(--glass-shadow, 0 9px 18.4px rgba(0, 0, 0, 0.25));
-    border: 1px solid rgba(15, 52, 78, 0.15);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
+}
+
+[data-theme='light'] .services-page .services-cta {
+    border-color: rgba(15, 52, 78, 0.15);
 }
 
 [data-theme='dark'] .services-page .services-cta {
     border-color: rgba(215, 229, 234, 0.2);
 }
 
-.services-page .services-cta:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+.services-page .cta-button {
+    padding: 15px 30px;
+    border-radius: 12px;
+    border: none;
+    background: #3e85a5;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
 }
 
-.services-page .services-cta h2 {
-    font-size: 38px;
-    line-height: 46px;
-    margin-bottom: 1rem;
-    font-weight: 400;
-    color: #051321;
-}
-
-[data-theme='dark'] .services-page .services-cta h2 {
-    color: #d7e5ea;
-}
-
-.services-page .services-cta p {
-    font-size: 24px;
-    line-height: 29px;
-    margin-bottom: 2rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #314c5c;
-}
-
-[data-theme='dark'] .services-page .services-cta p {
-    color: #8494a4;
-}
-
-/* Состояния загрузки/ошибок */
+/* Loading/Error */
 .services-page .loading-section,
 .services-page .error-section,
 .services-page .no-services {
     text-align: center;
     padding: 3rem;
-    backdrop-filter: blur(12.5px);
-    border-radius: var(--glass-radius-lg, 77px);
-    max-width: 512px;
-    margin: 2rem auto;
-    background: rgba(244, 248, 249, 0.75);
-    border: 1px solid rgba(15, 52, 78, 0.15);
-    color: #051321;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
 }
 
-[data-theme='dark'] .services-page .loading-section,
-[data-theme='dark'] .services-page .error-section,
-[data-theme='dark'] .services-page .no-services {
-    background: rgba(15, 52, 78, 0.4);
-    border-color: rgba(215, 229, 234, 0.2);
-    color: #d7e5ea;
-}
+/* ========== АДАПТИВНОСТЬ (МОБИЛЬНАЯ ВЕРСИЯ) ========== */
 
-.services-page .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(15, 52, 78, 0.2);
-    border-top: 3px solid #0f344e;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1.5rem;
-}
+@media (max-width: 992px) {
 
-[data-theme='dark'] .services-page .loading-spinner {
-    border-color: rgba(215, 229, 234, 0.2);
-    border-top-color: #d7e5ea;
-}
+    /* Поиск и кнопка фильтров в одну строку, одинаковая высота */
+    .services-page .services-controls {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+    .services-page .search-wrapper {
+        flex: 1;
+        max-width: none;
+    }
+
+    .services-page .search-input,
+    .services-page .filters-toggle-btn {
+        height: 44px;
+        /* Единая высота */
+        font-size: 15px;
+        border-radius: 22px;
+        box-sizing: border-box;
+    }
+
+    .services-page .filters-toggle-btn {
+        padding: 0 16px;
+        flex-shrink: 0;
     }
 }
 
-.services-page .error-section h3,
-.services-page .no-services h3 {
-    font-size: 38px;
-    line-height: 46px;
-    margin-bottom: 1rem;
-    font-weight: 400;
-}
-
-.services-page .error-section p,
-.services-page .no-services p {
-    font-size: 24px;
-    line-height: 29px;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-/* Анимация появления карточек */
-.services-page .service-card {
-    animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.services-page .service-card:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.services-page .service-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.services-page .service-card:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.services-page .service-card:nth-child(4) {
-    animation-delay: 0.4s;
-}
-
-.services-page .service-card:nth-child(5) {
-    animation-delay: 0.5s;
-}
-
-.services-page .service-card:nth-child(6) {
-    animation-delay: 0.6s;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ----- АДАПТИВНОСТЬ ----- */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .services-page .services-container {
         padding: 2rem 1rem;
     }
 
-    .services-page .services-title {
-        font-size: 40px;
-        line-height: 50px;
+    /* Панель фильтров внутри */
+    .services-page .filters-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .services-page .filter-group {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .services-page .filters-reset-btn {
+        width: 100%;
+        justify-content: center;
     }
 
     .services-page .services-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .services-page .service-card {
-        max-width: 100%;
-        min-height: 600px;
-        border-radius: var(--glass-radius-lg, 40px);
-        padding: 30px 20px;
-    }
-
-    .services-page .service-image {
-        height: 200px;
-        margin: -30px -20px 20px -20px;
-        width: calc(100% + 40px);
-        border-radius: var(--glass-radius-lg, 40px) var(--glass-radius-lg, 40px) 0 0;
-    }
-
-    .services-page .service-card:not(.has-image) {
-        min-height: 400px;
-    }
-
-    .services-page .service-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .services-page .service-name,
-    .services-page .service-price {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .services-page .service-description {
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .services-page .service-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .services-page .consult-btn,
-    .services-page .details-btn,
-    .services-page .cta-button {
-        min-width: 100%;
-        height: 50px;
-        padding: 15px 20px;
-    }
-
-    .services-page .services-cta {
-        max-width: 100%;
-        padding: 2rem 1.5rem;
-        border-radius: var(--glass-radius-lg, 40px);
-    }
-
-    .services-page .services-cta h2 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .services-page .services-cta p {
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .services-page .loading-section,
-    .services-page .error-section,
-    .services-page .no-services {
-        max-width: 100%;
-        border-radius: var(--glass-radius-lg, 40px);
-        padding: 2rem 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .services-page .services-title {
-        font-size: 32px;
-        line-height: 40px;
+
+    .services-page .search-input,
+    .services-page .filters-toggle-btn {
+        height: 40px;
+        font-size: 14px;
+        border-radius: 20px;
     }
 
-    .services-page .service-card {
-        padding: 20px 15px;
-        border-radius: var(--glass-radius-lg, 30px);
-        min-height: 550px;
+    .services-page .filter-select {
+        height: 44px;
+        font-size: 14px;
     }
-
-    .services-page .service-image {
-        height: 180px;
-        margin: -20px -15px 15px -15px;
-        width: calc(100% + 30px);
-        border-radius: var(--glass-radius-lg, 30px) var(--glass-radius-lg, 30px) 0 0;
-    }
-
-    .services-page .service-card:not(.has-image) {
-        min-height: 380px;
-    }
-
-    .services-page .service-name,
-    .services-page .service-price {
-        font-size: 24px;
-        line-height: 30px;
-    }
-
-    .services-page .service-description {
-        font-size: 16px;
-        line-height: 22px;
-    }
-
-    .services-page .services-cta {
-        padding: 1.5rem 1rem;
-        border-radius: var(--glass-radius-lg, 30px);
-    }
-
-    .services-page .services-cta h2 {
-        font-size: 24px;
-        line-height: 30px;
-    }
-
-    .services-page .services-cta p {
-        font-size: 16px;
-        line-height: 22px;
-    }
-}
-
-/* ----- REDUCED MOTION ----- */
-@media (prefers-reduced-motion: reduce) {
-
-    .services-page::after,
-    .services-page .service-card,
-    .services-page .consult-btn,
-    .services-page .details-btn,
-    .services-page .cta-button,
-    .services-page .services-cta {
-        transition: none;
-        animation: none;
-    }
-
-    .services-page .service-card:hover,
-    .services-page .consult-btn:hover,
-    .services-page .details-btn:hover,
-    .services-page .cta-button:hover,
-    .services-page .services-cta:hover {
-        transform: none;
-    }
-}
-
-/* ----- ДОСТУПНОСТЬ ----- */
-.services-page .consult-btn:focus,
-.services-page .details-btn:focus,
-.services-page .cta-button:focus {
-    outline: 3px solid #3e85a5;
-    outline-offset: 2px;
-}
-
-[data-theme='light'] .services-page .consult-btn:focus,
-[data-theme='light'] .services-page .details-btn:focus,
-[data-theme='light'] .services-page .cta-button:focus {
-    outline-color: #0f344e;
-}
-
-[data-theme='dark'] .services-page .consult-btn:focus,
-[data-theme='dark'] .services-page .details-btn:focus,
-[data-theme='dark'] .services-page .cta-button:focus {
-    outline-color: #d7e5ea;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ConsultationModal.css"; // Исправляем импорт
+import "./ConsultationModal.css";
 
 interface ConsultationModalProps {
     isOpen: boolean;
@@ -55,7 +55,6 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Проверяем, что указан хотя бы один контакт
         const hasPhone = formData.phone.trim().length > 0;
         const hasSocial = Object.values(formData.socialLinks).some(
             (value) => value.trim().length > 0
@@ -73,7 +72,6 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
         alert(`Заявка на консультацию по услуге "${serviceName}" отправлена!`);
 
-        // Закрываем модальное окно и сбрасываем форму
         onClose();
         setFormData({
             name: "",
@@ -101,9 +99,11 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h2 className="modal-title">Запись на консультацию</h2>
-                    <button className="modal-close" onClick={onClose}>
-                        ×
-                    </button>
+                    <button
+                        className="modal-close"
+                        onClick={onClose}
+                        aria-label="Закрыть"
+                    />
                 </div>
 
                 <div className="modal-service-info">
@@ -154,11 +154,8 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     <div className="social-section">
                         <h4>Социальные сети</h4>
                         <div className="social-grid">
-                            <div className="social-input-group">
-                                <label htmlFor="telegram">
-                                    <span className="social-icon">📱</span>
-                                    Telegram
-                                </label>
+                            <div className="social-input-group social-telegram">
+                                <label htmlFor="telegram">Telegram</label>
                                 <input
                                     type="text"
                                     id="telegram"
@@ -169,11 +166,8 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
                                 />
                             </div>
 
-                            <div className="social-input-group">
-                                <label htmlFor="whatsapp">
-                                    <span className="social-icon">💬</span>
-                                    WhatsApp
-                                </label>
+                            <div className="social-input-group social-whatsapp">
+                                <label htmlFor="whatsapp">WhatsApp</label>
                                 <input
                                     type="text"
                                     id="whatsapp"
@@ -184,11 +178,8 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
                                 />
                             </div>
 
-                            <div className="social-input-group">
-                                <label htmlFor="vk">
-                                    <span className="social-icon">🔵</span>
-                                    VK
-                                </label>
+                            <div className="social-input-group social-vk">
+                                <label htmlFor="vk">VK</label>
                                 <input
                                     type="text"
                                     id="vk"
@@ -199,11 +190,8 @@ const ConsultationModal: React.FC<ConsultationModalProps> = ({
                                 />
                             </div>
 
-                            <div className="social-input-group">
-                                <label htmlFor="instagram">
-                                    <span className="social-icon">📸</span>
-                                    Instagram
-                                </label>
+                            <div className="social-input-group social-instagram">
+                                <label htmlFor="instagram">Instagram</label>
                                 <input
                                     type="text"
                                     id="instagram"
