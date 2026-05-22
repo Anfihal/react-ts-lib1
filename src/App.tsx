@@ -1,3 +1,4 @@
+// src/App.tsx
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
@@ -20,6 +21,7 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import Login from './components/auth/Login';
 import Registration from './components/auth/Registration';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
 
 // Гостевые страницы
 import GuestDashboard from './pages/Guest/Dashboard/Dashboard';
@@ -69,6 +71,7 @@ const AppRouter: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetail />} /> {/* 👈 Детальная страница товара */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/reviews" element={<Reviews />} />
@@ -102,7 +105,6 @@ const AppRouter: React.FC = () => {
       </main>
       <Footer />
       <MagicShareMenu />
-      {/* Баннер cookie – появляется снизу */}
       <CookieBanner />
     </div>
   );

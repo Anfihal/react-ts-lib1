@@ -1,0 +1,15 @@
+/* src/components/ProductCard/ProductCard.css */
+.product-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:focus-visible {
+    outline: 2px solid var(--primary-color, #0066cc);
+    outline-offset: 2px;
+}
