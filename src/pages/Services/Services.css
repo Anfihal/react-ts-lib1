@@ -1,41 +1,35 @@
-/* ============================================
-   СТРАНИЦА УСЛУГ (services-page) — СТИЛЬ МАГАЗИНА
-   ============================================ */
-
+/* src/pages/Services/Services.css */
+/* ========== БАЗОВЫЕ НАСТРОЙКИ ========== */
 .services-page {
-    min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
+    min-height: 100vh;
+    padding: 2rem 0;
     font-family: 'Inter', sans-serif;
-}
-
-/* ----- ФОН (оставляем ваш существующий градиент) ----- */
-.services-page::before,
-.services-page::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
 }
 
-/* LIGHT THEME BACKGROUND */
+.services-page *,
+.services-page *::before,
+.services-page *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========== РАДИАЛЬНЫЙ ФОН С ЭФФЕКТОМ МЫШИ (как в магазине) ========== */
 [data-theme='light'] .services-page {
     --mouse-x: 50%;
     --mouse-y: 50%;
-    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255, 228, 236, 0.85) 0%, rgba(255, 214, 224, 0.4) 25%, rgba(232, 244, 248, 0.15) 50%, #E8F4F8 70%, #D4E5F0 100%), #D4E5F0;
-    background-size: cover;
-    transition: background 0.05s ease-out;
-}
-
-/* DARK THEME BACKGROUND */
-[data-theme='dark'] .services-page {
-    --mouse-x: 50%;
-    --mouse-y: 50%;
-    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(23, 209, 200, 0.25) 0%, rgba(2, 196, 255, 0.12) 25%, rgba(30, 41, 59, 0.08) 50%, #0f172a 70%, #0a0f1d 100%), #000a16;
+    background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+            rgba(255, 228, 236, 0.85) 0%,
+            rgba(255, 214, 224, 0.4) 25%,
+            rgba(232, 244, 248, 0.15) 50%,
+            #E8F4F8 70%,
+            #D4E5F0 100%),
+        #D4E5F0;
     background-size: cover;
     transition: background 0.05s ease-out;
 }
@@ -43,10 +37,29 @@
 @media (hover: none) {
     [data-theme='light'] .services-page {
         background: linear-gradient(135deg, #D4E5F0 0%, #E8F4F8 50%, #FFE4EC 100%);
+        transition: none;
     }
+}
 
+[data-theme='dark'] .services-page {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    background:
+        radial-gradient(circle at var(--mouse-x) var(--mouse-y),
+            rgba(23, 209, 200, 0.25) 0%,
+            rgba(2, 196, 255, 0.12) 25%,
+            rgba(30, 41, 59, 0.08) 50%,
+            #0f172a 70%,
+            #0a0f1d 100%),
+        #000a16;
+    background-size: cover;
+    transition: background 0.05s ease-out;
+}
+
+@media (hover: none) {
     [data-theme='dark'] .services-page {
         background: linear-gradient(135deg, #0a0f1d 0%, #0f172a 50%, #1e1b4b 100%);
+        transition: none;
     }
 }
 
@@ -54,9 +67,10 @@
 .services-page .services-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 0 2rem;
     position: relative;
-    z-index: 2;
+    z-index: 1;
+    width: 100%;
 }
 
 /* ========== ПАНЕЛЬ УПРАВЛЕНИЯ (ПОИСК + КНОПКА) ========== */
@@ -67,10 +81,8 @@
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 1rem;
-    /* Отступ до панели фильтров */
 }
 
-/* Поиск */
 .services-page .search-wrapper {
     position: relative;
     max-width: 500px;
@@ -89,7 +101,6 @@
     border-radius: 30px;
     color: inherit;
     transition: all 0.3s ease;
-    box-sizing: border-box;
 }
 
 [data-theme='light'] .services-page .search-input {
@@ -130,7 +141,6 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23f8f9fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
 }
 
-/* Кнопка очистки поиска */
 .services-page .search-clear-btn {
     position: absolute;
     right: 16px;
@@ -142,10 +152,28 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: inherit;
+    transition: background 0.3s ease;
+}
+
+.services-page .search-clear-btn::before,
+.services-page .search-clear-btn::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+}
+
+.services-page .search-clear-btn::before {
+    transform: rotate(45deg);
+}
+
+.services-page .search-clear-btn::after {
+    transform: rotate(-45deg);
 }
 
 [data-theme='light'] .services-page .search-clear-btn {
@@ -156,13 +184,16 @@
     color: #aaa;
 }
 
+.services-page .search-clear-btn:hover {
+    background: rgba(128, 128, 128, 0.3);
+}
+
 /* Кнопка "Фильтры" */
 .services-page .filters-toggle-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 24px;
-    height: 50px;
+    padding: 12px 24px;
     background: rgba(0, 0, 0, 0.004);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -181,13 +212,7 @@
 }
 
 [data-theme='dark'] .services-page .filters-toggle-btn {
-    border: 1px solid rgba(215, 229, 234, 0.2);
     color: #f8f9fa;
-}
-
-.services-page .filters-toggle-btn.active {
-    background: rgba(62, 133, 165, 0.1);
-    border-color: #3e85a5;
 }
 
 .services-page .icon-filters {
@@ -207,9 +232,25 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 13 10 21 14 18 14 13 22 3"/></svg>');
 }
 
-/* ========== ПАНЕЛЬ ФИЛЬТРОВ (СКРЫТАЯ ЧАСТЬ) ========== */
+/* Бейдж активных фильтров (опционально) */
+.services-page .filters-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    background: #3e85a5;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+/* ========== ПАНЕЛЬ ФИЛЬТРОВ ========== */
 .services-page .filters-panel {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -217,9 +258,9 @@
 }
 
 .services-page .filters-panel--open {
-    max-height: 300px;
-    /* Достаточно для контента */
+    max-height: 500px;
     opacity: 1;
+    margin-bottom: 2rem;
 }
 
 .services-page .filters-content {
@@ -228,6 +269,7 @@
     align-items: flex-end;
     gap: 2rem;
     padding: 25px 30px;
+    margin-top: 0.5rem;
     background: rgba(0, 0, 0, 0.004);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -250,13 +292,14 @@
 }
 
 .services-page .filter-group label {
-    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
     font-weight: 500;
     color: inherit;
 }
 
 [data-theme='light'] .services-page .filter-group label {
-    color: #051321;
+    color: #000000;
 }
 
 [data-theme='dark'] .services-page .filter-group label {
@@ -266,14 +309,13 @@
 .services-page .filter-select {
     width: 100%;
     height: 48px;
-    padding: 0 40px 0 16px;
+    padding: 0 16px;
     font-family: 'Inter', sans-serif;
     font-size: 15px;
     background: rgba(0, 0, 0, 0.004);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    /* Менее скругленные, чем поиск */
     color: inherit;
     cursor: pointer;
     appearance: none;
@@ -295,13 +337,17 @@
     color: #f8f9fa;
 }
 
-/* Кнопка сброса */
+.services-page .filter-select:focus {
+    outline: none;
+    border-color: #3e85a5;
+    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
+}
+
 .services-page .filters-reset-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 24px;
-    height: 48px;
+    padding: 12px 24px;
     background: rgba(0, 0, 0, 0.004);
     box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -312,6 +358,13 @@
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
+    align-self: flex-end;
+}
+
+.services-page .filters-reset-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 [data-theme='light'] .services-page .filters-reset-btn {
@@ -329,11 +382,7 @@
 .services-page .filters-reset-btn:hover:not(:disabled) {
     background: rgba(62, 133, 165, 0.2);
     border-color: #3e85a5;
-}
-
-.services-page .filters-reset-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    box-shadow: 0 4px 12px rgba(62, 133, 165, 0.3);
 }
 
 .services-page .icon-reset {
@@ -346,17 +395,55 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>');
 }
 
-/* ========== СЕТКА И КАРТОЧКИ (Оставляем ваши стили, немного чистим) ========== */
+/* ========== МЕТА-ИНФОРМАЦИЯ (опционально) ========== */
+.services-page .services-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+[data-theme='light'] .services-page .services-meta {
+    color: #ffffff;
+}
+
+[data-theme='dark'] .services-page .services-meta {
+    color: #f8f9fa;
+}
+
+.services-page .quick-reset-link {
+    background: none;
+    border: none;
+    color: #3e85a5;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.services-page .quick-reset-link:hover {
+    color: #2c5f7a;
+}
+
+/* ========== СЕТКА КАРТОЧЕК ========== */
 .services-page .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 1rem;
+    align-items: stretch;
     margin-bottom: 4rem;
 }
 
+/* ========== КАРТОЧКА УСЛУГИ ========== */
 .services-page .service-card {
     position: relative;
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background: rgba(0, 0, 0, 0.004);
@@ -364,26 +451,23 @@
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    transition: transform 0.3s ease;
 }
 
 [data-theme='light'] .services-page .service-card {
-    border-color: rgba(15, 52, 78, 0.15);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    box-shadow: 0px 9px 18.4px rgba(5, 19, 33, 0.1);
 }
 
 [data-theme='dark'] .services-page .service-card {
-    border-color: rgba(215, 229, 234, 0.2);
-}
-
-.services-page .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(215, 229, 234, 0.2);
 }
 
 .services-page .service-image {
+    position: relative;
     width: 100%;
     height: 200px;
-    background: #eee;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .services-page .service-image img {
@@ -392,25 +476,30 @@
     object-fit: cover;
 }
 
+/* ========== КОНТЕНТ КАРТОЧКИ ========== */
 .services-page .service-content {
-    padding: 20px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .services-page .service-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .services-page .service-name {
-    font-size: 20px;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    color: inherit;
+    font-size: 24px;
+    line-height: 1.3;
     margin: 0;
+    word-break: break-word;
 }
 
 [data-theme='light'] .services-page .service-name {
@@ -418,111 +507,605 @@
 }
 
 [data-theme='dark'] .services-page .service-name {
-    color: #f8f9fa;
+    color: #ffffff;
 }
 
 .services-page .service-price {
-    font-size: 18px;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
     color: #3e85a5;
     white-space: nowrap;
 }
 
+[data-theme='light'] .services-page .service-price {
+    color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .service-price {
+    color: #f8f9fa;
+}
+
 .services-page .service-description {
-    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 15px;
-    color: inherit;
-    opacity: 0.8;
-    flex-grow: 1;
+    margin-bottom: 20px;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 48px;
+}
+
+[data-theme='light'] .services-page .service-description {
+    color: #1b2735;
+}
+
+[data-theme='dark'] .services-page .service-description {
+    color: #f8f9fa;
 }
 
 .services-page .service-meta {
     display: flex;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
     flex-wrap: wrap;
+    gap: 10px;
+    min-height: 40px;
 }
 
 .services-page .service-category,
 .services-page .service-duration {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 12px;
-    background: rgba(62, 133, 165, 0.1);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(62, 133, 165, 0.2);
+    backdrop-filter: blur(5px);
     color: #3e85a5;
+    white-space: nowrap;
 }
 
+[data-theme='light'] .services-page .service-category,
+[data-theme='light'] .services-page .service-duration {
+    background: rgb(243 249 250);
+    color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .service-category,
+[data-theme='dark'] .services-page .service-duration {
+    background: rgba(215, 229, 234, 0.15);
+    color: #f8f9fa;
+}
+
+/* ========== КНОПКИ ДЕЙСТВИЙ ========== */
 .services-page .service-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    align-items: center;
     margin-top: auto;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 12px;
+    min-height: 50px;
+    justify-content: center;
 }
 
 .services-page .consult-btn,
-.services-page .details-btn {
-    flex: 1;
-    height: 40px;
-    border-radius: 12px;
-    border: 1px solid rgba(62, 133, 165, 0.3);
-    background: transparent;
-    color: inherit;
+.services-page .order-btn {
+    flex: 1 1 0;
+    min-width: 100px;
+    height: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
     font-weight: 500;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
 }
 
-.services-page .consult-btn:hover {
-    background: #3e85a5;
+.services-page .consult-btn {
+    background: rgba(0, 0, 0, 0.004);
+}
+
+.services-page .order-btn {
+    background: linear-gradient(135deg, #3e85a5, #2c5f7a);
+    border: none;
     color: white;
-    border-color: #3e85a5;
+    font-weight: 600;
 }
 
-/* CTA Section */
+/* Стили для кнопок в светлой/тёмной теме */
+[data-theme='light'] .services-page .consult-btn {
+    background: rgba(244, 248, 249, 0.75);
+    border-color: rgba(15, 52, 78, 0.4);
+    color: #020633;
+}
+
+[data-theme='dark'] .services-page .consult-btn {
+    background: rgba(15, 52, 78, 0.4);
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #ffffff;
+}
+
+.services-page .consult-btn:hover:not(:disabled),
+.services-page .order-btn:hover:not(:disabled) {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
+    box-shadow: 0 4px 12px rgba(62, 133, 165, 0.3);
+    transform: translateY(-2px);
+}
+
+.services-page .order-btn:hover:not(:disabled) {
+    background: rgba(62, 133, 165, 0.9);
+}
+
+.services-page .consult-btn:active,
+.services-page .order-btn:active {
+    transform: translateY(0);
+}
+
+.services-page .consult-btn:disabled,
+.services-page .order-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ========== CTA СЕКЦИЯ ========== */
 .services-page .services-cta {
     text-align: center;
-    padding: 3rem;
+    padding: 40px;
     background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 0 auto;
+    margin: 1rem auto 0;
 }
 
 [data-theme='light'] .services-page .services-cta {
-    border-color: rgba(15, 52, 78, 0.15);
+    border: 1px solid rgba(15, 52, 78, 0.15);
 }
 
 [data-theme='dark'] .services-page .services-cta {
-    border-color: rgba(215, 229, 234, 0.2);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+}
+
+.services-page .services-cta:hover {
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.35);
+}
+
+.services-page .services-cta h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    line-height: 46px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+[data-theme='light'] .services-page .services-cta h2 {
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .services-cta h2 {
+    color: #d7e5ea;
+}
+
+.services-page .services-cta p {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+[data-theme='light'] .services-page .services-cta p {
+    color: #314c5c;
+}
+
+[data-theme='dark'] .services-page .services-cta p {
+    color: #f8f9fa;
 }
 
 .services-page .cta-button {
-    padding: 15px 30px;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.004);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    border: none;
-    background: #3e85a5;
-    color: white;
-    font-weight: 600;
+    padding: 19px 40px;
     cursor: pointer;
-    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
 }
 
-/* Loading/Error */
+[data-theme='light'] .services-page .cta-button {
+    background: rgba(244, 248, 249, 0.75);
+    border-color: rgba(15, 52, 78, 0.4);
+    color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .cta-button {
+    background: rgba(15, 52, 78, 0.4);
+    border-color: rgba(215, 229, 234, 0.4);
+    color: #d7e5ea;
+}
+
+.services-page .cta-button:hover {
+    background: rgba(62, 133, 165, 0.2);
+    border-color: #3e85a5;
+    box-shadow: 0 4px 12px rgba(62, 133, 165, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ========== СОСТОЯНИЯ ЗАГРУЗКИ, ОШИБКИ, ПУСТОЙ РЕЗУЛЬТАТ ========== */
 .services-page .loading-section,
 .services-page .error-section,
 .services-page .no-services {
     text-align: center;
-    padding: 3rem;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12.5px);
     border-radius: 30px;
-    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+[data-theme='light'] .services-page .loading-section,
+[data-theme='light'] .services-page .error-section,
+[data-theme='light'] .services-page .no-services {
+    background: rgba(244, 248, 249, 0.75);
+    border: 1px solid rgba(15, 52, 78, 0.15);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .loading-section,
+[data-theme='dark'] .services-page .error-section,
+[data-theme='dark'] .services-page .no-services {
+    background: rgba(15, 52, 78, 0.4);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #d7e5ea;
+}
+
+.services-page .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid;
+    border-top: 3px solid;
+    border-radius: 50%;
+    animation: services-spin 1s linear infinite;
+    margin: 0 auto 1.5rem;
+}
+
+[data-theme='light'] .services-page .loading-spinner {
+    border-color: rgba(15, 52, 78, 0.2);
+    border-top-color: #0f344e;
+}
+
+[data-theme='dark'] .services-page .loading-spinner {
+    border-color: rgba(215, 229, 234, 0.2);
+    border-top-color: #d7e5ea;
+}
+
+@keyframes services-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.services-page .no-services h3,
+.services-page .error-section h3 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА И ФОРМА ГОСТЯ (единый стиль с магазином) ========== */
+.services-page .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.services-page .modal-content {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12.5px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 9px 18.4px rgba(0, 0, 0, 0.25);
+    padding: 1.2rem;
+    animation: modalSlideIn 0.3s ease;
+}
+
+[data-theme='dark'] .services-page .modal-content {
+    background: rgba(15, 52, 78, 0.95);
+    border: 1px solid rgba(215, 229, 234, 0.2);
+    color: #f8f9fa;
+}
+
+.services-page .modal-content--form {
+    max-width: 600px;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.services-page .modal-close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: rgba(128, 128, 128, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.services-page .modal-close-btn:hover {
+    background: rgba(128, 128, 128, 0.2);
+    transform: rotate(90deg);
+}
+
+.services-page .icon-close {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>');
+}
+
+.services-page .modal-header {
     margin-bottom: 2rem;
 }
 
-/* ========== АДАПТИВНОСТЬ (МОБИЛЬНАЯ ВЕРСИЯ) ========== */
+.services-page .modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.services-page .modal-subtitle {
+    font-size: 16px;
+}
+
+/* ========== ФОРМА ГОСТЕВОГО ЗАКАЗА ========== */
+.services-page .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.services-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.services-page .form-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.services-page .required-mark {
+    color: #e74c3c;
+    margin-left: 2px;
+}
+
+.services-page .optional-mark {
+    font-size: 12px;
+    opacity: 0.6;
+    font-weight: normal;
+    margin-left: 4px;
+}
+
+.services-page .form-input,
+.services-page .form-textarea {
+    padding: 12px 16px;
+    border: 2px solid rgba(128, 128, 128, 0.2);
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+}
+
+[data-theme='light'] .services-page .form-input,
+[data-theme='light'] .services-page .form-textarea {
+    background: rgba(255, 255, 255, 0.8);
+    color: #051321;
+}
+
+[data-theme='dark'] .services-page .form-input,
+[data-theme='dark'] .services-page .form-textarea {
+    background: rgba(15, 52, 78, 0.4);
+    color: #f8f9fa;
+}
+
+.services-page .form-input:focus,
+.services-page .form-textarea:focus {
+    outline: none;
+    border-color: #3e85a5;
+    box-shadow: 0 0 0 3px rgba(62, 133, 165, 0.2);
+}
+
+.services-page .form-input--error,
+.services-page .form-textarea.form-input--error {
+    border-color: #e74c3c;
+}
+
+.services-page .form-error {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #e74c3c;
+    margin-top: 4px;
+}
+
+.services-page .icon-error {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="%23e74c3c"/></svg>');
+}
+
+.services-page .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.services-page .form-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(62, 133, 165, 0.1);
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.services-page .icon-info {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%233e85a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>');
+}
+
+.services-page .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.services-page .form-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.services-page .form-btn--primary {
+    background: linear-gradient(135deg, #3e85a5, #2c5f7a);
+    color: white;
+}
+
+.services-page .form-btn--primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(62, 133, 165, 0.4);
+}
+
+.services-page .form-btn--secondary {
+    background: rgba(128, 128, 128, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.services-page .form-btn--secondary:hover:not(:disabled) {
+    background: rgba(128, 128, 128, 0.2);
+}
+
+.services-page .form-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.services-page .icon-loading {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.services-page .icon-submit {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>');
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ (унифицировано с магазином) ========== */
 
 @media (max-width: 992px) {
-
-    /* Поиск и кнопка фильтров в одну строку, одинаковая высота */
     .services-page .services-controls {
         flex-direction: row;
         align-items: center;
@@ -532,62 +1115,183 @@
     .services-page .search-wrapper {
         flex: 1;
         max-width: none;
+        min-width: 0;
     }
 
     .services-page .search-input,
     .services-page .filters-toggle-btn {
         height: 44px;
-        /* Единая высота */
         font-size: 15px;
+        padding: 0 16px;
         border-radius: 22px;
         box-sizing: border-box;
     }
 
     .services-page .filters-toggle-btn {
+        white-space: nowrap;
+        justify-content: center;
+        gap: 6px;
         padding: 0 16px;
-        flex-shrink: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .services-page .services-container {
-        padding: 2rem 1rem;
     }
 
-    /* Панель фильтров внутри */
     .services-page .filters-content {
         flex-direction: column;
         align-items: stretch;
-        gap: 15px;
-        padding: 20px;
     }
 
     .services-page .filter-group {
         width: 100%;
-        min-width: 0;
     }
 
     .services-page .filters-reset-btn {
+        align-self: center;
         width: 100%;
         justify-content: center;
     }
+}
 
+/* Планшеты (вертикальная ориентация) — две колонки */
+@media (min-width: 481px) and (max-width: 768px) {
     .services-page .services-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .services-page .consult-btn,
+    .services-page .order-btn {
+        height: 42px;
+        font-size: 14px;
     }
 }
 
+@media (max-width: 768px) {
+    .services-page {
+        padding: 1.5rem 0;
+    }
+
+    .services-page .services-container {
+        padding: 0 1.5rem;
+    }
+
+    .services-page .service-image {
+        height: 200px;
+    }
+
+    .services-page .service-content {
+        padding: 18px;
+    }
+
+    .services-page .service-name,
+    .services-page .service-price {
+        font-size: 20px;
+    }
+
+    .services-page .service-description {
+        font-size: 14px;
+    }
+
+    .services-page .service-category,
+    .services-page .service-duration {
+        font-size: 13px;
+        padding: 5px 12px;
+    }
+
+    .services-page .consult-btn,
+    .services-page .order-btn {
+        height: 45px;
+        font-size: 14px;
+    }
+
+    .services-page .services-cta {
+        padding: 30px;
+    }
+
+    .services-page .services-cta h2 {
+        font-size: 30px;
+        line-height: 38px;
+    }
+
+    .services-page .services-cta p {
+        font-size: 16px;
+    }
+
+    .services-page .cta-button {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+}
+
+/* Мобильные устройства (до 480px) — одна колонка */
 @media (max-width: 480px) {
+    .services-page .services-container {
+        padding: 0 1rem;
+    }
 
     .services-page .search-input,
     .services-page .filters-toggle-btn {
         height: 40px;
         font-size: 14px;
+        padding: 0 12px;
         border-radius: 20px;
     }
 
-    .services-page .filter-select {
-        height: 44px;
+    .services-page .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .services-page .service-image {
+        height: 160px;
+    }
+
+    .services-page .service-content {
+        padding: 12px;
+    }
+
+    .services-page .service-header {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .services-page .service-name {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .services-page .service-price {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .services-page .service-description {
+        font-size: 12px;
+        min-height: 36px;
+    }
+
+    .services-page .service-category,
+    .services-page .service-duration {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .services-page .consult-btn,
+    .services-page .order-btn {
+        height: 38px;
+        font-size: 12px;
+    }
+
+    .services-page .services-cta h2 {
+        font-size: 26px;
+        line-height: 34px;
+    }
+
+    .services-page .services-cta p {
+        font-size: 14px;
+    }
+
+    .services-page .cta-button {
+        padding: 12px 25px;
         font-size: 14px;
     }
 }

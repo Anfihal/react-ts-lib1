@@ -1,5 +1,5 @@
 // src/pages/About/About.tsx
-import React from 'react';
+import React, { useEffect } from 'react';   // ← добавлен импорт useEffect
 import { useAbout } from '../../context/AboutContext';
 
 // Swiper
@@ -14,6 +14,20 @@ import './About.css';
 const About: React.FC = () => {
     const { state } = useAbout();
 
+    // Эффект для движения мыши (радиальный градиент)
+    useEffect(() => {
+        const aboutPage = document.querySelector<HTMLElement>(".about-page");
+        if (!aboutPage) return;
+        const handleMouseMove = (e: MouseEvent) => {
+            aboutPage.style.setProperty('--mouse-x', `${e.clientX}px`);
+            aboutPage.style.setProperty('--mouse-y', `${e.clientY}px`);
+        };
+        aboutPage.style.setProperty('--mouse-x', '50%');
+        aboutPage.style.setProperty('--mouse-y', '50%');
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
     if (!state.aboutContent) {
         return (
             <div className="about-page">
@@ -23,64 +37,64 @@ const About: React.FC = () => {
     }
 
     const {
-        // Старые поля оставляем для остальных секций (миссия, видение, ценности и т.д.)
         mission,
         vision,
         values,
         stats,
         teamMembers,
         achievements,
-        // Новые поля для Hero-секции
         heroWeb,
         heroThreeD,
     } = state.aboutContent;
 
-    // Пути к изображениям персонажей (можно задать через контекст или использовать статические)
+    // Пути к изображениям персонажей (если не заданы в контексте, используем заглушки)
     const webCharacterImage = heroWeb?.characterImage || '/images/about/web-character.svg';
     const threeDCharacterImage = heroThreeD?.characterImage || '/images/about/3d-character.svg';
 
     return (
         <div className="about-page">
-            {/* Герой секция - два направления */}
-            <section className="about-hero">
-                <div className="about-hero__overlay"></div>
-                <div className="about-container">
-                    <div className="about-hero__dual">
-                        {/* Блок Веб-разработки */}
-                        <div className="hero-dual-item hero-dual-item--web glass-card">
-                            <div className="hero-dual-content">
-                                <h2 className="hero-dual-company">{heroWeb.companyName}</h2>
-                                <h1 className="hero-dual-title">{heroWeb.title}</h1>
-                                <p className="hero-dual-subtitle">{heroWeb.subtitle}</p>
-                                <p className="hero-dual-description">{heroWeb.description}</p>
+            {/* Герой секция - два направления (только если данные есть) */}
+            {heroWeb && heroThreeD && (
+                <section className="about-hero">
+                    <div className="about-hero__overlay"></div>
+                    <div className="about-container">
+                        <div className="about-hero__dual">
+                            {/* Блок Веб-разработки */}
+                            <div className="hero-dual-item hero-dual-item--web glass-card">
+                                <div className="hero-dual-content">
+                                    <h2 className="hero-dual-company">{heroWeb.companyName}</h2>
+                                    <h1 className="hero-dual-title">{heroWeb.title}</h1>
+                                    <p className="hero-dual-subtitle">{heroWeb.subtitle}</p>
+                                    <p className="hero-dual-description">{heroWeb.description}</p>
+                                </div>
+                                <div className="hero-dual-character hero-dual-character--web">
+                                    <img src={webCharacterImage} alt="Веб-разработка" />
+                                </div>
                             </div>
-                            <div className="hero-dual-character hero-dual-character--web">
-                                <img src={webCharacterImage} alt="Веб-разработка" />
-                            </div>
-                        </div>
 
-                        {/* Разделитель (знак между блоками) */}
-                        <div className="hero-dual-divider">
-                            <span className="hero-dual-divider-icon">⚡</span>
-                        </div>
-
-                        {/* Блок 3D-разработки */}
-                        <div className="hero-dual-item hero-dual-item--threeD glass-card">
-                            <div className="hero-dual-character hero-dual-character--threeD">
-                                <img src={threeDCharacterImage} alt="3D-разработка" />
+                            {/* Разделитель */}
+                            <div className="hero-dual-divider">
+                                <span className="hero-dual-divider-icon">⚡</span>
                             </div>
-                            <div className="hero-dual-content">
-                                <h2 className="hero-dual-company">{heroThreeD.companyName}</h2>
-                                <h1 className="hero-dual-title">{heroThreeD.title}</h1>
-                                <p className="hero-dual-subtitle">{heroThreeD.subtitle}</p>
-                                <p className="hero-dual-description">{heroThreeD.description}</p>
+
+                            {/* Блок 3D-разработки */}
+                            <div className="hero-dual-item hero-dual-item--threeD glass-card">
+                                <div className="hero-dual-character hero-dual-character--threeD">
+                                    <img src={threeDCharacterImage} alt="3D-разработка" />
+                                </div>
+                                <div className="hero-dual-content">
+                                    <h2 className="hero-dual-company">{heroThreeD.companyName}</h2>
+                                    <h1 className="hero-dual-title">{heroThreeD.title}</h1>
+                                    <p className="hero-dual-subtitle">{heroThreeD.subtitle}</p>
+                                    <p className="hero-dual-description">{heroThreeD.description}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
-            {/* Статистика - стеклянные карточки, 4 в ряд */}
+            {/* Статистика */}
             {stats.length > 0 && (
                 <section className="about-stats">
                     <div className="about-container">
@@ -97,7 +111,7 @@ const About: React.FC = () => {
                 </section>
             )}
 
-            {/* Миссия и видение - стеклянные карточки */}
+            {/* Миссия и видение */}
             <section className="about-mission">
                 <div className="about-container">
                     <div className="about-mission__grid">
@@ -115,7 +129,7 @@ const About: React.FC = () => {
                 </div>
             </section>
 
-            {/* Ценности - стеклянные карточки */}
+            {/* Ценности */}
             {values.length > 0 && (
                 <section className="about-values">
                     <div className="about-container">
@@ -132,7 +146,7 @@ const About: React.FC = () => {
                 </section>
             )}
 
-            {/* Команда - Стеклянный слайдер */}
+            {/* Команда – слайдер */}
             {teamMembers.length > 0 && (
                 <section className="about-team">
                     <div className="about-team__background"></div>
@@ -157,7 +171,6 @@ const About: React.FC = () => {
                                     objectPosition: member.imagePosition || 'center',
                                     transform: member.imageScale ? `scale(${member.imageScale})` : 'none',
                                 };
-
                                 return (
                                     <SwiperSlide key={member.id}>
                                         <div className="about-team-card glass-card">
@@ -223,7 +236,7 @@ const About: React.FC = () => {
                 </section>
             )}
 
-            {/* Достижения - стеклянный таймлайн */}
+            {/* Достижения – таймлайн */}
             {achievements.length > 0 && (
                 <section className="about-achievements">
                     <div className="about-container">
